@@ -1,9 +1,5 @@
-document.querySelectorAll('a, button').forEach((control) => {
+document.querySelectorAll('a, button, img').forEach((control) => {
     control.draggable = false;
-});
-
-document.querySelectorAll('img').forEach((image) => {
-    image.draggable = false;
 });
 
 document.addEventListener('dragstart', (event) => {
@@ -63,10 +59,23 @@ document.querySelectorAll('.photo-snow').forEach((snowLayer) => {
 const menuToggle = document.querySelector('.menu-toggle');
 const siteNav = document.querySelector('.site-nav');
 
+if (siteNav && !siteNav.querySelector('a[href$="#blog"]')) {
+    const homeLink = siteNav.querySelector('a');
+    const homeHref = homeLink?.getAttribute('href') || 'index.html';
+    const blogLink = document.createElement('a');
+
+    blogLink.href = document.getElementById('blog')
+        ? '#blog'
+        : `${homeHref.split('#')[0]}#blog`;
+    blogLink.textContent = 'Мой блог';
+    siteNav.append(blogLink);
+}
+
 if (menuToggle && siteNav) {
     const closeMenu = () => {
         siteNav.classList.remove('open');
         menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Открыть меню');
         document.body.classList.remove('menu-open');
     };
 
@@ -74,10 +83,32 @@ if (menuToggle && siteNav) {
         const willOpen = !siteNav.classList.contains('open');
         siteNav.classList.toggle('open', willOpen);
         menuToggle.setAttribute('aria-expanded', String(willOpen));
+        menuToggle.setAttribute('aria-label', willOpen ? 'Закрыть меню' : 'Открыть меню');
         document.body.classList.toggle('menu-open', willOpen);
     });
 
     siteNav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+
+    document.addEventListener('pointerdown', (event) => {
+        if (!siteNav.classList.contains('open')) return;
+
+        const target = event.target instanceof Element ? event.target : null;
+        if (target?.closest('.site-nav, .menu-toggle')) return;
+        closeMenu();
+    });
+
+    const closeMenuOnScroll = () => {
+        if (siteNav.classList.contains('open')) closeMenu();
+    };
+
+    window.addEventListener('scroll', closeMenuOnScroll, { passive: true });
+    window.addEventListener('wheel', closeMenuOnScroll, { passive: true });
+    window.addEventListener('touchmove', closeMenuOnScroll, { passive: true });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeMenu();
+    });
+
     window.addEventListener('resize', () => {
         if (window.innerWidth > 900) closeMenu();
     });
@@ -347,6 +378,88 @@ if (scrollTopButton) {
 const blogArticle = document.querySelector('.blog-article');
 
 if (blogArticle) {
+    const articleImages = blogArticle.querySelectorAll('.article-hero-image img, .article-inline-media img');
+    const imageLightbox = document.createElement('div');
+    const imageLightboxBackdrop = document.createElement('div');
+    const imageLightboxDialog = document.createElement('div');
+    const imageLightboxClose = document.createElement('button');
+    const imageLightboxImage = document.createElement('img');
+    let lastFocusedImageLink = null;
+
+    imageLightbox.className = 'article-lightbox';
+    imageLightbox.hidden = true;
+    imageLightbox.setAttribute('aria-hidden', 'true');
+    imageLightboxBackdrop.className = 'article-lightbox-backdrop';
+    imageLightboxBackdrop.dataset.imageClose = '';
+    imageLightboxDialog.className = 'article-lightbox-dialog';
+    imageLightboxDialog.setAttribute('role', 'dialog');
+    imageLightboxDialog.setAttribute('aria-modal', 'true');
+    imageLightboxDialog.setAttribute('aria-label', 'Просмотр изображения');
+    imageLightboxClose.className = 'article-lightbox-close';
+    imageLightboxClose.type = 'button';
+    imageLightboxClose.dataset.imageClose = '';
+    imageLightboxClose.setAttribute('aria-label', 'Закрыть изображение');
+    imageLightboxClose.innerHTML = '<span></span><span></span>';
+    imageLightboxImage.alt = '';
+    imageLightboxDialog.append(imageLightboxClose, imageLightboxImage);
+    imageLightbox.append(imageLightboxBackdrop, imageLightboxDialog);
+    document.body.append(imageLightbox);
+
+    const closeImageLightbox = () => {
+        if (imageLightbox.hidden) return;
+
+        imageLightbox.hidden = true;
+        imageLightbox.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('case-modal-open');
+        imageLightboxImage.removeAttribute('src');
+        if (lastFocusedImageLink instanceof HTMLElement) lastFocusedImageLink.focus();
+        lastFocusedImageLink = null;
+    };
+
+    const openImageLightbox = (imageLink, image) => {
+        lastFocusedImageLink = imageLink;
+        imageLightboxImage.src = imageLink.href;
+        imageLightboxImage.alt = image.alt || 'Изображение из статьи';
+        imageLightbox.hidden = false;
+        imageLightbox.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('case-modal-open');
+        requestAnimationFrame(() => imageLightboxClose.focus());
+    };
+
+    articleImages.forEach((image) => {
+        if (image.closest('a')) return;
+
+        const imageLink = document.createElement('a');
+        imageLink.className = 'article-image-link';
+        imageLink.href = image.getAttribute('src');
+        imageLink.title = 'Открыть изображение в полном размере';
+        imageLink.setAttribute(
+            'aria-label',
+            image.alt ? `Открыть изображение: ${image.alt}` : 'Открыть изображение в полном размере'
+        );
+        image.before(imageLink);
+        imageLink.append(image);
+        imageLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            openImageLightbox(imageLink, image);
+        });
+    });
+
+    imageLightbox.addEventListener('click', (event) => {
+        const target = event.target instanceof Element ? event.target : null;
+        if (target?.closest('[data-image-close]')) closeImageLightbox();
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (imageLightbox.hidden) return;
+
+        if (event.key === 'Escape') closeImageLightbox();
+        if (event.key === 'Tab') {
+            event.preventDefault();
+            imageLightboxClose.focus();
+        }
+    });
+
     const telegramChannelUrl = 'https://t.me/direct_ulin';
     const maxChannelUrl = 'https://max.ru/u/f9LHodD0cOIgP2onCOkH83oy2K17iRYqau-9i5HVA60iM_DqDh91Ahmt7t0';
     const articleCatalog = [
@@ -1375,8 +1488,8 @@ if (blogArticle) {
 ];
 
     const canonicalUrl = document.querySelector('link[rel="canonical"]')?.href || window.location.href;
-    const currentArticle = articleCatalog.find(({ slug }) => canonicalUrl.includes(`/${slug}/`));
-    const currentArticleIndex = articleCatalog.findIndex(({ slug }) => slug === currentArticle?.slug);
+    const currentArticleIndex = articleCatalog.findIndex(({ slug }) => canonicalUrl.includes(`/${slug}/`));
+    const currentArticle = articleCatalog[currentArticleIndex];
     const previousArticle = currentArticleIndex >= 0
         ? articleCatalog[(currentArticleIndex - 1 + articleCatalog.length) % articleCatalog.length]
         : null;
@@ -1405,14 +1518,14 @@ if (blogArticle) {
         previousLink.href = `../${previousArticle.slug}/index.html`;
         previousLink.setAttribute('aria-label', `Предыдущая статья: ${previousArticle.title}`);
         previousLink.title = 'Предыдущая статья';
-        previousLink.innerHTML = '<span aria-hidden="true">←</span>';
+        previousLink.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
         const nextLink = document.createElement('a');
         nextLink.className = 'article-nav-arrow article-nav-arrow--next';
         nextLink.href = `../${nextArticle.slug}/index.html`;
         nextLink.setAttribute('aria-label', `Следующая статья: ${nextArticle.title}`);
         nextLink.title = 'Следующая статья';
-        nextLink.innerHTML = '<span aria-hidden="true">→</span>';
+        nextLink.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
         const copyArticleLink = async () => {
             try {
@@ -1521,12 +1634,16 @@ if (blogArticle) {
     const articleContainer = blogArticle.querySelector('.container');
 
     if (currentArticle && articleContainer) {
-        const relatedItems = articleCatalog
+        const orderedArticles = [
+            ...articleCatalog.slice(currentArticleIndex),
+            ...articleCatalog.slice(0, currentArticleIndex)
+        ];
+        const relatedItems = orderedArticles
             .map((article) => {
                 const isCurrent = article.slug === currentArticle.slug;
                 return `
                 <a class="related-article${isCurrent ? ' is-current' : ''}" href="../${article.slug}/index.html"${isCurrent ? ' aria-current="page"' : ''}>
-                    <img src="../../img/blog/${article.image}" width="168" height="124" alt="" loading="lazy" decoding="async">
+                    <img src="../../img/blog/thumbnails/${article.image.split('/').pop()}.webp" width="168" height="124" alt="" loading="lazy" decoding="async">
                     <span><strong>${article.title}</strong><time>${article.date}</time></span>
                 </a>
             `;
@@ -1536,6 +1653,14 @@ if (blogArticle) {
         const sidebar = document.createElement('aside');
         sidebar.className = 'article-sidebar';
         sidebar.setAttribute('aria-label', 'Все статьи');
+        // New articles can use their original image until a thumbnail is generated.
+        sidebar.addEventListener('error', (event) => {
+            const image = event.target;
+            if (!(image instanceof HTMLImageElement) || !image.closest('.related-article')) return;
+            const thumbnailName = image.getAttribute('src')?.split('/').pop();
+            const article = articleCatalog.find((item) => `${item.image.split('/').pop()}.webp` === thumbnailName);
+            if (article) image.src = `../../img/blog/${article.image}`;
+        }, true);
         sidebar.innerHTML = `
             <section class="article-author-card">
                 <div class="article-author-head">
@@ -1599,59 +1724,18 @@ if (blogArticle) {
 
         const relatedArticlesList = sidebar.querySelector('.related-articles-list');
         if (relatedArticlesList) {
-            const feedScrollParameter = 'feedScroll';
-            const feedScrollStorageKey = 'blog-related-articles-scroll';
-            const scrollFromUrl = Number(new URLSearchParams(window.location.search).get(feedScrollParameter));
-            let savedFeedScroll = Number.isFinite(scrollFromUrl) ? scrollFromUrl : 0;
-
-            try {
-                if (!window.location.search.includes(`${feedScrollParameter}=`)) {
-                    const storedFeedScroll = Number(window.sessionStorage.getItem(feedScrollStorageKey));
-                    if (Number.isFinite(storedFeedScroll)) {
-                        savedFeedScroll = storedFeedScroll;
-                    }
-                }
-            } catch (error) {
-                // Storage can be unavailable when the site is opened as a local file.
-            }
-
-            const saveFeedScroll = () => {
-                const currentScroll = Math.round(relatedArticlesList.scrollTop);
-                try {
-                    window.sessionStorage.setItem(feedScrollStorageKey, String(currentScroll));
-                } catch (error) {
-                    // The URL parameter below preserves the position without storage.
-                }
-                return currentScroll;
-            };
-
-            const preserveFeedScrollOnNavigation = (event) => {
-                const target = event.target instanceof Element ? event.target : null;
-                const link = target?.closest('.related-article, .article-next, .article-nav-arrow');
-                if (!link) return;
-
-                const targetUrl = new URL(link.href, window.location.href);
-                targetUrl.searchParams.set(feedScrollParameter, String(saveFeedScroll()));
-                link.href = targetUrl.href;
-            };
-
-            relatedArticlesList.addEventListener('scroll', saveFeedScroll, { passive: true });
-            blogArticle.addEventListener('click', preserveFeedScrollOnNavigation);
-            blogArticle.addEventListener('auxclick', preserveFeedScrollOnNavigation);
-
             window.requestAnimationFrame(() => {
-                window.requestAnimationFrame(() => {
-                    relatedArticlesList.scrollTop = savedFeedScroll;
-                    if (window.location.search.includes(`${feedScrollParameter}=`)) {
-                        try {
-                            const cleanUrl = new URL(window.location.href);
-                            cleanUrl.searchParams.delete(feedScrollParameter);
-                            window.history.replaceState(window.history.state, '', cleanUrl.href);
-                        } catch (error) {
-                            // Keeping the parameter is harmless if local history is restricted.
-                        }
+                relatedArticlesList.scrollTop = 0;
+
+                try {
+                    const cleanUrl = new URL(window.location.href);
+                    if (cleanUrl.searchParams.has('feedScroll')) {
+                        cleanUrl.searchParams.delete('feedScroll');
+                        window.history.replaceState(window.history.state, '', cleanUrl.href);
                     }
-                });
+                } catch (error) {
+                    // Cleaning an old scroll parameter is optional for local files.
+                }
             });
         }
     }
