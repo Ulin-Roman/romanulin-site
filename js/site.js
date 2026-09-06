@@ -1,3 +1,23 @@
+// Normalize legacy web addresses while retaining query parameters and anchors.
+if (/^https?:$/.test(window.location.protocol) && window.location.pathname.endsWith('/index.html')) {
+    const cleanAddress = new URL(window.location.href);
+    cleanAddress.pathname = cleanAddress.pathname.slice(0, -'index.html'.length);
+    window.history.replaceState(window.history.state, '', cleanAddress.href);
+}
+
+// Directory URLs need an explicit file name when previewing files locally.
+if (window.location.protocol === 'file:') {
+    document.addEventListener('click', (event) => {
+        const link = event.target instanceof Element ? event.target.closest('a[href]') : null;
+        if (!link || link.getAttribute('href').startsWith('#')) return;
+        const localAddress = new URL(link.href);
+        if (localAddress.protocol === 'file:' && localAddress.pathname.endsWith('/')) {
+            localAddress.pathname += 'index.html';
+            link.href = localAddress.href;
+        }
+    }, true);
+}
+
 document.querySelectorAll('a, button, img').forEach((control) => {
     control.draggable = false;
 });
@@ -61,7 +81,7 @@ const siteNav = document.querySelector('.site-nav');
 
 if (siteNav && !siteNav.querySelector('a[href$="#blog"]')) {
     const homeLink = siteNav.querySelector('a');
-    const homeHref = homeLink?.getAttribute('href') || 'index.html';
+    const homeHref = homeLink?.getAttribute('href') || './';
     const blogLink = document.createElement('a');
 
     blogLink.href = document.getElementById('blog')
@@ -1515,14 +1535,14 @@ if (blogArticle) {
 
         const previousLink = document.createElement('a');
         previousLink.className = 'article-nav-arrow article-nav-arrow--previous';
-        previousLink.href = `../${previousArticle.slug}/index.html`;
+        previousLink.href = `../${previousArticle.slug}/`;
         previousLink.setAttribute('aria-label', `Предыдущая статья: ${previousArticle.title}`);
         previousLink.title = 'Предыдущая статья';
         previousLink.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
         const nextLink = document.createElement('a');
         nextLink.className = 'article-nav-arrow article-nav-arrow--next';
-        nextLink.href = `../${nextArticle.slug}/index.html`;
+        nextLink.href = `../${nextArticle.slug}/`;
         nextLink.setAttribute('aria-label', `Следующая статья: ${nextArticle.title}`);
         nextLink.title = 'Следующая статья';
         nextLink.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -1642,7 +1662,7 @@ if (blogArticle) {
             .map((article) => {
                 const isCurrent = article.slug === currentArticle.slug;
                 return `
-                <a class="related-article${isCurrent ? ' is-current' : ''}" href="../${article.slug}/index.html"${isCurrent ? ' aria-current="page"' : ''}>
+                <a class="related-article${isCurrent ? ' is-current' : ''}" href="../${article.slug}/"${isCurrent ? ' aria-current="page"' : ''}>
                     <img src="../../img/blog/thumbnails/${article.image.split('/').pop()}.webp" width="168" height="124" alt="" loading="lazy" decoding="async">
                     <span><strong>${article.title}</strong><time>${article.date}</time></span>
                 </a>
