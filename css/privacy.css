@@ -1,0 +1,26 @@
+.legal-footer { display: flex; align-items: baseline; flex-wrap: wrap; gap: 12px 24px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 12px; color: #b5c8da; }
+.legal-footer a, .legal-footer summary, .legal-footer button { color: #cceaff; }
+.legal-footer button { background: none; padding: 0; border: 0; font: inherit; text-decoration: underline; cursor: pointer; }
+.legal-footer details { max-width: 100%; }
+.legal-footer summary, .cookie-notice summary { cursor: pointer; }
+.legal-footer p { margin: 10px 0; overflow-wrap: anywhere; }
+.cookie-notice { display: flex; align-items: center; gap: 16px; margin-block: 12px 20px; padding: 14px 18px; background: linear-gradient(135deg, #0d3268, #071a3b); border: 1px solid var(--line); border-radius: 16px; font-size: 13px; }
+.cookie-notice[hidden], .legal-footer [hidden] { display: none; }
+.cookie-copy { min-width: 0; flex: 1; overflow-wrap: anywhere; }
+.cookie-copy p { margin: 0; }
+.cookie-copy details { margin-top: 6px; }
+.cookie-copy details p { margin-top: 8px; }
+.cookie-notice a, .privacy-content a { color: var(--cyan); text-decoration: underline; }
+.cookie-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.cookie-actions button { min-height: 40px; padding: 8px 14px; color: #eefaff; background: #12396a; border: 1px solid #72b8eb; border-radius: 999px; font: inherit; font-weight: 700; cursor: pointer; }
+.cookie-actions button:hover { background: #1a4b87; }
+.cookie-notice :focus-visible, .legal-footer :focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.privacy-content { max-width: 900px; margin-inline: auto; padding: clamp(20px, 4vw, 44px); background: linear-gradient(135deg, #0d3268, #071a3b); border: 1px solid var(--line); border-radius: 24px; overflow-wrap: anywhere; }
+.privacy-content h1 { font-size: clamp(26px, 4vw, 44px); line-height: 1.15; }
+.privacy-content h2 { font-size: 22px; line-height: 1.35; margin-top: 30px; }
+.privacy-content p { line-height: 1.7; }
+@media (max-width: 680px) {
+    .cookie-notice { align-items: stretch; flex-direction: column; gap: 10px; padding: 12px; }
+    .cookie-actions button { flex: 1; }
+    .legal-footer { gap: 12px; flex-direction: column; }
+}
