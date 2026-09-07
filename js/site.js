@@ -93,6 +93,21 @@ if (siteNav && !siteNav.querySelector('a[href$="#blog"]')) {
 }
 
 if (menuToggle && siteNav) {
+    const headerRow = menuToggle.closest('.header-row');
+    const messengers = headerRow?.querySelector('.header-messengers');
+    const syncMenuWidth = () => {
+        if (!headerRow || !messengers || window.innerWidth > 900) return;
+        // The panel's right edge is the header's padding edge; its left
+        // edge follows Telegram, including when the header layout changes.
+        const width = headerRow.clientWidth - messengers.offsetLeft;
+        if (width > 0) siteNav.style.setProperty('--mobile-menu-width', `${width}px`);
+    };
+    if (headerRow && messengers && 'ResizeObserver' in window) {
+        const menuSizeObserver = new ResizeObserver(syncMenuWidth);
+        menuSizeObserver.observe(headerRow);
+        menuSizeObserver.observe(messengers);
+    }
+    syncMenuWidth();
     const closeMenu = () => {
         siteNav.classList.remove('open');
         menuToggle.setAttribute('aria-expanded', 'false');
@@ -101,6 +116,7 @@ if (menuToggle && siteNav) {
     };
 
     menuToggle.addEventListener('click', () => {
+        syncMenuWidth();
         const willOpen = !siteNav.classList.contains('open');
         siteNav.classList.toggle('open', willOpen);
         menuToggle.setAttribute('aria-expanded', String(willOpen));
@@ -131,6 +147,7 @@ if (menuToggle && siteNav) {
     });
 
     window.addEventListener('resize', () => {
+        syncMenuWidth();
         if (window.innerWidth > 900) closeMenu();
     });
 }
