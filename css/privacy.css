@@ -1,10 +1,14 @@
-.legal-footer { display: flex; align-items: baseline; flex-wrap: wrap; gap: 12px 24px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 12px; color: #b5c8da; }
-.legal-footer a, .legal-footer summary, .legal-footer button { color: #cceaff; }
+.legal-footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px 48px; font-size: 13px; line-height: 1.7; color: #b5c8da; }
+.legal-footer a, .legal-footer button { color: #cceaff; }
 .legal-footer button { background: none; padding: 0; border: 0; font: inherit; text-decoration: underline; cursor: pointer; }
-.legal-footer details { max-width: 100%; }
-.legal-footer summary, .cookie-notice summary { cursor: pointer; }
-.legal-footer p { margin: 10px 0; overflow-wrap: anywhere; }
-.cookie-notice { display: flex; align-items: center; gap: 16px; margin-block: 12px 20px; padding: 14px 18px; background: linear-gradient(135deg, #0d3268, #071a3b); border: 1px solid var(--line); border-radius: 16px; font-size: 13px; }
+.cookie-notice summary { cursor: pointer; }
+.legal-footer p { margin: 0 0 4px; overflow-wrap: anywhere; }
+.footer-owner, .footer-legal-links { min-width: 0; }
+.legal-footer .footer-owner-name { color: var(--ice); font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.legal-footer .footer-copyright { margin-top: 16px; color: #8fa6bd; }
+.footer-legal-links { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; max-width: 310px; overflow-wrap: anywhere; }
+.footer-legal-links button { text-align: left; }
+.cookie-notice { position: fixed; z-index: 110; right: 0; bottom: max(12px, env(safe-area-inset-bottom)); left: 0; display: flex; align-items: center; gap: 16px; margin-block: 0; max-height: 70vh; max-height: 70dvh; overflow-y: auto; overscroll-behavior: contain; padding: 14px 18px; background: linear-gradient(135deg, #0d3268, #071a3b); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, .4); font-size: 13px; }
 .cookie-notice[hidden], .legal-footer [hidden] { display: none; }
 .cookie-copy { min-width: 0; flex: 1; overflow-wrap: anywhere; }
 .cookie-copy p { margin: 0; }

@@ -59,7 +59,6 @@
     function showSettings() {
         returnFocus = document.activeElement;
         banner.hidden = false;
-        banner.scrollIntoView({ block: 'center', behavior: 'auto' });
         banner.focus({ preventScroll: true });
     }
     window.romanPrivacy = { showSettings };
