@@ -174,7 +174,7 @@ p { margin-bottom: 1rem; }
 .hero-consult-button::before { content: ""; position: absolute; z-index: -1; top: -60%; bottom: -60%; left: -35%; width: 22%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.92), transparent); transform: rotate(18deg); animation: hero-button-shine 3.8s ease-in-out infinite; }
 .hero-consult-button:hover { transform: translateY(-4px) scale(1.015); filter: saturate(1.14) brightness(1.06); box-shadow: 0 15px 0 #0873be, 0 0 0 7px rgba(97,213,255,.25), 0 36px 78px rgba(49,199,255,.76), 0 0 82px rgba(97,213,255,.64), inset 0 2px 0 rgba(255,255,255,.94); }
 .hero-consult-button:focus-visible { outline: 3px solid #fff; outline-offset: 7px; }
-@keyframes hero-button-shine { 0%, 56% { left: -35%; opacity: 0; } 64% { opacity: 1; } 82%, 100% { left: 118%; opacity: 0; } }
+@keyframes hero-button-shine { 0%, 56% { transform: translateX(0) rotate(18deg); opacity: 0; } 64% { opacity: 1; } 82%, 100% { transform: translateX(696%) rotate(18deg); opacity: 0; } }
 .photo-snow { position: absolute; z-index: 3; inset: 0; overflow: hidden; pointer-events: none; }
 .photo-snow i { position: absolute; top: -14px; left: var(--snow-x); width: var(--snow-size); height: var(--snow-size); background: radial-gradient(circle at 36% 32%, #fff 0 18%, rgba(235,249,255,.95) 32%, rgba(187,226,255,.72) 62%, transparent 76%); border-radius: 50%; box-shadow: 0 0 calc(var(--snow-size) * 1.8) rgba(210,241,255,.44); opacity: var(--snow-opacity); filter: blur(var(--snow-blur)); animation: photo-snow-particle var(--snow-duration) linear var(--snow-delay) infinite; will-change: transform; }
 .photo-snow i:nth-child(3n) { border-radius: 45% 55% 48% 52%; }
@@ -933,7 +933,7 @@ p { margin-bottom: 1rem; }
 .cta-actions .button:hover, .article-author-actions .button:hover { transform: translateY(-2px); box-shadow: 0 8px 0 var(--button-edge), 0 21px 40px rgba(47,151,231,.36), inset 0 1px 0 rgba(255,255,255,.32), inset 0 -2px 0 rgba(5,35,79,.18); }
 .cta-actions .button:active, .article-author-actions .button:active { transform: translateY(5px); box-shadow: 0 1px 0 var(--button-edge), 0 7px 16px rgba(24,100,176,.24), inset 0 3px 7px rgba(3,22,63,.3); filter: brightness(.96); transition-duration: .08s; }
 @keyframes footer-button-bob { 0%, 100% { translate: 0 1px; } 50% { translate: 0 -3px; } }
-@keyframes footer-button-shine { 0%, 56% { left: -38%; opacity: 0; } 64% { opacity: 1; } 82%, 100% { left: 118%; opacity: 0; } }
+@keyframes footer-button-shine { 0%, 56% { transform: translateX(0) rotate(18deg); opacity: 0; } 64% { opacity: 1; } 82%, 100% { transform: translateX(650%) rotate(18deg); opacity: 0; } }
 
 /* Scroll to top */
 .scroll-top {

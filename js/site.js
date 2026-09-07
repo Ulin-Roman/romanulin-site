@@ -51,11 +51,13 @@ mobileHeroLayout.addEventListener('change', syncHeroBenefitsPosition);
 function initializeSnow(snowLayer) {
     if (snowLayer.childElementCount) return;
     const fragment = document.createDocumentFragment();
-    const area = snowLayer.clientWidth * snowLayer.clientHeight;
+    const width = snowLayer.clientWidth;
+    const height = snowLayer.clientHeight;
+    const area = width * height;
     const flakeCount = Math.max(20, Math.min(46, Math.round(area / 10500)));
 
-    snowLayer.style.setProperty('--snow-fall', `${Math.max(420, snowLayer.clientHeight + 40)}px`);
-    snowLayer.style.setProperty('--snow-mid', `${Math.max(202, Math.round((snowLayer.clientHeight + 40) * .48))}px`);
+    snowLayer.style.setProperty('--snow-fall', `${Math.max(420, height + 40)}px`);
+    snowLayer.style.setProperty('--snow-mid', `${Math.max(202, Math.round((height + 40) * .48))}px`);
 
     for (let index = 0; index < flakeCount; index += 1) {
         const flake = document.createElement('i');
