@@ -93,13 +93,21 @@ if (siteNav && !siteNav.querySelector('a[href$="#blog"]')) {
 }
 
 if (menuToggle && siteNav) {
+    const menuLinks = [...siteNav.querySelectorAll('a')];
+    menuLinks.forEach((link, index) => {
+        link.style.setProperty('--menu-enter-delay', `${index * 65}ms`);
+        link.style.setProperty('--menu-exit-delay', `${(menuLinks.length - 1 - index) * 65}ms`);
+    });
+    siteNav.style.setProperty('--menu-close-duration', `${240 + Math.max(0, menuLinks.length - 1) * 65}ms`);
     const headerRow = menuToggle.closest('.header-row');
     const messengers = headerRow?.querySelector('.header-messengers');
+    const maxLink = messengers?.querySelector('a[href*="max.ru/"]');
     const syncMenuWidth = () => {
-        if (!headerRow || !messengers || window.innerWidth > 900) return;
+        if (!headerRow || !maxLink || window.innerWidth > 900) return;
         // The panel's right edge is the header's padding edge; its left
-        // edge follows Telegram, including when the header layout changes.
-        const width = headerRow.clientWidth - messengers.offsetLeft;
+        // edge follows MAX, including when the header layout changes.
+        const width = headerRow.getBoundingClientRect().left + headerRow.clientLeft
+            + headerRow.clientWidth - maxLink.getBoundingClientRect().left;
         if (width > 0) siteNav.style.setProperty('--mobile-menu-width', `${width}px`);
     };
     if (headerRow && messengers && 'ResizeObserver' in window) {
