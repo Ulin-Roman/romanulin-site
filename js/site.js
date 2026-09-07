@@ -48,7 +48,8 @@ const syncHeroBenefitsPosition = () => {
 syncHeroBenefitsPosition();
 mobileHeroLayout.addEventListener('change', syncHeroBenefitsPosition);
 
-document.querySelectorAll('.photo-snow').forEach((snowLayer) => {
+function initializeSnow(snowLayer) {
+    if (snowLayer.childElementCount) return;
     const fragment = document.createDocumentFragment();
     const area = snowLayer.clientWidth * snowLayer.clientHeight;
     const flakeCount = Math.max(20, Math.min(46, Math.round(area / 10500)));
@@ -74,7 +75,7 @@ document.querySelectorAll('.photo-snow').forEach((snowLayer) => {
     }
 
     snowLayer.replaceChildren(fragment);
-});
+}
 
 const menuToggle = document.querySelector('.menu-toggle');
 const siteNav = document.querySelector('.site-nav');
@@ -366,7 +367,17 @@ document.querySelectorAll('[data-blog-carousel]').forEach((carousel) => {
         const maxScroll = track.scrollWidth - track.clientWidth;
         previousButton.disabled = track.scrollLeft <= 2;
         nextButton.disabled = track.scrollLeft >= maxScroll - 2;
-        if (counter) counter.textContent = `${activeCardIndex() + 1} / ${cards.length}`;
+        const label = `${activeCardIndex() + 1} / ${cards.length}`;
+        if (counter && counter.textContent !== label) counter.textContent = label;
+    };
+
+    let controlsFrame = 0;
+    const scheduleControlsUpdate = () => {
+        if (controlsFrame) return;
+        controlsFrame = window.requestAnimationFrame(() => {
+            controlsFrame = 0;
+            updateControls();
+        });
     };
 
     const moveCarousel = (direction) => {
@@ -376,8 +387,8 @@ document.querySelectorAll('[data-blog-carousel]').forEach((carousel) => {
 
     previousButton.addEventListener('click', () => moveCarousel(-1));
     nextButton.addEventListener('click', () => moveCarousel(1));
-    track.addEventListener('scroll', updateControls, { passive: true });
-    window.addEventListener('resize', updateControls);
+    track.addEventListener('scroll', scheduleControlsUpdate, { passive: true });
+    window.addEventListener('resize', scheduleControlsUpdate);
     updateControls();
 });
 
@@ -481,7 +492,7 @@ if (blogArticle) {
     });
 
     const telegramChannelUrl = 'https://t.me/direct_ulin';
-    const maxChannelUrl = 'https://max.ru/u/f9LHodD0cOIgP2onCOkH83oy2K17iRYqau-9i5HVA60iM_DqDh91Ahmt7t0';
+    const maxChannelUrl = 'https://max.ru/channel_direct_ulin';
     const articleCatalog = [
             {
                         "slug": "rasshirennyy-geotargeting-yandex-direct",
@@ -1760,3 +1771,37 @@ if (blogArticle) {
         }
     }
 }
+
+// Observe after article components are built, including their animated buttons.
+const animatedElements = document.querySelectorAll('.photo-snow, .hero-consult-button, .services-contact, .story-contact, .telegram-channel-card, .cta-actions .button, .article-author-actions .button');
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const visibleAnimations = new Set();
+const syncAnimations = () => {
+    visibleAnimations.forEach((element) => {
+        const running = !document.hidden && !reducedMotion.matches;
+        if (running && element.matches('.photo-snow')) initializeSnow(element);
+        element.classList.toggle('motion-paused', !running);
+    });
+};
+
+if ('IntersectionObserver' in window) {
+    const animationObserver = new IntersectionObserver((entries) => {
+        entries.forEach(({ target, isIntersecting }) => {
+            if (isIntersecting) visibleAnimations.add(target);
+            else {
+                visibleAnimations.delete(target);
+                target.classList.add('motion-paused');
+            }
+        });
+        syncAnimations();
+    });
+    animatedElements.forEach((element) => {
+        element.classList.add('motion-paused');
+        animationObserver.observe(element);
+    });
+} else {
+    animatedElements.forEach((element) => visibleAnimations.add(element));
+    syncAnimations();
+}
+document.addEventListener('visibilitychange', syncAnimations);
+reducedMotion.addEventListener('change', syncAnimations);
