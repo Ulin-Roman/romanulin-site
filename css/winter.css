@@ -669,14 +669,17 @@ p { margin-bottom: 1rem; }
 .blog-card h3 a, .blog-card h2 a { color: inherit; text-decoration: none; }
 .blog-card-copy > p { max-width: 570px; margin: 0; color: #adc4d8; font-size: 15px; line-height: 1.65; }
 .blog-card-link { align-self: flex-start; display: inline-flex; align-items: center; gap: 13px; margin-top: 28px; color: var(--cyan); font-size: 14px; font-weight: 850; text-decoration: none; transition: color .2s ease; }
-.blog-link-arrow { width: 24px; height: 24px; display: grid; place-items: center; flex: 0 0 24px; color: inherit; transition: transform .2s ease; }
-.blog-link-arrow svg { width: 22px; height: 22px; display: block; }
+.blog-link-arrow { position: relative; top: 0; width: 27px; height: 27px; display: grid; place-items: center; flex: 0 0 27px; color: #fff; font-size: 27px; font-weight: 400; line-height: 1; transition: transform .2s ease; }
+.blog-link-arrow::before { content: "\2192"; display: block; line-height: 1; }
+.blog-link-arrow svg { display: none; }
+.blog-card-link > span:not(.blog-link-arrow), .blog-all-link > span:not(.blog-link-arrow) { position: relative; top: 0; display: inline-grid; place-items: center; color: #fff; font-size: 27px; font-weight: 400; line-height: 1; transition: transform .2s ease; }
+.blog-card-link .blog-link-arrow, .blog-card-link > span:not(.blog-link-arrow) { color: var(--cyan); }
 .blog-card-link:hover { color: #a8efff; }
-.blog-card-link:hover .blog-link-arrow { transform: translateX(5px); }
+.blog-card-link:hover > span { transform: translateX(5px); }
 .blog-more { display: flex; justify-content: center; margin-top: 30px; }
 .blog-all-link { min-width: 230px; display: inline-flex; align-items: center; justify-content: center; gap: 14px; padding: 14px 24px; color: var(--ice); background: rgba(11, 43, 87, .72); border: 1px solid rgba(112, 205, 255, .4); border-radius: 14px; box-shadow: 0 12px 28px rgba(0, 8, 32, .22), inset 0 1px 0 rgba(255,255,255,.08); font-size: 14px; font-weight: 800; text-decoration: none; transition: transform .2s ease, border-color .2s ease, background .2s ease; }
 .blog-all-link:hover { transform: translateY(-2px); background: rgba(15, 59, 116, .88); border-color: rgba(112, 224, 255, .7); }
-.blog-all-link .blog-link-arrow { color: var(--cyan); }
+.blog-all-link .blog-link-arrow { color: #fff; }
 
 @media (min-width: 901px) {
     .blog-controls { display: none; }

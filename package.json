@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-blog.cjs",
+    "check": "node scripts/build-blog.cjs --check",
+    "test": "node scripts/test-blog.cjs"
+  }
+}
