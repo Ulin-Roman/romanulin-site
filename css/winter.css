@@ -1121,7 +1121,7 @@ p { margin-bottom: 1rem; }
     .hero-main { position: relative; width: 100%; min-width: 0; min-height: 0; display: block; overflow: visible; }
     .hero-main::after { content: ""; position: absolute; z-index: 4; inset: 0 -14px 58px; background: linear-gradient(to bottom, rgba(2,8,26,0) 0%, rgba(2,8,26,.04) 33%, rgba(2,9,29,.32) 52%, rgba(2,9,29,.82) 73%, rgba(2,8,25,.98) 100%); pointer-events: none; }
     .hero-visual { position: absolute; z-index: 1; inset: 0 -14px 58px; min-height: 0; overflow: hidden; }
-    .hero-person { top: -8px; right: -17%; bottom: 0; left: -17%; width: auto; }
+    .hero-person { top: -8px; right: -21%; bottom: 0; left: -21%; width: auto; }
     .hero-person::after { height: 230px; background: linear-gradient(to top, rgba(2,8,25,.92), transparent); }
     .hero-person img { object-position: center top; }
     .hero-copy { position: relative; z-index: 7; width: 100%; min-width: 0; max-width: 100%; min-height: calc(100svh - 100px - env(safe-area-inset-bottom)); display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(0px, calc(100svh - 560px), 226px) 4px 0; }
