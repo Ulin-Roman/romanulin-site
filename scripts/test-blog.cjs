@@ -19,6 +19,8 @@ try {
         const name = `blog/${a.slug}/index.html`;
         write(name, fs.readFileSync(path.join(root, name)));
         write(a.image, 'fixture');
+        const preview = 'img/blog/previews/' + path.basename(a.image) + '.webp';
+        if (fs.existsSync(path.join(root, preview))) write(preview, 'fixture');
     }
     const run = (...args) => execFileSync(process.execPath, ['scripts/build-blog.cjs', ...args], { cwd: temp, encoding: 'utf8' });
     run('--check');

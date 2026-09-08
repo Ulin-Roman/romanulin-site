@@ -284,7 +284,7 @@ p { margin-bottom: 1rem; }
 .story-photo::after { content: ""; position: absolute; z-index: 2; right: 0; bottom: 0; left: 0; height: 90px; background: transparent; pointer-events: none; }
 .story-photo img { position: relative; z-index: 1; width: 100%; max-width: 100%; height: auto; display: block; filter: drop-shadow(0 25px 34px rgba(0,7,24,.48)) saturate(.9) contrast(1.03); }
 .about-stats { position: relative; z-index: 3; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 18px; }
-.about-stats div { display: flex; flex-direction: column; gap: 4px; padding: 25px; background: var(--glass); border: 1px solid var(--line); border-radius: 20px; }
+.about-stats div { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 25px; text-align: center; background: var(--glass); border: 1px solid var(--line); border-radius: 20px; }
 .about-stats strong { color: var(--cyan); font-size: 29px; }
 .about-stats span { color: var(--muted); font-size: 11px; font-weight: 700; }
 
@@ -409,7 +409,7 @@ p { margin-bottom: 1rem; }
 .telegram-visual::after { content: ""; position: absolute; z-index: 2; inset: 0; background: linear-gradient(90deg, transparent 24%, rgba(3,12,35,.16) 48%, rgba(3,11,35,.74) 100%), linear-gradient(0deg, rgba(2,9,29,.7), transparent 46%); pointer-events: none; }
 .telegram-person { position: absolute; z-index: 1; inset: 0; margin: 0; }
 .telegram-person::before { content: none; }
-.telegram-person img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: 42% center; filter: saturate(.88) contrast(1.04) brightness(.88); }
+.telegram-person img { position: absolute; bottom: -52px; left: -18px; width: auto; max-width: none; height: 112%; display: block; object-fit: contain; object-position: left bottom; filter: saturate(.88) contrast(1.04) brightness(.88); }
 .telegram-features { position: absolute; z-index: 4; right: 20px; bottom: 20px; width: min(57%, 350px); overflow: hidden; margin: 0; padding: 8px 18px; list-style: none; background: rgba(4,14,43,.72); border: 1px solid rgba(182,226,255,.19); border-radius: 22px; box-shadow: 0 20px 44px rgba(0,5,28,.34), inset 0 1px 0 rgba(255,255,255,.07); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
 .telegram-features li { min-height: 72px; display: grid; grid-template-columns: 36px 1fr; align-items: center; gap: 13px; }
 .telegram-features li + li { border-top: 1px solid rgba(182,225,255,.11); }
@@ -1249,7 +1249,7 @@ p { margin-bottom: 1rem; }
     .services-list li.is-open p { opacity: 1; visibility: visible; transform: translateX(0); }
     .services-contact { right: 12px; bottom: 14px; left: 12px; }
     .case-grid { grid-template-columns: 1fr; }
-    .story-layout { position: relative; min-height: clamp(850px, calc(1250px - 100vw), 880px); display: block; overflow: hidden; padding: 0; background: transparent; border: 0; border-radius: 28px; box-shadow: none; }
+    .story-layout { position: relative; min-height: max(750px, calc(1020px - 70vw)); display: block; overflow: hidden; padding: 0; background: transparent; border: 0; border-radius: 28px; box-shadow: none; }
     .story-copy { position: absolute; z-index: 4; inset: 0; width: auto; min-width: 0; max-width: none; display: block; align-self: auto; }
     .story-heading { position: absolute; z-index: 5; top: 28px; right: 18px; left: 18px; text-align: center; transform: none; }
     .story-heading h2 { margin: 0; color: #fff; text-shadow: 0 4px 20px rgba(0,7,29,.88); }
@@ -1348,7 +1348,7 @@ p { margin-bottom: 1rem; }
     .telegram-channel-card img { width: 44px; height: 44px; }
     .telegram-channel-card strong { font-size: 13.5px; }
     .telegram-visual { order: 2; width: 100%; height: 520px; flex: 0 0 auto; margin: 24px 0 0; border-radius: 22px; }
-    .telegram-person img { object-position: 33% center; }
+    .telegram-person img { bottom: -42px; left: -24px; height: 110%; object-position: left bottom; }
     .telegram-visual::after { background: linear-gradient(0deg, rgba(2,9,29,.92) 0%, rgba(2,9,29,.42) 48%, transparent 76%); }
     .telegram-features { right: 12px; bottom: 12px; left: 12px; width: auto; padding: 6px 14px; border-radius: 18px; background: rgba(4,13,42,.78); }
     .telegram-features li { min-height: 66px; padding: 7px 0; }

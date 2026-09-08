@@ -75,7 +75,16 @@ function card(a, isHome) {
 function replaceCards(html, className, items, isHome) {
     const pattern = new RegExp('(<div class="' + className + '">)\\s*(?:<article class="blog-card">[\\s\\S]*?<\\/article>\\s*)+');
     requireMatch(html, pattern, className);
-    return html.replace(pattern, (_, open) => open + '\n' + items.map(a => card(a, isHome)).join('\n') + '\n');
+    return html.replace(pattern, (_, open) => open + '\n' + items.map(a => {
+        let markup = card(a, isHome);
+        const preview = 'img/blog/previews/' + path.posix.basename(a.image) + '.webp';
+        if (fs.existsSync(path.join(root, preview))) {
+            const prefix = isHome ? '' : '../';
+            const responsive = a.width > 960 ? ` srcset="${prefix}${escape(preview)} 960w, ${prefix}${escape(a.image)} ${a.width}w" sizes="(max-width: 900px) 90vw, 640px"` : '';
+            markup = markup.replace(`src="${prefix}${escape(a.image)}"`, `src="${prefix}${escape(preview)}"${responsive}`);
+        }
+        return markup;
+    }).join('\n') + '\n');
 }
 outputs.set('index.html', replaceCards(home, 'blog-track', articles.slice(0, 7), true));
 let newIndex = replaceCards(index, 'blog-index-grid', articles, false);
@@ -86,8 +95,22 @@ newIndex = newIndex.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/s
     return '<script type="application/ld+json">' + JSON.stringify(schema).replace(/</g, '\\u003c') + '</script>';
 });
 outputs.set('blog/index.html', newIndex);
+// Connect the same named author and blog across machine-readable article metadata.
+for (const a of articles) {
+    const file = `blog/${a.slug}/index.html`;
+    const html = read(file).replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g, (all, json) => {
+        const schema = JSON.parse(json);
+        if (schema['@type'] !== 'BlogPosting') return all;
+        if (schema.author && !Array.isArray(schema.author) && schema.author['@type'] === 'Person') {
+            schema.author['@id'] = 'https://romanulin.ru/#person';
+        }
+        schema.isPartOf = { '@type': 'Blog', '@id': 'https://romanulin.ru/blog/#blog', url: 'https://romanulin.ru/blog/', name: 'Блог Романа Улина' };
+        return '<script type="application/ld+json">' + JSON.stringify(schema).replace(/</g, '\\u003c') + '</script>';
+    });
+    outputs.set(file, html);
+}
 const related = articles.map(a => ({ slug: a.slug, title: escape(a.title), date: escape(a.date), image: path.posix.relative('img/blog', a.image), views: a.views }));
-outputs.set('js/site.js', site.replace(catalogPattern, () => 'const articleCatalog = ' + JSON.stringify(related, null, 4).replace(/</g, '\\u003c') + ';'));
+outputs.set('js/site.js', site.replace(catalogPattern, () => 'const articleCatalog = ' + JSON.stringify(related).replace(/</g, '\\u003c') + ';'));
 const stale = [...outputs].filter(([file, value]) => !fs.existsSync(path.join(root, file)) || read(file) !== value);
 if (process.argv.includes('--check')) {
     if (stale.length) throw new Error('Run npm run build; outdated: ' + stale.map(([f]) => f).join(', '));
