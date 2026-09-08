@@ -1,11 +1,14 @@
-.legal-footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px 48px; font-size: 13px; line-height: 1.7; color: #b5c8da; }
+.legal-footer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 310px); align-items: start; gap: 14px 48px; font-size: 13px; line-height: 1.7; color: #b5c8da; }
 .legal-footer a, .legal-footer button { color: #cceaff; }
 .legal-footer button { background: none; padding: 0; border: 0; font: inherit; text-decoration: underline; cursor: pointer; }
 .cookie-notice summary { cursor: pointer; }
 .legal-footer p { margin: 0 0 4px; overflow-wrap: anywhere; }
 .footer-owner, .footer-legal-links { min-width: 0; }
-.legal-footer .footer-owner-name { color: var(--ice); font-size: 15px; font-weight: 700; margin-bottom: 8px; }
-.legal-footer .footer-copyright { margin-top: 16px; color: #8fa6bd; }
+.legal-footer .footer-owner-name { display: inline; color: inherit; font-size: inherit; font-weight: inherit; margin: 0; }
+.legal-footer .footer-owner-name::after { content: " · "; }
+.legal-footer .footer-owner-name + p { display: inline; }
+.legal-footer .footer-owner-name + p::after { content: ""; display: block; height: 2px; }
+.legal-footer .footer-copyright { grid-column: 1 / -1; width: 100%; margin: 0; padding-top: 12px; color: #8fa6bd; border-top: 1px solid rgba(197,229,247,.1); text-align: center; }
 .footer-legal-links { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; max-width: 310px; overflow-wrap: anywhere; }
 .footer-legal-links button { text-align: left; }
 .cookie-notice { position: fixed; z-index: 110; right: 0; bottom: max(12px, env(safe-area-inset-bottom)); left: 0; display: flex; align-items: center; gap: 18px; margin-block: 0; max-height: 70vh; max-height: 70dvh; overflow-y: auto; overscroll-behavior: contain; padding: 12px 16px 16px; color: #dbe8f7; background: linear-gradient(135deg, rgba(5,24,58,.98), rgba(3,14,38,.99)); border: 1px solid #168cff; border-radius: 18px; box-shadow: 0 12px 40px rgba(0,5,24,.55), inset 0 1px 0 rgba(255,255,255,.09); font-size: 13px; }
@@ -36,5 +39,6 @@
     .cookie-icon svg { width: 28px; height: 28px; }
     .cookie-actions { grid-column: 1 / -1; }
     .cookie-actions button { flex: 1; }
-    .legal-footer { gap: 12px; flex-direction: column; }
+    .legal-footer { grid-template-columns: 1fr; gap: 12px; }
+    .legal-footer .footer-copyright { grid-column: 1; width: 100%; margin-top: 8px; }
 }
