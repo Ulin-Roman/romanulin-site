@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://romanulin.ru/</loc>
-        <lastmod>2026-09-04</lastmod>
+        <lastmod>2026-09-08</lastmod>
     </url>
     <url>
         <loc>https://romanulin.ru/blog/</loc>
-        <lastmod>2026-09-05</lastmod>
+        <lastmod>2026-09-08</lastmod>
     </url>
     <url>
         <loc>https://romanulin.ru/blog/rasshirennyy-geotargeting-yandex-direct/</loc>
@@ -260,4 +260,8 @@
   <url><loc>https://romanulin.ru/blog/stoit-li-obuchat-rk-v-yandeks-direkte-na-tselyah-kolltrekinga/</loc></url>
   <url><loc>https://romanulin.ru/blog/keys-prokat-gornolyzhnogo-snaryazheniya-v-yandeks-direkt/</loc></url>
     <url><loc>https://romanulin.ru/privacy/</loc><lastmod>2026-09-07</lastmod></url>
+    <url>
+        <loc>https://romanulin.ru/blog/sayt-za-2-chasa-s-gpt/</loc>
+        <lastmod>2026-09-08</lastmod>
+    </url>
 </urlset>

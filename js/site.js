@@ -521,6 +521,13 @@ if (blogArticle) {
     const telegramChannelUrl = 'https://t.me/direct_ulin';
     const maxChannelUrl = 'https://max.ru/channel_direct_ulin';
     const articleCatalog = [
+{
+    "slug": "sayt-za-2-chasa-s-gpt",
+    "title": "Сайт за 2 часа с GPT!",
+    "date": "8 сентября 2026",
+    "image": "sayt-za-2-chasa-s-gpt.png",
+    "views": "305"
+},
             {
                         "slug": "rasshirennyy-geotargeting-yandex-direct",
                         "title": "Расширенный геотаргетинг теперь не отключить!",
