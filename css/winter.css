@@ -1550,12 +1550,25 @@ main > .section { padding-block: var(--section-space); }
     .story-copy { align-self: start; }
     .story-photo { min-height: 0; }
 }
-/* Separate portraits in tablet layouts and mobile desktop-mode viewports. */
-@media (min-width: 681px) and (max-width: 1100px) {
-    .comparison-person-before { left: -18%; height: 620px; }
-    .comparison-person-after { right: -18%; height: 620px; }
-}
-@media (min-width: 681px) and (max-width: 900px) {
-    .comparison-person-before,
-    .comparison-person-after { height: 500px; }
+/* Scale the desktop comparison composition as a whole. */
+@media (min-width: 681px) {
+    .transformation-board {
+        --comparison-unit: min(1px, calc(.0806451613vw - .0322580645px));
+        min-height: calc(750 * var(--comparison-unit));
+        grid-template-columns: minmax(0, .9fr) minmax(0, 1.35fr) minmax(0, .9fr);
+        border-radius: calc(38 * var(--comparison-unit));
+    }
+    .comparison-people { min-height: calc(750 * var(--comparison-unit)); }
+    .comparison-person-before { left: 3%; height: calc(700 * var(--comparison-unit)); }
+    .comparison-person-after { right: -4%; height: calc(620 * var(--comparison-unit)); }
+    .comparison-side { gap: calc(32 * var(--comparison-unit)); padding: calc(64 * var(--comparison-unit)) calc(28 * var(--comparison-unit)) calc(54 * var(--comparison-unit)); }
+    .comparison-tag { min-width: calc(150 * var(--comparison-unit)); min-height: calc(54 * var(--comparison-unit)); gap: calc(11 * var(--comparison-unit)); font-size: calc(20 * var(--comparison-unit)); }
+    .comparison-tag b { width: calc(25 * var(--comparison-unit)); height: calc(25 * var(--comparison-unit)); font-size: calc(17 * var(--comparison-unit)); }
+    .comparison-points { gap: calc(23 * var(--comparison-unit)); }
+    .comparison-points > div { padding: 0 calc(4 * var(--comparison-unit)) calc(20 * var(--comparison-unit)); }
+    .comparison-points > div:last-child { padding-bottom: 0; }
+    .comparison-points strong { font-size: calc(35 * var(--comparison-unit)); }
+    .comparison-points span { margin-top: calc(9 * var(--comparison-unit)); font-size: calc(12 * var(--comparison-unit)); }
+    .transformation-action { bottom: calc(74 * var(--comparison-unit)); width: calc(390 * var(--comparison-unit)); }
+    .transformation-action .hero-consult-button { min-height: calc(64 * var(--comparison-unit)); padding: calc(18 * var(--comparison-unit)) calc(24 * var(--comparison-unit)); font-size: calc(15 * var(--comparison-unit)); }
 }
