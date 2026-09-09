@@ -1365,7 +1365,7 @@ p { margin-bottom: 1rem; }
     .reviews-contact { margin: 28px auto 0; }
 
     .audit-section { padding-top: 52px; }
-    .audit-panel { min-height: 720px; display: block; padding: 28px 18px 0; border-radius: 28px; }
+    .audit-panel { min-height: 600px; display: block; padding: 28px 18px 0; border-radius: 28px; }
     .audit-panel::after { content: ""; position: absolute; z-index: 2; right: 0; bottom: 0; left: 0; height: 64%; background: linear-gradient(180deg, transparent 0%, rgba(3,12,34,.28) 19%, rgba(3,10,28,.72) 54%, rgba(2,8,24,.94) 100%); pointer-events: none; }
     .audit-copy { z-index: 4; max-width: none; padding: 0; text-align: center; }
     .audit-copy h2 { max-width: 390px; margin-inline: auto; font-size: clamp(2.05rem, 9.4vw, 2.75rem); line-height: 1; }
