@@ -1517,3 +1517,36 @@ p { margin-bottom: 1rem; }
     .story-copy { padding-top: 440px; }
     .story-content { top: auto; }
 }
+
+/* Keep portrait edges flush with the comparison panel at every breakpoint. */
+.comparison-person-before,
+.comparison-person-after {
+    top: auto;
+    bottom: 0;
+    transform: none;
+}
+.comparison-person-before { height: 700px; }
+.comparison-person-after { height: 620px; }
+@media (min-width: 681px) and (max-width: 900px) {
+    .comparison-person-before,
+    .comparison-person-after { height: 500px; }
+}
+@media (max-width: 680px) {
+    .comparison-person-before { height: 520px; }
+    .comparison-person-after { height: 464px; }
+}
+/* Shared spacing between the main page sections. */
+:root { --section-space: 72px; }
+main > .section { padding-block: var(--section-space); }
+@media (max-width: 900px) {
+    :root { --section-space: 64px; }
+}
+@media (max-width: 680px) {
+    :root { --section-space: 52px; }
+    .story-heading { top: 0; }
+}
+@media (min-width: 681px) {
+    .story-layout { min-height: 0; padding-block: 0; }
+    .story-copy { align-self: start; }
+    .story-photo { min-height: 0; }
+}
