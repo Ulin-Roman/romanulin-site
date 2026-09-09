@@ -1550,3 +1550,12 @@ main > .section { padding-block: var(--section-space); }
     .story-copy { align-self: start; }
     .story-photo { min-height: 0; }
 }
+/* Separate portraits in tablet layouts and mobile desktop-mode viewports. */
+@media (min-width: 681px) and (max-width: 1100px) {
+    .comparison-person-before { left: -18%; height: 620px; }
+    .comparison-person-after { right: -18%; height: 620px; }
+}
+@media (min-width: 681px) and (max-width: 900px) {
+    .comparison-person-before,
+    .comparison-person-after { height: 500px; }
+}
