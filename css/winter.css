@@ -696,8 +696,8 @@ p { margin-bottom: 1rem; }
     .blog-card-link { margin-top: auto; padding-top: 17px; }
 }
 
-.blog-index-main { padding-top: 24px; }
-.blog-index-section { padding: 54px 0 82px; }
+.blog-index-main { padding-top: 8px; }
+.blog-index-section { padding: 36px 0 82px; }
 .blog-index-heading { max-width: 760px; margin: 0 auto 38px; text-align: center; }
 .blog-index-heading h1 { margin: 0; color: var(--ice); font-size: clamp(2.8rem, 5vw, 4.8rem); font-weight: 720; line-height: 1.03; letter-spacing: -.05em; }
 .blog-index-heading p { margin: 16px auto 0; color: var(--muted); font-size: var(--subtitle-size); line-height: 1.65; }
@@ -793,8 +793,8 @@ p { margin-bottom: 1rem; }
 .blog-card-image:has(img[src$="/telegram-2025-82.jpg"]) { --preview-ratio: 4 / 3; }
 
 /* Blog article */
-.article-main { padding-top: 24px; }
-.blog-article { padding: 54px 0 82px; }
+.article-main { padding-top: 8px; }
+.blog-article { padding: 36px 0 82px; }
 .blog-article > .container { display: block; }
 .article-layout { display: grid; grid-template-columns: minmax(0, 1fr) 310px; column-gap: clamp(30px, 4vw, 52px); align-items: stretch; }
 .article-content { min-width: 0; }
@@ -821,7 +821,7 @@ p { margin-bottom: 1rem; }
     .article-content--paper .article-body--paper-copy { font-size: 16px; line-height: 1.8; }
     .article-content--paper .article-footer-utilities { flex-wrap: wrap; }
 }
-.article-back { grid-column: 1 / -1; display: inline-flex; align-items: center; justify-self: start; gap: 9px; margin-bottom: 36px; padding: 10px 14px; color: #b9d7e9; background: rgba(11, 43, 87, .7); border: 1px solid rgba(130, 205, 248, .18); border-radius: 999px; font-size: 14px; font-weight: 750; text-decoration: none; transition: color .2s ease, border-color .2s ease, transform .2s ease; }
+.article-back { grid-column: 1 / -1; display: inline-flex; align-items: center; justify-self: start; gap: 9px; margin-bottom: 24px; padding: 10px 14px; color: #b9d7e9; background: rgba(11, 43, 87, .7); border: 1px solid rgba(130, 205, 248, .18); border-radius: 999px; font-size: 14px; font-weight: 750; text-decoration: none; transition: color .2s ease, border-color .2s ease, transform .2s ease; }
 .article-back:hover { color: var(--ice); border-color: rgba(112, 224, 255, .45); transform: translateX(-3px); }
 .article-hero { grid-column: 1; grid-row: 2; min-width: 0; display: flex; flex-direction: column; }
 .article-hero-copy { position: relative; z-index: 2; display: flex; flex-direction: column; width: 100%; padding: 0 0 30px; }
@@ -1260,7 +1260,7 @@ p { margin-bottom: 1rem; }
     .story-copy { position: absolute; z-index: 4; inset: 0; width: auto; min-width: 0; max-width: none; display: block; align-self: auto; }
     .story-heading { position: absolute; z-index: 5; top: 28px; right: 18px; left: 18px; text-align: center; transform: none; }
     .story-heading h2 { margin: 0; color: #fff; text-shadow: 0 4px 20px rgba(0,7,29,.88); }
-    .story-heading p { display: none; }
+    .story-heading p { display: block; }
     .story-content { position: absolute; z-index: 5; top: 460px; right: 18px; left: 18px; max-width: none; margin: 0; color: rgba(235,247,255,.96); font-size: 14px; line-height: 1.5; text-shadow: 0 2px 12px rgba(0,6,25,.95); }
     .story-content p { margin: 0 0 12px; }
     .story-contact { margin-top: 18px; }
@@ -1315,7 +1315,7 @@ p { margin-bottom: 1rem; }
     .blog-more { margin-top: 24px; }
     .blog-all-link { width: 100%; }
     .blog-index-main { padding-top: 0; }
-    .blog-index-section { padding: 30px 0 58px; }
+    .blog-index-section { padding: 24px 0 58px; }
     .blog-index-heading { margin-right: auto; margin-bottom: 28px; margin-left: auto; text-align: center; }
     .blog-index-heading h1 { font-size: clamp(2.4rem, 11vw, 3.2rem); }
 .blog-index-heading p { max-width: 340px; margin: 12px auto 0; font-size: var(--subtitle-size); line-height: 1.55; }
@@ -1518,22 +1518,30 @@ p { margin-bottom: 1rem; }
     .story-content { top: auto; }
 }
 
-/* Keep portrait edges flush with the comparison panel at every breakpoint. */
+/* Match the subjects' scale; the longer before portrait extends below the panel. */
+.transformation-board { --portrait-height: 620px; }
 .comparison-person-before,
 .comparison-person-after {
     top: auto;
     bottom: 0;
     transform: none;
+    height: var(--portrait-height);
 }
-.comparison-person-before { height: 700px; }
-.comparison-person-after { height: 620px; }
+.comparison-person-before {
+    height: calc(var(--portrait-height) * 1.32);
+    bottom: calc(var(--portrait-height) * -.342);
+}
+.comparison-person-after {
+    /* Exclude the background remnant outside the cuff, preserving the hand. */
+    clip-path: polygon(0 0, 100% 0, 100% 86%, 87% 88.5%, 81% 89%, 83% 100%, 0 100%);
+}
 @media (min-width: 681px) and (max-width: 900px) {
-    .comparison-person-before,
-    .comparison-person-after { height: 500px; }
+    .transformation-board { --portrait-height: 500px; }
 }
 @media (max-width: 680px) {
-    .comparison-person-before { height: 520px; }
-    .comparison-person-after { height: 464px; }
+    .transformation-board { --portrait-height: 464px; }
+    .comparison-person-before { left: 0; }
+    .transformation-action { bottom: 104px; }
 }
 /* Shared spacing between the main page sections. */
 :root { --section-space: 72px; }
@@ -1547,20 +1555,20 @@ main > .section { padding-block: var(--section-space); }
 }
 @media (min-width: 681px) {
     .story-layout { min-height: 0; padding-block: 0; }
-    .story-copy { align-self: start; }
     .story-photo { min-height: 0; }
 }
 /* Scale the desktop comparison composition as a whole. */
 @media (min-width: 681px) {
     .transformation-board {
         --comparison-unit: min(1px, calc(.0806451613vw - .0322580645px));
+        --portrait-height: calc(620 * var(--comparison-unit));
         min-height: calc(750 * var(--comparison-unit));
         grid-template-columns: minmax(0, .9fr) minmax(0, 1.35fr) minmax(0, .9fr);
         border-radius: calc(38 * var(--comparison-unit));
     }
     .comparison-people { min-height: calc(750 * var(--comparison-unit)); }
-    .comparison-person-before { left: 3%; height: calc(700 * var(--comparison-unit)); }
-    .comparison-person-after { right: -4%; height: calc(620 * var(--comparison-unit)); }
+    .comparison-person-before { left: -5%; }
+    .comparison-person-after { right: -4%; }
     .comparison-side { gap: calc(32 * var(--comparison-unit)); padding: calc(64 * var(--comparison-unit)) calc(28 * var(--comparison-unit)) calc(54 * var(--comparison-unit)); }
     .comparison-tag { min-width: calc(150 * var(--comparison-unit)); min-height: calc(54 * var(--comparison-unit)); gap: calc(11 * var(--comparison-unit)); font-size: calc(20 * var(--comparison-unit)); }
     .comparison-tag b { width: calc(25 * var(--comparison-unit)); height: calc(25 * var(--comparison-unit)); font-size: calc(17 * var(--comparison-unit)); }
@@ -1569,6 +1577,35 @@ main > .section { padding-block: var(--section-space); }
     .comparison-points > div:last-child { padding-bottom: 0; }
     .comparison-points strong { font-size: calc(35 * var(--comparison-unit)); }
     .comparison-points span { margin-top: calc(9 * var(--comparison-unit)); font-size: calc(12 * var(--comparison-unit)); }
-    .transformation-action { bottom: calc(74 * var(--comparison-unit)); width: calc(390 * var(--comparison-unit)); }
+    .transformation-action { bottom: calc(150 * var(--comparison-unit)); width: calc(390 * var(--comparison-unit)); }
     .transformation-action .hero-consult-button { min-height: calc(64 * var(--comparison-unit)); padding: calc(18 * var(--comparison-unit)) calc(24 * var(--comparison-unit)); font-size: calc(15 * var(--comparison-unit)); }
+}
+
+/* Consistent bold titles and section subtitles across every page. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 800 !important;
+}
+
+.hero-description,
+.channels-heading > p,
+.portfolio-toolbar > div:first-child > p,
+.transformation-heading > p,
+.services-heading p,
+.reviews-description,
+.audit-copy > p,
+.certificates-heading > p,
+.story-heading > p,
+.telegram-copy > p,
+.channel-panel .channel-copy .channel-lead,
+.faq-heading > p,
+.cta-panel > div:first-child > p,
+.blog-heading p,
+.blog-index-heading > p,
+.cases-followup > p {
+    font-weight: 800 !important;
 }

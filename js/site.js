@@ -18,6 +18,131 @@ if (window.location.protocol === 'file:') {
     }, true);
 }
 
+const blogScrollPositionKey = 'romanulin-blog-scroll-position';
+const blogScrollRestoreKey = 'romanulin-blog-scroll-restore';
+const blogIndexGrid = document.querySelector('.blog-index-grid');
+let incomingBlogScrollPosition = null;
+
+try {
+    const rawScrollParameter = new URL(window.location.href).searchParams.get('feedScroll');
+    const scrollParameter = Number(rawScrollParameter);
+    if (rawScrollParameter !== null && Number.isFinite(scrollParameter) && scrollParameter >= 0) {
+        incomingBlogScrollPosition = scrollParameter;
+    }
+} catch (error) {
+    incomingBlogScrollPosition = null;
+}
+
+const readBlogScrollPosition = () => {
+    try {
+        const savedPosition = Number(window.sessionStorage.getItem(blogScrollPositionKey));
+        return Number.isFinite(savedPosition) && savedPosition >= 0 ? savedPosition : 0;
+    } catch (error) {
+        return 0;
+    }
+};
+
+const saveBlogScrollPosition = () => {
+    try {
+        window.sessionStorage.setItem(blogScrollPositionKey, String(Math.round(window.scrollY)));
+    } catch (error) {
+        // Browser storage can be unavailable for local previews.
+    }
+};
+
+if (blogIndexGrid) {
+    let isRestoringBlogPosition = false;
+
+    try {
+        isRestoringBlogPosition = incomingBlogScrollPosition !== null
+            || window.sessionStorage.getItem(blogScrollRestoreKey) === 'true';
+    } catch (error) {
+        isRestoringBlogPosition = false;
+    }
+
+    const restoreBlogScrollPosition = () => {
+        if (!isRestoringBlogPosition) return;
+        window.scrollTo(0, incomingBlogScrollPosition ?? readBlogScrollPosition());
+    };
+
+    if (isRestoringBlogPosition) {
+        window.requestAnimationFrame(() => window.requestAnimationFrame(restoreBlogScrollPosition));
+        window.addEventListener('load', () => {
+            restoreBlogScrollPosition();
+            isRestoringBlogPosition = false;
+            try {
+                window.sessionStorage.removeItem(blogScrollRestoreKey);
+            } catch (error) {
+                // Browser storage can be unavailable for local previews.
+            }
+            try {
+                const cleanAddress = new URL(window.location.href);
+                cleanAddress.searchParams.delete('feedScroll');
+                window.history.replaceState(window.history.state, '', cleanAddress.href);
+            } catch (error) {
+                // Keeping the temporary parameter does not affect navigation.
+            }
+        }, { once: true });
+    } else {
+        saveBlogScrollPosition();
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!isRestoringBlogPosition) saveBlogScrollPosition();
+    }, { passive: true });
+    blogIndexGrid.addEventListener('click', (event) => {
+        saveBlogScrollPosition();
+        const articleLink = event.target instanceof Element ? event.target.closest('a[href]') : null;
+        if (!articleLink) return;
+
+        try {
+            const articleAddress = new URL(articleLink.href);
+            articleAddress.searchParams.set('feedScroll', String(Math.round(window.scrollY)));
+            articleLink.href = articleAddress.href;
+        } catch (error) {
+            // The storage fallback still preserves the position on regular web pages.
+        }
+    });
+}
+
+// Return from an article to the saved position in the blog index.
+document.querySelectorAll('.blog-article .article-back').forEach((backLink) => {
+    backLink.addEventListener('click', (event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+
+        try {
+            window.sessionStorage.setItem(blogScrollRestoreKey, 'true');
+        } catch (error) {
+            // The URL parameter below also works in local previews.
+        }
+
+        try {
+            const blogAddress = new URL(backLink.href);
+            const savedPosition = incomingBlogScrollPosition ?? readBlogScrollPosition();
+            blogAddress.searchParams.set('feedScroll', String(savedPosition));
+            window.location.href = blogAddress.href;
+        } catch (error) {
+            window.location.href = backLink.href;
+        }
+    });
+});
+
+// Keep the blog index return button consistent with the browser Back button.
+document.querySelectorAll('.article-back').forEach((backLink) => {
+    if (backLink.closest('.blog-article')) return;
+    backLink.addEventListener('click', (event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            window.location.href = backLink.href;
+        }
+    });
+});
+
 document.querySelectorAll('a, button, img').forEach((control) => {
     control.draggable = false;
 });
