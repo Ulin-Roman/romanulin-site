@@ -1541,9 +1541,30 @@ p { margin-bottom: 1rem; }
     .transformation-board { --portrait-height: 500px; }
 }
 @media (max-width: 680px) {
-    .transformation-board { --portrait-height: 464px; }
+    .transformation-board { --portrait-height: 464px; min-height: 560px; }
     .comparison-person-before { left: 0; }
-    .transformation-action { bottom: 104px; }
+    .comparison-side {
+        top: 24px;
+        bottom: auto;
+        width: 50%;
+        gap: 12px;
+        padding: 16px;
+    }
+    .comparison-tag { width: auto; align-self: flex-start; padding-inline: 14px; }
+    .comparison-after .comparison-tag { align-self: flex-end; }
+    .comparison-side .comparison-points { margin-top: 0; gap: 12px; }
+    .comparison-points > div { position: relative; padding-bottom: 10px; border-bottom: 0; }
+    .comparison-points > div:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: min(64px, 45%);
+        height: 1px;
+        background: rgba(153,211,247,.13);
+    }
+    .comparison-after .comparison-points > div::after { left: auto; right: 0; }
+    .transformation-action { bottom: 16px; }
 }
 /* Shared spacing between the main page sections. */
 :root { --section-space: 72px; }
