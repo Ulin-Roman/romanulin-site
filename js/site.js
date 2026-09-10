@@ -24,7 +24,8 @@ const blogIndexGrid = document.querySelector('.blog-index-grid');
 let incomingBlogScrollPosition = null;
 
 try {
-    const rawScrollParameter = new URL(window.location.href).searchParams.get('feedScroll');
+    const rawScrollParameter = new URL(window.location.href).searchParams.get('feedScroll')
+        ?? window.history.state?.feedScroll ?? null;
     const scrollParameter = Number(rawScrollParameter);
     if (rawScrollParameter !== null && Number.isFinite(scrollParameter) && scrollParameter >= 0) {
         incomingBlogScrollPosition = scrollParameter;
@@ -51,18 +52,19 @@ const saveBlogScrollPosition = () => {
 };
 
 if (blogIndexGrid) {
-    let isRestoringBlogPosition = false;
+    let isRestoringBlogPosition = incomingBlogScrollPosition !== null;
 
     try {
         isRestoringBlogPosition = incomingBlogScrollPosition !== null
             || window.sessionStorage.getItem(blogScrollRestoreKey) === 'true';
     } catch (error) {
-        isRestoringBlogPosition = false;
+        // The URL still carries the position when storage is unavailable.
     }
 
+    const restorePosition = incomingBlogScrollPosition ?? readBlogScrollPosition();
     const restoreBlogScrollPosition = () => {
         if (!isRestoringBlogPosition) return;
-        window.scrollTo(0, incomingBlogScrollPosition ?? readBlogScrollPosition());
+        window.scrollTo({ top: restorePosition, left: 0, behavior: 'instant' });
     };
 
     if (isRestoringBlogPosition) {
@@ -90,7 +92,7 @@ if (blogIndexGrid) {
     window.addEventListener('scroll', () => {
         if (!isRestoringBlogPosition) saveBlogScrollPosition();
     }, { passive: true });
-    blogIndexGrid.addEventListener('click', (event) => {
+    const rememberArticlePosition = (event) => {
         saveBlogScrollPosition();
         const articleLink = event.target instanceof Element ? event.target.closest('a[href]') : null;
         if (!articleLink) return;
@@ -102,6 +104,20 @@ if (blogIndexGrid) {
         } catch (error) {
             // The storage fallback still preserves the position on regular web pages.
         }
+    };
+    blogIndexGrid.addEventListener('click', rememberArticlePosition);
+    blogIndexGrid.addEventListener('auxclick', rememberArticlePosition);
+}
+
+// Retain the feed position through reloads and navigation between articles.
+if (!blogIndexGrid && incomingBlogScrollPosition !== null) {
+    window.history.replaceState({ ...window.history.state, feedScroll: incomingBlogScrollPosition }, '', window.location.href);
+    document.addEventListener('click', (event) => {
+        const link = event.target instanceof Element ? event.target.closest('.related-article') : null;
+        if (!link) return;
+        const address = new URL(link.href);
+        address.searchParams.set('feedScroll', String(incomingBlogScrollPosition));
+        link.href = address.href;
     });
 }
 

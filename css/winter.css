@@ -1519,17 +1519,19 @@ p { margin-bottom: 1rem; }
 }
 
 /* Match the subjects' scale; the longer before portrait extends below the panel. */
-.transformation-board { --portrait-height: 620px; }
+.transformation-board { --portrait-height: 650px; }
 .comparison-person-before,
 .comparison-person-after {
     top: auto;
     bottom: 0;
     transform: none;
     height: var(--portrait-height);
+    mask-image: none;
+    -webkit-mask-image: none;
 }
 .comparison-person-before {
     height: calc(var(--portrait-height) * 1.32);
-    bottom: calc(var(--portrait-height) * -.342);
+    bottom: calc(var(--portrait-height) * -.304);
 }
 .comparison-person-after {
     /* Exclude the background remnant outside the cuff, preserving the hand. */
@@ -1561,13 +1563,13 @@ main > .section { padding-block: var(--section-space); }
 @media (min-width: 681px) {
     .transformation-board {
         --comparison-unit: min(1px, calc(.0806451613vw - .0322580645px));
-        --portrait-height: calc(620 * var(--comparison-unit));
+        --portrait-height: calc(650 * var(--comparison-unit));
         min-height: calc(750 * var(--comparison-unit));
         grid-template-columns: minmax(0, .9fr) minmax(0, 1.35fr) minmax(0, .9fr);
         border-radius: calc(38 * var(--comparison-unit));
     }
     .comparison-people { min-height: calc(750 * var(--comparison-unit)); }
-    .comparison-person-before { left: -5%; }
+    .comparison-person-before { left: -3%; }
     .comparison-person-after { right: -4%; }
     .comparison-side { gap: calc(32 * var(--comparison-unit)); padding: calc(64 * var(--comparison-unit)) calc(28 * var(--comparison-unit)) calc(54 * var(--comparison-unit)); }
     .comparison-tag { min-width: calc(150 * var(--comparison-unit)); min-height: calc(54 * var(--comparison-unit)); gap: calc(11 * var(--comparison-unit)); font-size: calc(20 * var(--comparison-unit)); }
@@ -1577,7 +1579,7 @@ main > .section { padding-block: var(--section-space); }
     .comparison-points > div:last-child { padding-bottom: 0; }
     .comparison-points strong { font-size: calc(35 * var(--comparison-unit)); }
     .comparison-points span { margin-top: calc(9 * var(--comparison-unit)); font-size: calc(12 * var(--comparison-unit)); }
-    .transformation-action { bottom: calc(150 * var(--comparison-unit)); width: calc(390 * var(--comparison-unit)); }
+    .transformation-action { bottom: calc(74 * var(--comparison-unit)); width: calc(390 * var(--comparison-unit)); }
     .transformation-action .hero-consult-button { min-height: calc(64 * var(--comparison-unit)); padding: calc(18 * var(--comparison-unit)) calc(24 * var(--comparison-unit)); font-size: calc(15 * var(--comparison-unit)); }
 }
 
