@@ -1590,8 +1590,8 @@ main > .section { padding-block: var(--section-space); }
         border-radius: calc(38 * var(--comparison-unit));
     }
     .comparison-people { min-height: calc(750 * var(--comparison-unit)); }
-    .comparison-person-before { left: -3%; }
-    .comparison-person-after { right: -4%; }
+    .comparison-person-before { left: calc(-3% - 12 * var(--comparison-unit)); }
+    .comparison-person-after { right: calc(-4% - 12 * var(--comparison-unit)); }
     .comparison-side { gap: calc(32 * var(--comparison-unit)); padding: calc(64 * var(--comparison-unit)) calc(28 * var(--comparison-unit)) calc(54 * var(--comparison-unit)); }
     .comparison-tag { min-width: calc(150 * var(--comparison-unit)); min-height: calc(54 * var(--comparison-unit)); gap: calc(11 * var(--comparison-unit)); font-size: calc(20 * var(--comparison-unit)); }
     .comparison-tag b { width: calc(25 * var(--comparison-unit)); height: calc(25 * var(--comparison-unit)); font-size: calc(17 * var(--comparison-unit)); }
