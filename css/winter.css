@@ -1544,7 +1544,7 @@ p { margin-bottom: 1rem; }
     .transformation-board { --portrait-height: 464px; min-height: 560px; }
     .comparison-person-before { left: 0; }
     .comparison-side {
-        top: 24px;
+        top: 36px;
         bottom: auto;
         width: 50%;
         gap: 12px;
