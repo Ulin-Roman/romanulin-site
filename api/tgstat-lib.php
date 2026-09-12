@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 
-// No credentials live in this library. Cache/config must be outside the web root.
+// No credentials live in this library. The live config/cache are accepted only
+// outside the web root or in the explicitly protected .romanulin-private folder.
 function tgstat_outside_root(string $directory, string $root): bool
 {
     $path = realpath($directory);
@@ -10,6 +11,38 @@ function tgstat_outside_root(string $directory, string $root): bool
     $path = strtolower(str_replace('\\', '/', $path));
     $public = rtrim(strtolower(str_replace('\\', '/', $public)), '/');
     return $path !== $public && strpos($path, $public . '/') !== 0;
+}
+
+function tgstat_inside_private(string $path, string $private): bool
+{
+    $resolved = realpath($path);
+    $resolvedPrivate = realpath($private);
+    if ($resolved === false || $resolvedPrivate === false) return false;
+    $resolved = str_replace('\\', '/', $resolved);
+    $resolvedPrivate = rtrim(str_replace('\\', '/', $resolvedPrivate), '/');
+    if (DIRECTORY_SEPARATOR === '\\') {
+        $resolved = strtolower($resolved);
+        $resolvedPrivate = strtolower($resolvedPrivate);
+    }
+    return $resolved === $resolvedPrivate || strpos($resolved, $resolvedPrivate . '/') === 0;
+}
+
+function tgstat_private_guarded(string $private, string $root): bool
+{
+    $resolvedPrivate = realpath($private);
+    $expectedPrivate = realpath(rtrim($root, '/\\') . '/.romanulin-private');
+    if ($resolvedPrivate === false || $expectedPrivate === false) return false;
+    $resolvedPrivate = str_replace('\\', '/', $resolvedPrivate);
+    $expectedPrivate = str_replace('\\', '/', $expectedPrivate);
+    if (DIRECTORY_SEPARATOR === '\\') {
+        $resolvedPrivate = strtolower($resolvedPrivate);
+        $expectedPrivate = strtolower($expectedPrivate);
+    }
+    if ($resolvedPrivate !== $expectedPrivate) return false;
+    $guard = $private . '/.htaccess';
+    if (!is_file($guard) || !is_readable($guard)) return false;
+    $rules = file_get_contents($guard);
+    return is_string($rules) && preg_match('/^\s*Require\s+all\s+denied\s*$/mi', $rules) === 1;
 }
 
 function tgstat_metrics(array $response): ?array

@@ -36,6 +36,7 @@ jobs:
             scripts/test-reklama.cjs
             tgstat-config.example.php
             **/.env*
+            .romanulin-private/**
             **/.romanulin-private/**
             **/tgstat-config.php
             **/tgstat-config.local.php

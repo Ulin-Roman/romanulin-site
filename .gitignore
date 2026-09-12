@@ -2,8 +2,8 @@
 .env
 .env.*
 !.env.example
-.romanulin-private/
-**/.romanulin-private/
+.romanulin-private/**
+**/.romanulin-private/**
 api/cache/
 tgstat-config.php
 **/tgstat-config.local.php

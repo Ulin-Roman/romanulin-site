@@ -25,7 +25,7 @@ $publicRoot = $_SERVER['DOCUMENT_ROOT'] ?? $root;
 if (!is_dir($publicRoot)) {
     $publicRoot = $root;
 }
-$private = dirname($root) . '/.romanulin-private';
+$private = $root . '/.romanulin-private';
 $configFile = $private . '/tgstat.php';
 
 $resolvePath = static function (string $path): string {

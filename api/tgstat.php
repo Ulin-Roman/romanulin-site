@@ -17,14 +17,12 @@ set_error_handler(static function (): bool { return true; });
 try {
     require_once __DIR__ . '/tgstat-lib.php';
     $root = dirname(__DIR__);
-    $publicRoot = $_SERVER['DOCUMENT_ROOT'] ?? $root;
-    if (!is_dir($publicRoot)) $publicRoot = $root;
-    $private = dirname($root) . '/.romanulin-private';
+    $private = $root . '/.romanulin-private';
     $configFile = $private . '/tgstat.php';
     $config = [];
     if (is_file($configFile)) {
-        if (!tgstat_outside_root(dirname($configFile), $root)
-            || !tgstat_outside_root(dirname($configFile), $publicRoot)) throw new RuntimeException('Private config required');
+        if (!tgstat_private_guarded($private, $root)
+            || !tgstat_inside_private($configFile, $private)) throw new RuntimeException('Protected config required');
         $loaded = require $configFile;
         if (is_array($loaded)) $config = $loaded;
     }
@@ -33,14 +31,14 @@ try {
     $ttl = filter_var($rawTtl, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]) ?: 86400;
     $cacheDirectory = (string)(getenv('TGSTAT_CACHE_DIR') ?: ($config['TGSTAT_CACHE_DIR'] ?? $private . '/cache'));
     if (!is_dir($cacheDirectory)) {
-        // Check parent before creating anything; never create a public cache.
-        if (!is_dir($private)) mkdir($private, 0700, true);
-        if (!tgstat_outside_root(dirname($cacheDirectory), $root)
-            || !tgstat_outside_root(dirname($cacheDirectory), $publicRoot)) throw new RuntimeException('Private cache required');
+        // The protected parent must already exist; never create private storage
+        // elsewhere in public_html by mistake.
+        if (!tgstat_private_guarded($private, $root)
+            || !tgstat_inside_private(dirname($cacheDirectory), $private)) throw new RuntimeException('Protected cache required');
         mkdir($cacheDirectory, 0700, true);
     }
-    if (!tgstat_outside_root($cacheDirectory, $root)
-        || !tgstat_outside_root($cacheDirectory, $publicRoot)) throw new RuntimeException('Private cache required');
+    if (!tgstat_private_guarded($private, $root)
+        || !tgstat_inside_private($cacheDirectory, $private)) throw new RuntimeException('Protected cache required');
     $result = tgstat_cached($cacheDirectory, $token, $ttl);
     echo json_encode($result, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
 } catch (Throwable $error) {

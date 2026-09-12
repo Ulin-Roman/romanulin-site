@@ -7,6 +7,15 @@ function check(bool $ok, string $label): void {
 }
 $dir = sys_get_temp_dir() . '/romanulin-tgstat-test-' . bin2hex(random_bytes(6));
 mkdir($dir, 0700);
+$removeTree = function (string $path) use (&$removeTree): void {
+    if (!is_dir($path)) return;
+    foreach (scandir($path) ?: [] as $name) {
+        if ($name === '.' || $name === '..') continue;
+        $item = $path . '/' . $name;
+        is_dir($item) ? $removeTree($item) : unlink($item);
+    }
+    rmdir($path);
+};
 try {
     $response = ['status' => 'ok', 'response' => ['username' => '@direct_ulin', 'peer_type' => 'channel', 'participants_count' => 100, 'avg_post_reach' => 50, 'err_percent' => 0, 'token' => 'must-not-leak']];
     $metrics = tgstat_metrics($response);
@@ -33,7 +42,16 @@ try {
     check($calls === 3, 'concurrent refresh serves cache');
     flock($lock, LOCK_UN); fclose($lock);
     check(!tgstat_outside_root(__DIR__, dirname(__DIR__)) && tgstat_outside_root($dir, dirname(__DIR__)), 'public cache forbidden');
+    $public = $dir . '/public';
+    $private = $public . '/.romanulin-private';
+    mkdir($private, 0700, true);
+    file_put_contents($private . '/.htaccess', "Require all denied\n");
+    file_put_contents($private . '/tgstat.php', "<?php return [];\n");
+    mkdir($private . '/cache');
+    check(tgstat_private_guarded($private, $public), 'exact protected public_html directory accepted');
+    check(tgstat_inside_private($private . '/tgstat.php', $private)
+        && tgstat_inside_private($private . '/cache', $private)
+        && !tgstat_inside_private($public, $private), 'only protected subtree accepted');
 } finally {
-    foreach (glob($dir . '/*') as $file) unlink($file);
-    rmdir($dir);
+    $removeTree($dir);
 }
