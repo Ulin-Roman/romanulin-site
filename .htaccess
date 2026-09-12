@@ -1,0 +1,10 @@
+# Exact media-kit URL; existing page routes are left untouched.
+RewriteEngine On
+RewriteRule ^reklama$ reklama/index.html [END]
+RewriteCond %{THE_REQUEST} "\s/+reklama/(?:index\.html)?(?:[?\s])" [NC]
+RewriteRule ^reklama/(?:index\.html)?$ /reklama [R=301,L]
+
+# Defense in depth. The live config/cache must still be OUTSIDE public_html.
+<FilesMatch "^(\.env.*|tgstat-config.*\.php)$">
+    Require all denied
+</FilesMatch>

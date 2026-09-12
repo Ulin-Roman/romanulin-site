@@ -93,7 +93,7 @@ for (const a of articles) {
 articles.sort((a, b) => b.published.localeCompare(a.published) || a.slug.localeCompare(b.slug));
 outputs.set(dataFile, JSON.stringify(articles, null, 2) + '\n');
 // Keep search-engine URLs in sync with additions and removals in the catalog.
-const sitemapUrls = ['https://romanulin.ru/', 'https://romanulin.ru/blog/', 'https://romanulin.ru/privacy/', ...articles.map(a => `https://romanulin.ru/blog/${a.slug}/`)];
+const sitemapUrls = ['https://romanulin.ru/', 'https://romanulin.ru/blog/', 'https://romanulin.ru/privacy/', 'https://romanulin.ru/reklama', ...articles.map(a => `https://romanulin.ru/blog/${a.slug}/`)];
 outputs.set('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + sitemapUrls.map(url => `  <url><loc>${escape(url)}</loc></url>`).join('\n') + '\n</urlset>\n');
 const arrow = '<span class="blog-link-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
 function card(a, isHome) {

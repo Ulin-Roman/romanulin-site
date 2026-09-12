@@ -1,0 +1,2 @@
+# Allow the canonical /reklama URL without affecting other site directories.
+DirectorySlash Off

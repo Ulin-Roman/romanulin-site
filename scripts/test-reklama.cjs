@@ -1,0 +1,27 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+(async () => {
+    const root = path.resolve(__dirname, '..');
+    const src = fs.readFileSync(path.join(root, 'js/reklama.js'), 'utf8');
+    const ui = await import('data:text/javascript;base64,' + Buffer.from(src).toString('base64'));
+    const deadline = '2027-01-01T00:00:00+03:00';
+    assert.equal(ui.campaignIsActive(deadline, Date.parse(deadline) - 1), true);
+    assert.equal(ui.campaignIsActive(deadline, Date.parse(deadline)), false);
+    assert.equal(ui.campaignIsActive(deadline, Date.parse(deadline) + 1), false);
+    assert.equal(ui.campaignIsActive('invalid'), false);
+    assert.equal(ui.formatMetric('err_percent', 40.12), '40.1%');
+    assert.equal(ui.formatMetric('err24_percent', null), '—');
+    assert.equal(ui.formatMetric('ci_index', -1), '—');
+    assert.equal(ui.formatMetric('participants_count', 0), '0');
+    assert.match(ui.formatUpdatedAt('2026-09-12T21:10:00Z', new Date('2026-09-13T08:00:00Z')), /сегодня, 00:10/);
+    assert.equal(ui.formatUpdatedAt('invalid'), '');
+    const html = fs.readFileSync(path.join(root, 'reklama/index.html'), 'utf8');
+    assert.equal((html.match(/<h1\b/g) || []).length, 1);
+    assert.match(html, /rel="canonical" href="https:\/\/romanulin.ru\/reklama"/);
+    assert.match(html, /telegram-avatar-blue.jpg/);
+    assert.equal((html.match(/data-metric=/g) || []).length, 6);
+    for (const match of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) JSON.parse(match[1]);
+    assert.deepEqual(JSON.parse(fs.readFileSync(path.join(root, 'data/reklama-examples.json'), 'utf8')), []);
+    console.log('OK: expiry, formatting, SEO, six metrics and empty examples');
+})().catch(error => { console.error(error); process.exitCode = 1; });

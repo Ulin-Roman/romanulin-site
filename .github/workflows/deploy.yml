@@ -31,3 +31,12 @@ jobs:
             package.json
             package-lock.json
             BLOG.md
+            REKLAMA.md
+            scripts/test-tgstat.php
+            scripts/test-reklama.cjs
+            tgstat-config.example.php
+            **/.env*
+            **/.romanulin-private/**
+            **/tgstat-config.php
+            **/tgstat-config.local.php
+            **/api/cache/**
