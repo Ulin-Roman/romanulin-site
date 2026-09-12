@@ -6,6 +6,30 @@ const read = name => fs.readFileSync(path.join(root, name), 'utf8');
 const outputs = new Map();
 const escape = value => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const decode = value => value.replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(+n));
+const normalizeDescription = value => String(value)
+    .replace(/([!?…])(?=[А-ЯЁа-яёA-Za-z])/g, '$1 ')
+    .replace(/\.(?=[А-ЯЁA-Z])/g, '. ')
+    .replace(/([а-яё])(?=\d+\))/g, '$1 ')
+    .replace(/\s+/g, ' ')
+    .trim();
+const seoTitle = value => {
+    const suffix = ' — Роман Улин';
+    const title = String(value).trim();
+    if (title.length + suffix.length <= 70) return title + suffix;
+    const available = 69 - suffix.length;
+    const shortened = title.slice(0, available).replace(/\s+\S*$/, '').replace(/[\s.,;:!?–—-]+$/, '');
+    return `${shortened || title.slice(0, available)}…${suffix}`;
+};
+const upsertMeta = (html, attribute, name, content) => {
+    const markup = `<meta ${attribute}="${name}" content="${escape(content)}">`;
+    const pattern = new RegExp(`<meta\\s+${attribute}="${name.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}"\\s+content="[^"]*">`, 'i');
+    return pattern.test(html) ? html.replace(pattern, markup) : html.replace('</head>', `${markup}\n</head>`);
+};
+const setTagAttribute = (tag, name, value) => {
+    const markup = `${name}="${escape(value)}"`;
+    const pattern = new RegExp(`\\s${name}="[^"]*"`, 'i');
+    return pattern.test(tag) ? tag.replace(pattern, ` ${markup}`) : tag.replace(/>$/, ` ${markup}>`);
+};
 const attr = (html, name) => decode(html.match(new RegExp('\\b' + name + '="([^"]*)"'))?.[1] || '');
 const requireMatch = (html, regex, label) => {
     const match = html.match(regex);
@@ -36,6 +60,8 @@ if (fs.existsSync(path.join(root, dataFile))) {
             views: oldCatalog.find(a => a.slug === slug)?.views || '0' };
     });
 } else throw new Error('Missing data/articles.json; restore the catalog before building.');
+
+for (const article of articles) article.description = normalizeDescription(article.description);
 
 // A new article page is enough: discover its metadata on the next build.
 for (const entry of fs.readdirSync(path.join(root, 'blog'), { withFileTypes: true })) {
@@ -94,6 +120,8 @@ let newIndex = replaceCards(index, 'blog-index-grid', articles, false);
 newIndex = newIndex.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g, (all, json) => {
     const schema = JSON.parse(json);
     if (schema['@type'] !== 'CollectionPage') return all;
+    schema['@id'] = 'https://romanulin.ru/blog/#blog';
+    schema.isPartOf = { '@id': 'https://romanulin.ru/#website' };
     schema.mainEntity = { '@type': 'ItemList', itemListElement: articles.map((a, i) => ({ '@type': 'ListItem', position: i + 1, url: `https://romanulin.ru/blog/${a.slug}/`, name: a.title })) };
     return '<script type="application/ld+json">' + JSON.stringify(schema).replace(/</g, '\\u003c') + '</script>';
 });
@@ -101,14 +129,55 @@ outputs.set('blog/index.html', newIndex);
 // Connect the same named author and blog across machine-readable article metadata.
 for (const a of articles) {
     const file = `blog/${a.slug}/index.html`;
-    const html = read(file).replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g, (all, json) => {
+    const canonical = `https://romanulin.ru/blog/${a.slug}/`;
+    let html = read(file);
+    html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escape(seoTitle(a.title))}</title>`);
+    html = upsertMeta(html, 'name', 'description', a.description);
+    html = upsertMeta(html, 'property', 'og:title', a.title);
+    html = upsertMeta(html, 'property', 'og:description', a.description);
+    html = upsertMeta(html, 'property', 'og:image:alt', a.alt);
+    html = upsertMeta(html, 'property', 'article:published_time', a.published);
+    html = upsertMeta(html, 'property', 'article:modified_time', a.published);
+    html = upsertMeta(html, 'property', 'article:author', 'https://romanulin.ru/#person');
+    html = upsertMeta(html, 'name', 'twitter:title', a.title);
+    html = upsertMeta(html, 'name', 'twitter:description', a.description);
+    html = upsertMeta(html, 'name', 'twitter:image:alt', a.alt);
+    html = html.replace(/(<div class="article-hero-copy"><h1>)[\s\S]*?(<\/h1>)/, `$1${escape(a.title)}$2`);
+    html = html.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g, (all, json) => {
         const schema = JSON.parse(json);
         if (schema['@type'] !== 'BlogPosting') return all;
+        schema['@id'] = `${canonical}#article`;
+        schema.headline = a.title;
+        schema.description = a.description;
+        schema.mainEntityOfPage = canonical;
+        schema.image = { '@type': 'ImageObject', url: `https://romanulin.ru/${a.image}`, width: a.width, height: a.height };
         if (schema.author && !Array.isArray(schema.author) && schema.author['@type'] === 'Person') {
             schema.author['@id'] = 'https://romanulin.ru/#person';
         }
+        schema.publisher = { '@type': 'Person', '@id': 'https://romanulin.ru/#person', name: 'Роман Улин', url: 'https://romanulin.ru/' };
         schema.isPartOf = { '@type': 'Blog', '@id': 'https://romanulin.ru/blog/#blog', url: 'https://romanulin.ru/blog/', name: 'Блог Романа Улина' };
         return '<script type="application/ld+json">' + JSON.stringify(schema).replace(/</g, '\\u003c') + '</script>';
+    });
+    const breadcrumb = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Главная', item: 'https://romanulin.ru/' },
+            { '@type': 'ListItem', position: 2, name: 'Блог', item: 'https://romanulin.ru/blog/' },
+            { '@type': 'ListItem', position: 3, name: a.title, item: canonical }
+        ]
+    };
+    const breadcrumbMarkup = `<script type="application/ld+json" id="article-breadcrumbs">${JSON.stringify(breadcrumb).replace(/</g, '\\u003c')}</script>`;
+    const breadcrumbPattern = /<script type="application\/ld\+json" id="article-breadcrumbs">[\s\S]*?<\/script>/;
+    html = breadcrumbPattern.test(html) ? html.replace(breadcrumbPattern, breadcrumbMarkup) : html.replace('</head>', `${breadcrumbMarkup}\n</head>`);
+    html = html.replace(/(<figure class="article-hero-image[^"]*">)(<img\b[^>]*>)/, (all, figure, image) => {
+        let optimized = setTagAttribute(setTagAttribute(setTagAttribute(image, 'alt', a.alt), 'loading', 'eager'), 'fetchpriority', 'high');
+        const preview = `img/blog/previews/${path.posix.basename(a.image)}.webp`;
+        if (fs.existsSync(path.join(root, preview))) {
+            optimized = setTagAttribute(optimized, 'srcset', `../../${preview} 960w, ../../${a.image} ${a.width}w`);
+            optimized = setTagAttribute(optimized, 'sizes', '(max-width: 1100px) calc(100vw - 28px), 860px');
+        }
+        return figure + optimized;
     });
     outputs.set(file, html);
 }
