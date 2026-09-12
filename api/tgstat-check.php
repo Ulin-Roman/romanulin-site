@@ -36,19 +36,35 @@ $resolvePath = static function (string $path): string {
 $privateExists = is_dir($private);
 $configExists = is_file($configFile);
 $configReadable = $configExists && is_readable($configFile);
+$configFileSizeRaw = $configExists ? filesize($configFile) : false;
+$configFileSize = is_int($configFileSizeRaw) ? $configFileSizeRaw : null;
+$configStartsWithPhpTag = false;
+$configHasReturnKeyword = false;
+$configLoadedType = null;
+$configLoadErrorClass = null;
 $config = [];
 $configLoadedAsArray = false;
 
 if ($configReadable) {
+    $configSource = file_get_contents($configFile);
+    if (is_string($configSource)) {
+        $configStartsWithPhpTag = str_starts_with($configSource, '<?php');
+        $configHasReturnKeyword = preg_match('/\breturn\b/i', $configSource) === 1;
+    }
+    unset($configSource);
+
     $bufferLevel = ob_get_level();
     try {
         // Discard any accidental output from the private file.
-        ob_start();
+        if (!ob_start(static function (string $buffer): string { return ''; })) {
+            throw new RuntimeException('Output buffer unavailable');
+        }
         try {
             $loaded = require $configFile;
         } finally {
             ob_end_clean();
         }
+        $configLoadedType = gettype($loaded);
         if (is_array($loaded)) {
             $config = $loaded;
             $configLoadedAsArray = true;
@@ -57,6 +73,11 @@ if ($configReadable) {
         while (ob_get_level() > $bufferLevel) {
             ob_end_clean();
         }
+        $errorClass = get_class($error);
+        $separator = strrpos($errorClass, '\\');
+        $configLoadErrorClass = $separator === false
+            ? $errorClass
+            : substr($errorClass, $separator + 1);
     }
 }
 
@@ -70,6 +91,11 @@ $result = [
     'private_directory_exists' => $privateExists,
     'config_file_exists' => $configExists,
     'config_file_readable' => $configReadable,
+    'config_file_size' => $configFileSize,
+    'config_starts_with_php_tag' => $configStartsWithPhpTag,
+    'config_loaded_type' => $configLoadedType,
+    'config_load_error_class' => $configLoadErrorClass,
+    'config_has_return_keyword' => $configHasReturnKeyword,
     'config_loaded_as_array' => $configLoadedAsArray,
     'token_present' => $token !== '',
     'token_length' => strlen($token),
