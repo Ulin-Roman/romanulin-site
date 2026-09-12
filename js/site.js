@@ -144,21 +144,6 @@ document.querySelectorAll('.blog-article .article-back').forEach((backLink) => {
     });
 });
 
-// Keep the blog index return button consistent with the browser Back button.
-document.querySelectorAll('.article-back').forEach((backLink) => {
-    if (backLink.closest('.blog-article')) return;
-    backLink.addEventListener('click', (event) => {
-        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-        event.preventDefault();
-
-        if (window.history.length > 1) {
-            window.history.back();
-        } else {
-            window.location.href = backLink.href;
-        }
-    });
-});
-
 document.querySelectorAll('a, button, img').forEach((control) => {
     control.draggable = false;
 });
@@ -788,15 +773,6 @@ if (blogArticle) {
                     attributionParagraph.textContent = attributionParagraph.textContent
                         .replace(/\s*Кейс украл у Николая\.?/u, '')
                         .trim();
-                }
-            }
-
-            if (currentArticle.slug === 'avtotargeting-yandex-direct') {
-                const outline = articleBody.querySelector('ol');
-                const detailItem = outline?.children[1];
-                outline?.classList.add('autotarget-outline');
-                if (detailItem) {
-                    detailItem.textContent = detailItem.textContent.replace(/^1\s+/, '');
                 }
             }
 
