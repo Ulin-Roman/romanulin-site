@@ -19,7 +19,7 @@ const path = require('node:path');
     const html = fs.readFileSync(path.join(root, 'reklama/index.html'), 'utf8');
     assert.equal((html.match(/<h1\b/g) || []).length, 1);
     assert.match(html, /rel="canonical" href="https:\/\/romanulin.ru\/reklama"/);
-    assert.match(html, /telegram-avatar-blue.jpg/);
+    assert.match(html, /img\/reklama\/channel-avatar.jpg/);
     assert.equal((html.match(/data-metric=/g) || []).length, 6);
     for (const match of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) JSON.parse(match[1]);
     assert.deepEqual(JSON.parse(fs.readFileSync(path.join(root, 'data/reklama-examples.json'), 'utf8')), []);

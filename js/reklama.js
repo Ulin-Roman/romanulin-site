@@ -3,13 +3,11 @@ export function campaignIsActive(until, now = Date.now()) {
     const expires = Date.parse(until);
     return Number.isFinite(expires) && now < expires;
 }
-
 export function formatMetric(key, value) {
     if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) return '—';
     if (key === 'err_percent' || key === 'err24_percent') return value.toFixed(1) + '%';
     return new Intl.NumberFormat('ru-RU', { maximumFractionDigits: key === 'ci_index' ? 2 : 0 }).format(value);
 }
-
 export function formatUpdatedAt(value, now = new Date()) {
     const date = new Date(value);
     if (!Number.isFinite(date.getTime())) return '';
@@ -20,26 +18,37 @@ export function formatUpdatedAt(value, now = new Date()) {
     const time = new Intl.DateTimeFormat('ru-RU', { ...zone, hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
     return 'Последнее обновление: ' + label + ', ' + time;
 }
-
+export function reachPercent(value, participants) {
+    if (![value, participants].every(item => typeof item === 'number' && Number.isFinite(item)) || participants <= 0 || value < 0) return 0;
+    return Math.min(100, Math.max(0, value / participants * 100));
+}
 if (typeof document !== 'undefined') {
-    const campaigns = document.querySelectorAll('[data-campaign-until]');
-    const syncCampaigns = () => campaigns.forEach(block => {
-        block.hidden = !campaignIsActive(block.dataset.campaignUntil);
+    document.querySelectorAll('.metric-help').forEach(button => {
+        button.addEventListener('click', event => {
+            event.stopPropagation();
+            const open = button.getAttribute('aria-expanded') === 'true';
+            document.querySelectorAll('.metric-help[aria-expanded="true"]').forEach(item => item.setAttribute('aria-expanded', 'false'));
+            button.setAttribute('aria-expanded', String(!open));
+        });
     });
-    syncCampaigns();
-    // A timer also covers pages left open across midnight; no expired-content flash.
-    let expiryTimer;
-    const scheduleExpiry = () => {
-        clearTimeout(expiryTimer);
-        syncCampaigns();
-        const remaining = [...campaigns].map(block => Date.parse(block.dataset.campaignUntil) - Date.now()).filter(ms => ms > 0);
-        if (remaining.length) expiryTimer = setTimeout(scheduleExpiry, Math.min(...remaining, 2147483647));
-    };
-    scheduleExpiry();
-    document.addEventListener('visibilitychange', scheduleExpiry);
-    window.addEventListener('pageshow', scheduleExpiry);
-
+    document.addEventListener('click', () => document.querySelectorAll('.metric-help[aria-expanded="true"]').forEach(item => item.setAttribute('aria-expanded', 'false')));
     const stats = document.querySelector('[data-tgstat]');
+    function drawCharts(metrics) {
+        const participants = metrics.participants_count;
+        document.querySelectorAll('[data-chart-label]').forEach(el => {
+            el.textContent = formatMetric(el.dataset.chartLabel, metrics[el.dataset.chartLabel]);
+        });
+        document.querySelectorAll('[data-chart-bar]').forEach(el => {
+            const key = el.dataset.chartBar;
+            const percent = key === 'participants_count' ? 100 : reachPercent(metrics[key], participants);
+            el.style.setProperty('--bar', percent.toFixed(2) + '%');
+        });
+        document.querySelectorAll('[data-gauge]').forEach(el => {
+            const value = metrics[el.dataset.gauge];
+            const percent = typeof value === 'number' && Number.isFinite(value) ? Math.min(100, Math.max(0, value)) : 0;
+            el.style.setProperty('--gauge', (percent * 3.6).toFixed(2) + 'deg');
+        });
+    }
     async function loadStats() {
         if (!stats) return;
         const status = stats.querySelector('[data-stat-status]');
@@ -53,49 +62,19 @@ if (typeof document !== 'undefined') {
             if (!data.metrics || !data.updatedAt) throw new Error('Unavailable');
             const timestamp = formatUpdatedAt(data.updatedAt);
             if (!timestamp) throw new Error('Unavailable');
-            stats.querySelectorAll('[data-metric]').forEach(el => {
-                el.textContent = formatMetric(el.dataset.metric, data.metrics[el.dataset.metric]);
-            });
+            stats.querySelectorAll('[data-metric]').forEach(el => { el.textContent = formatMetric(el.dataset.metric, data.metrics[el.dataset.metric]); });
+            drawCharts(data.metrics);
             status.textContent = data.stale ? 'Показаны последние полученные данные канала @direct_ulin' : 'Данные канала @direct_ulin';
             updated.textContent = timestamp;
             updated.hidden = false;
         } catch {
-            status.textContent = 'Статистика временно недоступна. Актуальные показатели можно уточнить у Романа.';
-            stats.querySelectorAll('[data-metric]').forEach(el => { el.textContent = '—'; });
+            status.textContent = 'Статистика временно недоступна. Актуальные показатели можно посмотреть в TGStat.';
+            stats.querySelectorAll('[data-metric],[data-chart-label]').forEach(el => { el.textContent = '—'; });
         } finally {
             clearTimeout(timeout);
             stats.setAttribute('aria-busy', 'false');
-            stats.querySelectorAll('[data-metric]').forEach(el => {
-                el.classList.remove('is-loading');
-                el.removeAttribute('aria-label');
-            });
+            stats.querySelectorAll('[data-metric]').forEach(el => { el.classList.remove('is-loading'); el.removeAttribute('aria-label'); });
         }
     }
     loadStats();
-
-    // Empty by default. Only real publications supplied by the owner belong here.
-    async function loadExamples() {
-        try {
-            const response = await fetch(new URL('../data/reklama-examples.json', import.meta.url));
-            if (!response.ok) return;
-            const examples = await response.json();
-            if (!Array.isArray(examples)) return;
-            const list = document.querySelector('[data-examples-list]');
-            const template = document.querySelector('#placement-example-template');
-            for (const example of examples) {
-                if (!example.title || !example.description || typeof example.url !== 'string') continue;
-                const url = new URL(example.url);
-                if (url.origin !== 'https://t.me' || !/^\/direct_ulin\/\d+$/.test(url.pathname)) continue;
-                const card = template.content.cloneNode(true);
-                card.querySelector('h3').textContent = example.title;
-                card.querySelector('p').textContent = example.description;
-                card.querySelector('a').href = url.href;
-                list.append(card);
-            }
-            document.querySelector('#placement-examples').hidden = !list.children.length;
-        } catch {
-            // An empty or unavailable examples catalog is intentionally invisible.
-        }
-    }
-    loadExamples();
 }

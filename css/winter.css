@@ -677,8 +677,8 @@ p { margin-bottom: 1rem; }
 .blog-card-link:hover { color: #a8efff; }
 .blog-card-link:hover > span { transform: translateX(5px); }
 .blog-more { display: flex; justify-content: center; margin-top: 30px; }
-.blog-all-link { min-width: 230px; display: inline-flex; align-items: center; justify-content: center; gap: 14px; padding: 14px 24px; color: var(--ice); background: rgba(11, 43, 87, .72); border: 1px solid rgba(112, 205, 255, .4); border-radius: 14px; box-shadow: 0 12px 28px rgba(0, 8, 32, .22), inset 0 1px 0 rgba(255,255,255,.08); font-size: 14px; font-weight: 800; text-decoration: none; transition: transform .2s ease, border-color .2s ease, background .2s ease; }
-.blog-all-link:hover { transform: translateY(-2px); background: rgba(15, 59, 116, .88); border-color: rgba(112, 224, 255, .7); }
+.blog-all-link { min-width: 230px; min-height: 52px; display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 0 22px; color: #fff; background: linear-gradient(135deg, #0f4f93, #0b315f); border: 1px solid rgba(101, 221, 255, .34); border-radius: 15px; box-shadow: 0 5px 0 #051f43, 0 14px 30px rgba(0, 0, 0, .25); font-size: 14px; font-weight: 800; text-decoration: none; transition: transform .2s ease, filter .2s ease; }
+.blog-all-link:hover { transform: translateY(-2px); filter: brightness(1.12); }
 .blog-all-link .blog-link-arrow { color: #fff; }
 
 @media (min-width: 901px) {
@@ -941,7 +941,7 @@ p { margin-bottom: 1rem; }
 .cta-actions { display: flex; flex-direction: column; gap: 10px; min-width: 235px; }
 .cta-actions .button, .article-author-actions .button { --button-edge: #155f99; position: relative; isolation: isolate; overflow: hidden; background-size: 100% 100%; background-position: 50% 50%; border: 0; box-shadow: 0 6px 0 var(--button-edge), 0 16px 32px rgba(32,141,221,.28), inset 0 1px 0 rgba(255,255,255,.28), inset 0 -2px 0 rgba(5,35,79,.2); animation: footer-button-bob 3.2s ease-in-out infinite; }
 .cta-actions .button::before, .article-author-actions .button::before { content: ""; position: absolute; z-index: -1; top: -65%; bottom: -65%; left: -38%; width: 24%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.94), transparent); transform: rotate(18deg); animation: footer-button-shine 3.8s ease-in-out infinite; pointer-events: none; }
-.cta-actions .button-telegram, .article-author-actions .button-telegram { --button-edge: #167dab; background-color: #229ed9; background-image: none; }
+.cta-actions .button-telegram, .article-author-actions .button-telegram { --button-edge: #126aa8; background-color: #229ed9; background-image: linear-gradient(to bottom, rgba(255,255,255,.18), transparent 50%), linear-gradient(115deg, #39c5ed 0%, #2eb2e4 34%, #229ed9 62%, #1478bd 100%); }
 .cta-actions .button-max, .article-author-actions .button-max { --button-edge: #293f87; background-color: #4777ef; background-image: linear-gradient(110deg, #3bc9f5 0%, #3979ef 48%, #7350eb 72%, #a32fe1 100%); }
 .cta-actions .button:hover, .article-author-actions .button:hover { transform: translateY(-2px); box-shadow: 0 8px 0 var(--button-edge), 0 21px 40px rgba(47,151,231,.36), inset 0 1px 0 rgba(255,255,255,.32), inset 0 -2px 0 rgba(5,35,79,.18); }
 .cta-actions .button:active, .article-author-actions .button:active { transform: translateY(5px); box-shadow: 0 1px 0 var(--button-edge), 0 7px 16px rgba(24,100,176,.24), inset 0 3px 7px rgba(3,22,63,.3); filter: brightness(.96); transition-duration: .08s; }
@@ -1447,7 +1447,7 @@ p { margin-bottom: 1rem; }
 .channel-panel .channel-copy h2 { margin: 0 0 24px; color: var(--ice); font-size: clamp(2rem, 4vw, 3.65rem); font-weight: 650; }
 .channel-panel .channel-copy p { margin: 0 0 30px; max-width: 590px; color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.75; }
 .channel-panel .channel-copy .channel-lead { margin-bottom: 10px; color: var(--cyan); font-size: var(--subtitle-size); font-weight: 750; line-height: 1.45; }
-.channel-telegram-button { --button-edge: #167dab; position: relative; isolation: isolate; width: 100%; max-width: 390px; min-height: 62px; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 0 22px; color: #fff; background: linear-gradient(135deg, #2bb7e8, #229ed9); border: 1px solid rgba(118,221,255,.34); border-radius: 17px; box-shadow: 0 5px 0 var(--button-edge), 0 15px 34px rgba(34,158,217,.32), inset 0 1px 0 rgba(255,255,255,.24); font-size: 15px; font-weight: 800; text-decoration: none; text-shadow: 0 1px 4px rgba(0,18,80,.42); animation: footer-button-bob 3.2s ease-in-out infinite; transition: transform .2s ease, filter .2s ease, box-shadow .2s ease; }
+.channel-telegram-button { --button-edge: #126aa8; position: relative; isolation: isolate; width: 100%; max-width: 390px; min-height: 62px; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 0 22px; color: #fff; background: linear-gradient(to bottom, rgba(255,255,255,.18), transparent 50%), linear-gradient(115deg, #39c5ed 0%, #2eb2e4 34%, #229ed9 62%, #1478bd 100%); border: 1px solid rgba(118,221,255,.34); border-radius: 17px; box-shadow: 0 5px 0 var(--button-edge), 0 15px 34px rgba(34,158,217,.32), inset 0 1px 0 rgba(255,255,255,.24); font-size: 15px; font-weight: 800; text-decoration: none; text-shadow: 0 1px 4px rgba(0,18,80,.42); animation: footer-button-bob 3.2s ease-in-out infinite; transition: transform .2s ease, filter .2s ease, box-shadow .2s ease; }
 .channel-telegram-button::before { content: ""; position: absolute; z-index: -1; top: -65%; bottom: -65%; left: -38%; width: 24%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.94), transparent); transform: rotate(18deg); animation: footer-button-shine 3.8s ease-in-out infinite; pointer-events: none; }
 .channel-telegram-button svg { width: 24px; height: 24px; }
 .channel-telegram-button > span { text-align: center; }
@@ -1527,9 +1527,9 @@ p { margin-bottom: 1rem; }
     animation: footer-button-bob 3.2s ease-in-out infinite;
 }
 .button.button-telegram:not(.header-logo-button) {
-    --button-edge: #167dab;
+    --button-edge: #126aa8;
     background-color: #229ed9;
-    background-image: none;
+    background-image: linear-gradient(to bottom, rgba(255,255,255,.18), transparent 50%), linear-gradient(115deg, #39c5ed 0%, #2eb2e4 34%, #229ed9 62%, #1478bd 100%);
 }
 .button.button-max:not(.header-logo-button) {
     --button-edge: #293f87;
