@@ -1475,6 +1475,9 @@ p { margin-bottom: 1rem; }
     text-shadow: 0 1px 4px rgba(0, 18, 80, .42);
     animation: footer-button-bob 3.2s ease-in-out infinite;
 }
+.services-contact {
+    position: absolute;
+}
 .button:not(.button-telegram):not(.button-max):not(.header-logo-button)::before,
 .hero-consult-button::before,
 .services-contact::before,
