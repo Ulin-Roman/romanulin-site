@@ -1669,7 +1669,7 @@ p { margin-bottom: 1rem; }
         height: clamp(365px, 109vw, 470px);
     }
     .comparison-person-after {
-        right: -75px;
+        right: -25px;
         bottom: 0;
         height: clamp(315px, 91vw, 390px);
     }
