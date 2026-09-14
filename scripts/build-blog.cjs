@@ -20,6 +20,13 @@ const seoTitle = value => {
     const shortened = title.slice(0, available).replace(/\s+\S*$/, '').replace(/[\s.,;:!?–—-]+$/, '');
     return `${shortened || title.slice(0, available)}…${suffix}`;
 };
+const imageMime = value => value.toLowerCase().endsWith('.png') ? 'image/png' : 'image/jpeg';
+const previewData = article => {
+    const file = `img/blog/previews/${path.posix.basename(article.image)}.webp`;
+    if (!fs.existsSync(path.join(root, file))) return null;
+    const width = Math.min(1200, article.width);
+    return { file, width, height: Math.round(article.height * width / article.width) };
+};
 const upsertMeta = (html, attribute, name, content) => {
     const markup = `<meta ${attribute}="${name}" content="${escape(content)}">`;
     const pattern = new RegExp(`<meta\\s+${attribute}="${name.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}"\\s+content="[^"]*">`, 'i');
@@ -93,8 +100,23 @@ for (const a of articles) {
 articles.sort((a, b) => b.published.localeCompare(a.published) || a.slug.localeCompare(b.slug));
 outputs.set(dataFile, JSON.stringify(articles, null, 2) + '\n');
 // Keep search-engine URLs in sync with additions and removals in the catalog.
-const sitemapUrls = ['https://romanulin.ru/', 'https://romanulin.ru/blog/', 'https://romanulin.ru/privacy/', 'https://romanulin.ru/reklama', ...articles.map(a => `https://romanulin.ru/blog/${a.slug}/`)];
-outputs.set('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + sitemapUrls.map(url => `  <url><loc>${escape(url)}</loc></url>`).join('\n') + '\n</urlset>\n');
+const latest = articles[0].published;
+const staticSitemapUrls = [
+    { url: 'https://romanulin.ru/', lastmod: latest },
+    { url: 'https://romanulin.ru/blog/', lastmod: latest },
+    { url: 'https://romanulin.ru/privacy/', lastmod: '2026-09-07' },
+    { url: 'https://romanulin.ru/reklama', lastmod: '2026-09-14' }
+];
+const sitemapEntry = ({ url, lastmod, image }) => `  <url><loc>${escape(url)}</loc><lastmod>${lastmod}</lastmod>${image ? `<image:image><image:loc>${escape(image)}</image:loc></image:image>` : ''}</url>`;
+const sitemapEntries = [
+    ...staticSitemapUrls.map(sitemapEntry),
+    ...articles.map(a => sitemapEntry({
+        url: `https://romanulin.ru/blog/${a.slug}/`,
+        lastmod: a.published,
+        image: `https://romanulin.ru/${previewData(a)?.file || a.image}`
+    }))
+];
+outputs.set('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' + sitemapEntries.join('\n') + '\n</urlset>\n');
 const arrow = '<span class="blog-link-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
 function card(a, isHome) {
     const href = `${isHome ? 'blog/' : ''}${a.slug}/`;
@@ -106,11 +128,10 @@ function replaceCards(html, className, items, isHome) {
     requireMatch(html, pattern, className);
     return html.replace(pattern, (_, open) => open + '\n' + items.map(a => {
         let markup = card(a, isHome);
-        const preview = 'img/blog/previews/' + path.posix.basename(a.image) + '.webp';
-        if (fs.existsSync(path.join(root, preview))) {
+        const preview = previewData(a);
+        if (preview) {
             const prefix = isHome ? '' : '../';
-            const responsive = a.width > 960 ? ` srcset="${prefix}${escape(preview)} 960w, ${prefix}${escape(a.image)} ${a.width}w" sizes="(max-width: 900px) 90vw, 640px"` : '';
-            markup = markup.replace(`src="${prefix}${escape(a.image)}"`, `src="${prefix}${escape(preview)}"${responsive}`);
+            markup = markup.replace(`src="${prefix}${escape(a.image)}" width="${a.width}" height="${a.height}"`, `src="${prefix}${escape(preview.file)}" width="${preview.width}" height="${preview.height}"`);
         }
         return markup;
     }).join('\n') + '\n');
@@ -135,6 +156,11 @@ for (const a of articles) {
     html = upsertMeta(html, 'name', 'description', a.description);
     html = upsertMeta(html, 'property', 'og:title', a.title);
     html = upsertMeta(html, 'property', 'og:description', a.description);
+    const socialImage = previewData(a);
+    const socialImagePath = socialImage?.file || a.image;
+    const socialWidth = socialImage?.width || a.width;
+    const socialHeight = socialImage?.height || a.height;
+    html = upsertMeta(html, 'property', 'og:image', `https://romanulin.ru/${socialImagePath}`);
     html = upsertMeta(html, 'property', 'og:image:alt', a.alt);
     html = upsertMeta(html, 'property', 'article:published_time', a.published);
     html = upsertMeta(html, 'property', 'article:modified_time', a.published);

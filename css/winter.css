@@ -1662,16 +1662,19 @@ p { margin-bottom: 1rem; }
     .transformation-board { --portrait-height: 500px; }
 }
 @media (max-width: 680px) {
-    .transformation-board { --portrait-height: 464px; min-height: 560px; }
+    .transformation-board {
+        --portrait-height: clamp(360px, 108vw, 464px);
+        min-height: 560px;
+    }
     .comparison-person-before {
-        left: -28px;
-        bottom: -70px;
-        height: clamp(365px, 109vw, 470px);
+        left: -8px;
+        bottom: calc(var(--portrait-height) * -.304);
+        height: calc(var(--portrait-height) * 1.32);
     }
     .comparison-person-after {
-        right: -25px;
+        right: -8px;
         bottom: 0;
-        height: clamp(315px, 91vw, 390px);
+        height: var(--portrait-height);
     }
     .comparison-side {
         top: 36px;
