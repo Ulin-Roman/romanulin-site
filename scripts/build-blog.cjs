@@ -20,7 +20,7 @@ const seoTitle = value => {
     const shortened = title.slice(0, available).replace(/\s+\S*$/, '').replace(/[\s.,;:!?–—-]+$/, '');
     return `${shortened || title.slice(0, available)}…${suffix}`;
 };
-const imageMime = value => value.toLowerCase().endsWith('.png') ? 'image/png' : 'image/jpeg';
+const imageMime = value => value.toLowerCase().endsWith('.webp') ? 'image/webp' : value.toLowerCase().endsWith('.png') ? 'image/png' : 'image/jpeg';
 const previewData = article => {
     const file = `img/blog/previews/${path.posix.basename(article.image)}.webp`;
     if (!fs.existsSync(path.join(root, file))) return null;
@@ -161,12 +161,16 @@ for (const a of articles) {
     const socialWidth = socialImage?.width || a.width;
     const socialHeight = socialImage?.height || a.height;
     html = upsertMeta(html, 'property', 'og:image', `https://romanulin.ru/${socialImagePath}`);
+    html = upsertMeta(html, 'property', 'og:image:width', socialWidth);
+    html = upsertMeta(html, 'property', 'og:image:height', socialHeight);
+    html = upsertMeta(html, 'property', 'og:image:type', imageMime(socialImagePath));
     html = upsertMeta(html, 'property', 'og:image:alt', a.alt);
     html = upsertMeta(html, 'property', 'article:published_time', a.published);
     html = upsertMeta(html, 'property', 'article:modified_time', a.published);
     html = upsertMeta(html, 'property', 'article:author', 'https://romanulin.ru/#person');
     html = upsertMeta(html, 'name', 'twitter:title', a.title);
     html = upsertMeta(html, 'name', 'twitter:description', a.description);
+    html = upsertMeta(html, 'name', 'twitter:image', `https://romanulin.ru/${socialImagePath}`);
     html = upsertMeta(html, 'name', 'twitter:image:alt', a.alt);
     html = html.replace(/(<div class="article-hero-copy"><h1>)[\s\S]*?(<\/h1>)/, `$1${escape(a.title)}$2`);
     html = html.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g, (all, json) => {
@@ -176,7 +180,7 @@ for (const a of articles) {
         schema.headline = a.title;
         schema.description = a.description;
         schema.mainEntityOfPage = canonical;
-        schema.image = { '@type': 'ImageObject', url: `https://romanulin.ru/${a.image}`, width: a.width, height: a.height };
+        schema.image = { '@type': 'ImageObject', url: `https://romanulin.ru/${socialImagePath}`, width: socialWidth, height: socialHeight };
         if (schema.author && !Array.isArray(schema.author) && schema.author['@type'] === 'Person') {
             schema.author['@id'] = 'https://romanulin.ru/#person';
         }
@@ -198,10 +202,12 @@ for (const a of articles) {
     html = breadcrumbPattern.test(html) ? html.replace(breadcrumbPattern, breadcrumbMarkup) : html.replace('</head>', `${breadcrumbMarkup}\n</head>`);
     html = html.replace(/(<figure class="article-hero-image[^"]*">)(<img\b[^>]*>)/, (all, figure, image) => {
         let optimized = setTagAttribute(setTagAttribute(setTagAttribute(image, 'alt', a.alt), 'loading', 'eager'), 'fetchpriority', 'high');
-        const preview = `img/blog/previews/${path.posix.basename(a.image)}.webp`;
-        if (fs.existsSync(path.join(root, preview))) {
-            optimized = setTagAttribute(optimized, 'srcset', `../../${preview} 960w, ../../${a.image} ${a.width}w`);
-            optimized = setTagAttribute(optimized, 'sizes', '(max-width: 1100px) calc(100vw - 28px), 860px');
+        const preview = previewData(a);
+        if (preview) {
+            optimized = setTagAttribute(optimized, 'src', `../../${preview.file}`);
+            optimized = setTagAttribute(optimized, 'width', preview.width);
+            optimized = setTagAttribute(optimized, 'height', preview.height);
+            optimized = optimized.replace(/\s(?:srcset|sizes)="[^"]*"/gi, '');
         }
         return figure + optimized;
     });

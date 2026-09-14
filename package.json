@@ -3,6 +3,6 @@
   "scripts": {
     "build": "node scripts/build-blog.cjs",
     "check": "node scripts/build-blog.cjs --check",
-    "test": "node scripts/test-blog.cjs"
+    "test": "node scripts/test-site.cjs && node scripts/test-blog.cjs && node scripts/test-reklama.cjs"
   }
 }

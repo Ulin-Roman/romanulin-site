@@ -22,6 +22,25 @@
     .media-actions{order:5;width:100%;margin:0}
     .media-actions .hero-consult-button{width:100%;max-width:none}
 }
+
+/* Hero order and full-grid channel image on phones. */
+@media(max-width:680px){
+    .media-subtitle{order:1}
+    .media-hero-photo{order:2}
+    .media-channel-avatar{width:100%;max-width:none}
+}
+
+/* Crop the audience portrait around the torso on larger screens. */
+@media(min-width:681px){
+    #audience .media-story-photo img{
+        transform:translateX(-8%) scale(1.82);
+        transform-origin:center top;
+    }
+    #formats .media-story-wide img{
+        transform:translateY(22px) scale(2.1);
+        transform-origin:center bottom;
+    }
+}
 @media(max-width:680px){
     .media-story,.media-story-reverse{min-height:max(760px,calc(660px + 36vw))}
     .media-story-photo{position:absolute;inset:0}

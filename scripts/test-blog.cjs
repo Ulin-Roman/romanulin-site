@@ -33,7 +33,10 @@ try {
     const updated = JSON.parse(fs.readFileSync(path.join(temp, 'data/articles.json'), 'utf8'));
     assert.equal(updated.length, articles.length + 1);
     assert.equal(updated[0].slug, 'discovery-test');
-    assert.match(fs.readFileSync(path.join(temp, 'sitemap.xml'), 'utf8'), /https:\/\/romanulin.ru\/blog\/discovery-test\//);
+    const sitemap = fs.readFileSync(path.join(temp, 'sitemap.xml'), 'utf8');
+    assert.match(sitemap, /https:\/\/romanulin.ru\/blog\/discovery-test\//);
+    assert.match(sitemap, /<lastmod>2099-01-01<\/lastmod>/);
+    assert.match(sitemap, /<image:image><image:loc>/);
     for (const name of ['index.html', 'blog/index.html']) {
         const html = fs.readFileSync(path.join(temp, name), 'utf8');
         assert.match(html.match(/<article class="blog-card">[\s\S]*?<\/article>/)[0], /discovery-test/);

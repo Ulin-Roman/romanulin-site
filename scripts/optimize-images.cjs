@@ -10,9 +10,8 @@ const articles = JSON.parse(fs.readFileSync(path.join(root, 'data/articles.json'
         const bytes = fs.statSync(source).size;
         if (bytes < 200000) continue;
         const target = path.join(root, 'img/blog/previews', path.basename(image) + '.webp');
-        // Preserve framing; lossless encoding after resizing, originals remain available.
-        const buffer = await sharp(source).rotate().resize({ width: 960, withoutEnlargement: true }).webp({ lossless: true }).toBuffer();
-        if (buffer.length >= bytes) continue;
+        // 1200 px is enough for the article column and social previews; originals remain as sources.
+        const buffer = await sharp(source).rotate().resize({ width: 1200, withoutEnlargement: true }).webp({ quality: 82, effort: 6 }).toBuffer();
         fs.mkdirSync(path.dirname(target), { recursive: true });
         fs.writeFileSync(target, buffer);
         before += bytes; after += buffer.length; count++;
