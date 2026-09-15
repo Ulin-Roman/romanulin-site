@@ -94,3 +94,84 @@
         overflow:hidden;
     }
 }
+
+/* Let the audience portrait sit on the page instead of inside a photo tile. */
+#audience .media-story{
+    min-height:720px;
+    overflow:visible;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+}
+#audience .media-story-photo{
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    align-self:end;
+    height:auto;
+    max-height:540px;
+    aspect-ratio:50 / 54;
+    overflow:hidden;
+    background:radial-gradient(ellipse at 48% 54%,rgba(51,145,245,.20),transparent 66%);
+    mask-image:linear-gradient(to bottom,#000 0 98%,transparent 100%);
+}
+#audience .media-story-photo img{
+    width:min(100%,500px);
+    height:auto;
+    max-height:none;
+    object-fit:contain;
+    object-position:center bottom;
+    transform:none;
+    filter:drop-shadow(0 30px 50px rgba(0,5,25,.52));
+}
+#audience .media-story-copy{
+    padding-left:clamp(28px,5vw,78px);
+}
+@media(min-width:681px) and (max-width:900px){
+    #audience .media-story{
+        min-height:620px;
+    }
+}
+@media(max-width:680px){
+    #audience .media-story{
+        display:flex;
+        flex-direction:column;
+        min-height:0;
+    }
+    #audience .media-story-photo{
+        position:relative;
+        inset:auto;
+        width:100%;
+        height:min(90vw,465px);
+        max-height:none;
+        aspect-ratio:auto;
+        margin-top:20px;
+        overflow:hidden;
+    }
+    #audience .media-story-photo:after{
+        display:none;
+    }
+    #audience .media-story-photo img{
+        position:absolute;
+        top:0;
+        left:50%;
+        width:min(82vw,430px);
+        height:auto;
+        max-height:none;
+        transform:translateX(-50%);
+    }
+    #audience .media-story-copy{
+        min-height:0;
+        align-items:center;
+        justify-content:flex-start;
+        padding:12px 18px 34px;
+        text-align:center;
+    }
+    #audience .media-story-copy .media-section-subtitle{
+        margin-bottom:16px!important;
+    }
+    #audience .media-tags{
+        justify-content:center;
+    }
+}
