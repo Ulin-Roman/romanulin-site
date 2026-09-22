@@ -601,6 +601,11 @@ p { margin-bottom: 1rem; }
 .case-modal-close span + span { transform: translate(-50%, -50%) rotate(-45deg); }
 .case-modal-viewport { min-height: 0; overflow: auto; padding: clamp(14px, 2.1vw, 28px); background: radial-gradient(circle at 50% 0, rgba(108, 212, 255, .12), transparent 44%), rgba(1, 8, 24, .5); scrollbar-color: rgba(101,221,255,.5) transparent; }
 .case-modal-viewport img { width: 100%; height: auto; min-height: 180px; object-fit: contain; background: #fff; border-radius: 17px; box-shadow: 0 22px 65px rgba(0, 5, 23, .5); user-select: none; -webkit-user-drag: none; }
+/* Fit the taller annual report in the existing case viewer. */
+.case-modal-viewport img[src$="keys-seks-shop-1-god.jpg"] { display: block; width: auto; max-width: 100%; height: auto; min-height: 0; max-height: max(1px, calc(100svh - 320px)); margin-inline: auto; }
+@media(max-width:680px) {
+    .case-modal-viewport img[src$="keys-seks-shop-1-god.jpg"] { max-height: max(1px, calc(100svh - 250px)); }
+}
 .case-modal-footer { min-height: 74px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 18px; padding: 12px 24px; border-top: 1px solid rgba(204,235,255,.13); }
 .case-modal-nav { min-height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 16px; color: #dff7ff; background: rgba(188, 228, 255, .075); border: 1px solid rgba(210,239,255,.17); border-radius: 13px; cursor: pointer; font-size: 11px; font-weight: 800; transition: background .2s ease, border-color .2s ease; }
 .case-modal-nav svg { width: 19px; height: 19px; display: block; flex: 0 0 19px; }
