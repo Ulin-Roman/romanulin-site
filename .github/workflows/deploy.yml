@@ -13,6 +13,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Validate generated pages and local assets
+        run: |
+          npm run check
+          npm test
+
       - name: Upload to Timeweb
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -34,6 +39,7 @@ jobs:
             REKLAMA.md
             scripts/test-tgstat.php
             scripts/test-reklama.cjs
+            scripts/**
             tgstat-config.example.php
             **/.env*
             .romanulin-private/**

@@ -45,7 +45,7 @@ const requireMatch = (html, regex, label) => {
 };
 const home = read('index.html');
 const index = read('blog/index.html');
-const site = read('js/site.js');
+const site = read('js/article.js');
 const catalogPattern = /const articleCatalog = (\[[\s\S]*?\]);/;
 const oldCatalog = JSON.parse(requireMatch(site, catalogPattern, 'articleCatalog')[1]);
 const dataFile = 'data/articles.json';
@@ -126,8 +126,9 @@ function card(a, isHome) {
 function replaceCards(html, className, items, isHome) {
     const pattern = new RegExp('(<div class="' + className + '">)\\s*(?:<article class="blog-card">[\\s\\S]*?<\\/article>\\s*)+');
     requireMatch(html, pattern, className);
-    return html.replace(pattern, (_, open) => open + '\n' + items.map(a => {
+    return html.replace(pattern, (_, open) => open + '\n' + items.map((a, position) => {
         let markup = card(a, isHome);
+        if (!isHome && position < 3) markup = markup.replace('loading="lazy"', 'loading="eager"');
         const preview = previewData(a);
         if (preview) {
             const prefix = isHome ? '' : '../';
@@ -202,6 +203,7 @@ for (const a of articles) {
     html = breadcrumbPattern.test(html) ? html.replace(breadcrumbPattern, breadcrumbMarkup) : html.replace('</head>', `${breadcrumbMarkup}\n</head>`);
     html = html.replace(/(<figure class="article-hero-image[^"]*">)(<img\b[^>]*>)/, (all, figure, image) => {
         let optimized = setTagAttribute(setTagAttribute(setTagAttribute(image, 'alt', a.alt), 'loading', 'eager'), 'fetchpriority', 'high');
+        optimized = setTagAttribute(optimized, 'data-full-src', `../../${a.image}`);
         const preview = previewData(a);
         if (preview) {
             optimized = setTagAttribute(optimized, 'src', `../../${preview.file}`);
@@ -213,8 +215,12 @@ for (const a of articles) {
     });
     outputs.set(file, html);
 }
-const related = articles.map(a => ({ slug: a.slug, title: escape(a.title), date: escape(a.date), image: path.posix.relative('img/blog', a.image), views: a.views }));
-outputs.set('js/site.js', site.replace(catalogPattern, () => 'const articleCatalog = ' + JSON.stringify(related).replace(/</g, '\\u003c') + ';'));
+const related = articles.map(a => {
+    const thumbnail = `img/blog/thumbnails/${path.posix.basename(a.image)}.webp`;
+    const image = fs.existsSync(path.join(root, thumbnail)) ? thumbnail : (previewData(a)?.file || a.image);
+    return { slug: a.slug, title: escape(a.title), date: escape(a.date), image: path.posix.relative('img/blog', image), views: a.views };
+});
+outputs.set('js/article.js', site.replace(catalogPattern, () => 'const articleCatalog = ' + JSON.stringify(related).replace(/</g, '\\u003c') + ';'));
 const stale = [...outputs].filter(([file, value]) => !fs.existsSync(path.join(root, file)) || read(file) !== value);
 if (process.argv.includes('--check')) {
     if (stale.length) throw new Error('Run npm run build; outdated: ' + stale.map(([f]) => f).join(', '));

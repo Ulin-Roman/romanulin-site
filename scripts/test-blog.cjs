@@ -12,7 +12,7 @@ const write = (name, value) => {
     fs.writeFileSync(target, value);
 };
 try {
-    for (const name of ['index.html', 'blog/index.html', 'js/site.js', 'data/articles.json', 'sitemap.xml', 'scripts/build-blog.cjs']) {
+    for (const name of ['index.html', 'blog/index.html', 'js/article.js', 'data/articles.json', 'sitemap.xml', 'scripts/build-blog.cjs']) {
         write(name, fs.readFileSync(path.join(root, name)));
     }
     for (const a of articles) {
@@ -21,6 +21,8 @@ try {
         write(a.image, 'fixture');
         const preview = 'img/blog/previews/' + path.basename(a.image) + '.webp';
         if (fs.existsSync(path.join(root, preview))) write(preview, 'fixture');
+        const thumbnail = 'img/blog/thumbnails/' + path.basename(a.image) + '.webp';
+        if (fs.existsSync(path.join(root, thumbnail))) write(thumbnail, 'fixture');
     }
     const run = (...args) => execFileSync(process.execPath, ['scripts/build-blog.cjs', ...args], { cwd: temp, encoding: 'utf8' });
     run('--check');
@@ -42,7 +44,7 @@ try {
         assert.match(html.match(/<article class="blog-card">[\s\S]*?<\/article>/)[0], /discovery-test/);
         assert.equal((html.match(/<article class="blog-card">/g) || []).length, name === 'index.html' ? 3 : updated.length);
     }
-    const js = fs.readFileSync(path.join(temp, 'js/site.js'), 'utf8');
+    const js = fs.readFileSync(path.join(temp, 'js/article.js'), 'utf8');
     const catalog = JSON.parse(js.match(/const articleCatalog = (\[[\s\S]*?\]);/)[1]);
     assert.equal(catalog[0].slug, 'discovery-test');
     assert.deepEqual(updated.slice(1), articles);

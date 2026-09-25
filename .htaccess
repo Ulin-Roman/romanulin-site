@@ -4,6 +4,30 @@ RewriteRule ^reklama$ reklama/index.html [END]
 RewriteCond %{THE_REQUEST} "\s/+reklama/(?:index\.html)?(?:[?\s])" [NC]
 RewriteRule ^reklama/(?:index\.html)?$ /reklama [R=301,L]
 
+# Send crawlers and visitors to the canonical directory URL, not an HTML alias.
+RewriteCond %{THE_REQUEST} "\s/+(.*/)?index\.html(?:[?\s])" [NC]
+RewriteRule ^(.*)index\.html$ /$1 [R=301,L]
+
+# Revalidate HTML; cache versionless assets briefly so updates remain visible.
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 hour"
+    ExpiresByType application/javascript "access plus 1 hour"
+    ExpiresByType text/javascript "access plus 1 hour"
+    ExpiresByType image/webp "access plus 7 days"
+    ExpiresByType image/jpeg "access plus 7 days"
+    ExpiresByType image/png "access plus 7 days"
+    ExpiresByType image/svg+xml "access plus 7 days"
+</IfModule>
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json application/xml text/xml image/svg+xml
+</IfModule>
+<IfModule mod_headers.c>
+    <FilesMatch "\.html$">
+        Header set Cache-Control "no-cache"
+    </FilesMatch>
+</IfModule>
+
 # Defense in depth. The live config/cache must still be OUTSIDE public_html.
 <FilesMatch "^(\.env.*|tgstat-config.*\.php)$">
     Require all denied

@@ -66,7 +66,7 @@ for (const file of htmlFiles) {
     }
     for (const match of html.matchAll(/<(?:img|script|link|source|a)\b[^>]*>/gi)) {
         const tag = match[0];
-        for (const name of ['src', 'href']) {
+        for (const name of ['src', 'href', 'data-full-src']) {
             const value = attr(tag, name);
             const target = localTarget(file, value);
             if (!target) continue;
@@ -77,6 +77,17 @@ for (const file of htmlFiles) {
         const target = localTarget(file, match[1]);
         if (target) check(fs.existsSync(target), `${relative}: отсутствует социальное изображение ${match[1]}`);
     }
+}
+
+// Runtime article links and thumbnails must also resolve before deployment.
+const articleScript = fs.readFileSync(path.join(root, 'js/article.js'), 'utf8');
+const catalog = JSON.parse(articleScript.match(/const articleCatalog = (\[[\s\S]*?\]);/)[1]);
+for (const item of catalog) {
+    check(fs.existsSync(path.join(root, 'img/blog', item.image)), `article catalog: missing ${item.image}`);
+    const articleHtml = fs.readFileSync(path.join(root, 'blog', item.slug, 'index.html'), 'utf8');
+    const articleScriptPosition = articleHtml.indexOf('src="../../js/article.js"');
+    const commonScriptPosition = articleHtml.indexOf('src="../../js/site.js"');
+    check(articleScriptPosition > 0 && commonScriptPosition > articleScriptPosition, `${item.slug}: article components must initialize before shared animations`);
 }
 
 const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
