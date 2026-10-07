@@ -4,19 +4,55 @@ on:
   push:
     branches:
       - main
+  schedule:
+    # 00:00 Europe/Moscow (UTC+3).
+    - cron: '0 21 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: publish-main
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      pages: write
 
     steps:
-      - name: Checkout
+      - name: Checkout latest main
         uses: actions/checkout@v4
+        with:
+          ref: main
 
-      - name: Validate generated pages and local assets
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Refresh Telegram counters
+        continue-on-error: true
+        run: npm run update:views
+
+      - name: Build and validate pages
         run: |
+          npm run build
           npm run check
           npm test
+
+      - name: Save updated counters
+        id: counters
+        run: |
+          git add data/articles.json js/article.js
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Refresh Telegram post views'
+            git push origin HEAD:main
+            echo 'changed=true' >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Upload to Timeweb
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -47,3 +83,9 @@ jobs:
             **/tgstat-config.php
             **/tgstat-config.local.php
             **/api/cache/**
+
+      - name: Request GitHub Pages build for updated counters
+        if: steps.counters.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds"
