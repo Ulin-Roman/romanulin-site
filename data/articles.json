@@ -1,5 +1,19 @@
 [
   {
+    "slug": "yandex-direct-zarabotal",
+    "title": "Яндекс Директ заработал!",
+    "published": "2026-10-15",
+    "date": "15 октября 2026",
+    "description": "Яндекс Директ снова работает, но пока с ограничениями. Ссылка на актуальный список ограничений и проверка рекламных кабинетов.",
+    "image": "img/blog/yandex-direct-zarabotal.jpg",
+    "width": 1680,
+    "height": 827,
+    "alt": "Рекламный кабинет Яндекс Директа с уведомлениями об ограничениях работы и неполной статистике конверсий",
+    "category": "news",
+    "categoryLabel": "Новости",
+    "views": "517"
+  },
+  {
     "slug": "yandex-reklama-max-analog-tg-ads",
     "title": "Яндекс раскатал свой аналог TG Ads в MAX!",
     "published": "2026-10-07",
