@@ -1,5 +1,19 @@
 [
   {
+    "slug": "klonirovanie-tmk-yandex-direct",
+    "title": "Теперь можно клонировать ТМК!",
+    "published": "2026-10-27",
+    "date": "27 октября 2026",
+    "description": "Расширение для клонирования ТМК в Яндекс Директе: копия кампании в один клик, редактирование настроек и замена текстов. Для Chrome и Яндекс Браузера.",
+    "image": "img/blog/klonirovanie-tmk-yandex-direct.png",
+    "width": 877,
+    "height": 705,
+    "alt": "Форма клонирования товарной кампании в Яндекс Директе с настройками ссылки, фида, регионов, стратегии, бюджета и объявлений",
+    "category": "news",
+    "categoryLabel": "Новости",
+    "views": "27"
+  },
+  {
     "slug": "yandex-direct-osnovnye-funktsii-vosstanovleny",
     "title": "Работа основных функций Яндекс Директа восстановлена!",
     "published": "2026-10-20",
