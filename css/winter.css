@@ -928,8 +928,8 @@ p { margin-bottom: 1rem; }
 .scroll-top {
     position: fixed;
     z-index: 180;
-    right: max(20px, env(safe-area-inset-right));
-    bottom: max(64px, env(safe-area-inset-bottom));
+    right: max(24px, env(safe-area-inset-right));
+    bottom: calc(144px + env(safe-area-inset-bottom, 0px));
     width: 56px;
     height: 56px;
     display: grid;
@@ -938,7 +938,7 @@ p { margin-bottom: 1rem; }
     color: #eefdff;
     background: linear-gradient(145deg, #299de9, #1766d8);
     border: 1px solid rgba(178,231,255,.55);
-    border-radius: 18px;
+    border-radius: 50%;
     box-shadow: 0 6px 0 #0a3d91, 0 16px 34px rgba(18,111,219,.34), inset 0 1px 0 rgba(255,255,255,.35);
     opacity: 0;
     visibility: hidden;
@@ -1079,7 +1079,7 @@ p { margin-bottom: 1rem; }
 @media (max-width: 680px) {
     body { padding-top: 74px; }
     .container { width: min(100% - 28px, 1240px); }
-    .scroll-top { right: max(13px, env(safe-area-inset-right)); bottom: calc(130px + env(safe-area-inset-bottom, 0px)); width: 49px; height: 49px; border-radius: 15px; }
+    .scroll-top { right: max(16px, env(safe-area-inset-right)); width: 49px; height: 49px; }
     .scroll-top svg { width: 22px; height: 22px; }
     .section { padding: 52px 0; }
     .site-header { padding: 8px 0; }
