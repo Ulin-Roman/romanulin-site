@@ -213,7 +213,7 @@ function initializeSnow(snowLayer) {
     snowLayer.replaceChildren(fragment);
 }
 
-// Shared holiday decoration: CSS-only twinkle, no frame loop or asset requests.
+// Repeating holiday artwork: https://atuin.ru/blog/girlyanda-dlya-shapki-sajta/
 (() => {
     const headerRow = document.querySelector('.site-header .header-row');
     if (!headerRow || headerRow.querySelector('.header-garland')) return;
@@ -221,63 +221,6 @@ function initializeSnow(snowLayer) {
     const garland = document.createElement('div');
     garland.className = 'header-garland';
     garland.setAttribute('aria-hidden', 'true');
-    const colors = ['#ffd47b', '#ef7970', '#8ee0b4', '#8dcaff'];
-    const bulbDirections = [
-        [-65, 35, 145, -125, 65, -20],
-        [55, -135, -35, 110, -55, 30],
-        [-45, 125, 60, -145, 35, -65]
-    ];
-    const createStrand = (cycles, count, size) => {
-        const strand = document.createElement('div');
-        strand.className = `header-garland-strand header-garland-strand--${size}`;
-        const heightAt = t => -9 + 118 * (1 - Math.cos(2 * Math.PI * cycles * t)) / 2;
-        const paths = { front: [], back: [] };
-        for (let cycle = 0; cycle < cycles; cycle += 1) {
-            for (const [side, first, last] of [['front', 0, 16], ['back', 16, 32]]) {
-                for (let step = first; step <= last; step += 1) {
-                    const t = (cycle + step / 32) / cycles;
-                    paths[side].push(`${step === first ? 'M' : 'L'}${(t * 1000).toFixed(2)} ${heightAt(t).toFixed(2)}`);
-                }
-            }
-        }
-        const fasteners = [];
-        const attachmentPhase = Math.acos(1 - 2 * (2 + 9) / 118) / (2 * Math.PI);
-        for (let anchor = 1; anchor < cycles; anchor += 1) {
-            if (cycles > 3 && anchor % 2 === 0) continue;
-            const x = (anchor + attachmentPhase) / cycles * 1000;
-            fasteners.push(`<g class="header-garland-fastener" transform="translate(${x.toFixed(2)} -1)"><rect x="-2.1" y="0" width="4.2" height="7" rx="1.2"/><circle cx="0" cy="1.6" r=".65"/></g>`);
-        }
-        const layers = {};
-        for (const side of ['back', 'front']) {
-            const layer = document.createElement('div');
-            layer.className = `header-garland-layer header-garland-layer--${side}`;
-            const wire = paths[side].join(' ');
-            layer.innerHTML = `<svg viewBox="0 0 1000 100" preserveAspectRatio="none" focusable="false"><path class="header-garland-wire header-garland-wire--shadow" d="${wire}" transform="translate(0 2)"/><path class="header-garland-wire header-garland-wire--rear" d="${wire}" transform="translate(0 1.5)"/><path class="header-garland-wire header-garland-wire--front" d="${wire}"/><path class="header-garland-wire header-garland-wire--highlight" d="${wire}" transform="translate(0 -.6)"/>${side === 'front' ? fasteners.join('') : ''}</svg>`;
-            layers[side] = layer;
-            strand.append(layer);
-        }
-        for (let index = 0; index < count; index += 1) {
-            const t = (index + .5) / count;
-            const light = document.createElement('i');
-            light.className = 'header-garland-light';
-            light.innerHTML = '<span class="garland-bulb-cap"></span><span class="garland-bulb-glass"><span class="garland-bulb-filament"></span></span>';
-            light.style.setProperty('--garland-x', `${(t * 100).toFixed(2)}%`);
-            light.style.setProperty('--garland-y', `${heightAt(t).toFixed(2)}%`);
-            light.style.setProperty('--garland-color', colors[index % colors.length]);
-            const cycle = Math.floor(t * cycles);
-            const baseAngle = bulbDirections[cycle % bulbDirections.length][index % 6];
-            const naturalOffset = Math.sin((index + 1) * 2.399963) * 10;
-            const limit = heightAt(t) < 12 ? 80 : 150;
-            const angle = Math.max(-limit, Math.min(limit, baseAngle + naturalOffset));
-            light.style.setProperty('--garland-angle', `${angle.toFixed(2)}deg`);
-            light.style.setProperty('--garland-period', `${[2.8, 3.2, 3.6][index % 3]}s`);
-            light.style.setProperty('--garland-delay', `${(-index * .37).toFixed(2)}s`);
-            const phase = t * cycles % 1;
-            layers[phase < .5 ? 'front' : 'back'].append(light);
-        }
-        return strand;
-    };
-    garland.append(createStrand(6, 36, 'desktop'), createStrand(3, 18, 'mobile'));
 
     const toggle = document.createElement('button');
     toggle.type = 'button';
