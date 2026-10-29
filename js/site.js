@@ -233,12 +233,19 @@ function initializeSnow(snowLayer) {
             const t = step / samples;
             points.push(`${step ? 'L' : 'M'}${(t * 1000).toFixed(2)} ${heightAt(t).toFixed(2)}`);
         }
-        strand.innerHTML = `<svg viewBox="0 0 1000 100" preserveAspectRatio="none" focusable="false"><path class="header-garland-wire" d="${points.join(' ')}"/></svg>`;
+        const wire = points.join(' ');
+        const fasteners = [];
+        for (let anchor = 1; anchor < cycles; anchor += 1) {
+            if (cycles > 3 && anchor % 2 === 0) continue;
+            fasteners.push(`<g class="header-garland-fastener" transform="translate(${(anchor / cycles * 1000).toFixed(2)} 7)"><rect x="-2.1" y="0" width="4.2" height="7" rx="1.2"/><circle cx="0" cy="1.6" r=".65"/></g>`);
+        }
+        strand.innerHTML = `<svg viewBox="0 0 1000 100" preserveAspectRatio="none" focusable="false"><path class="header-garland-wire header-garland-wire--shadow" d="${wire}" transform="translate(0 2)"/><path class="header-garland-wire header-garland-wire--rear" d="${wire}" transform="translate(0 1.5)"/><path class="header-garland-wire header-garland-wire--front" d="${wire}"/><path class="header-garland-wire header-garland-wire--highlight" d="${wire}" transform="translate(0 -.6)"/>${fasteners.join('')}</svg>`;
         const lights = document.createDocumentFragment();
         for (let index = 0; index < count; index += 1) {
             const t = (index + .5) / count;
             const light = document.createElement('i');
             light.className = 'header-garland-light';
+            light.innerHTML = '<span class="garland-bulb-cap"></span><span class="garland-bulb-glass"><span class="garland-bulb-filament"></span></span>';
             light.style.setProperty('--garland-x', `${(t * 100).toFixed(2)}%`);
             light.style.setProperty('--garland-y', `${heightAt(t).toFixed(2)}%`);
             light.style.setProperty('--garland-color', colors[index % colors.length]);

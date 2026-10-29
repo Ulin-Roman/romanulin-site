@@ -89,7 +89,7 @@ for (const item of catalog) {
     check(fs.existsSync(path.join(root, 'img/blog', item.image)), `article catalog: missing ${item.image}`);
     const articleHtml = fs.readFileSync(path.join(root, 'blog', item.slug, 'index.html'), 'utf8');
     const articleScriptPosition = articleHtml.indexOf('src="../../js/article.js"');
-    const commonScriptPosition = articleHtml.indexOf('src="../../js/site.js"');
+    const commonScriptPosition = articleHtml.search(/\ssrc=["']\.\.\/\.\.\/js\/site\.js(?:[?#][^"']*)?["']/i);
     check(articleScriptPosition > 0 && commonScriptPosition > articleScriptPosition, `${item.slug}: article components must initialize before shared animations`);
 }
 

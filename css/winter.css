@@ -1,5 +1,3 @@
-.hero-person img.hero-holiday-portrait { width: auto; max-width: 100%; margin-inline: auto; border-radius: 26px; }
-
 /* Keep the Santa hat and pompom within the mobile hero. */
 @media (max-width: 680px) {
     .hero-person img.hero-holiday-portrait { transform: translateX(7%); }
@@ -102,26 +100,43 @@ p { margin-bottom: 1rem; }
 /* Holiday waves stay behind navigation; only the hanging switch accepts input. */
 .header-row.has-holiday-garland { position: relative; }
 .brand-header, .site-nav, .header-messengers, .menu-toggle { z-index: 3; }
-.header-garland { position: absolute; z-index: 2; inset: -2px -1px; border-radius: inherit; pointer-events: none; }
+.header-garland { --garland-bulb-width: 8px; --garland-bulb-height: 13px; --garland-cap-height: 4px; position: absolute; z-index: 2; inset: -2px -1px; border-radius: inherit; pointer-events: none; }
 .header-garland-strand { position: absolute; inset: 0; }
 .header-garland-strand--mobile { display: none; }
 .header-garland-strand > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.header-garland-wire { fill: none; stroke: #497453; stroke-width: 1.2; opacity: .55; vector-effect: non-scaling-stroke; }
+.header-garland-wire { fill: none; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.header-garland-wire--shadow { stroke: #020e08; stroke-width: 3.5; opacity: .5; }
+.header-garland-wire--rear { stroke: #183c29; stroke-width: 1.8; opacity: .95; }
+.header-garland-wire--front { stroke: #5b7750; stroke-width: 1.35; opacity: .9; }
+.header-garland-wire--highlight { stroke: #bdc294; stroke-width: .45; opacity: .45; }
+.header-garland-fastener rect { fill: #7b876c; stroke: #243d2b; stroke-width: .8; vector-effect: non-scaling-stroke; }
+.header-garland-fastener circle { fill: #d1d5ac; stroke: #394f34; stroke-width: .5; vector-effect: non-scaling-stroke; }
 .header-garland-light {
-    position: absolute; top: var(--garland-y, 10%); left: var(--garland-x, 0%); width: 6px; height: 9px;
-    color: var(--garland-color, #ffd47b); border-radius: 42% 42% 50% 50%;
-    background: radial-gradient(ellipse at 35% 26%, rgba(255,255,255,.8), transparent 55%), currentColor;
-    box-shadow: 0 0 5px currentColor, 0 0 12px currentColor;
-    transform: translateX(-50%) rotate(8deg); transition: color .18s ease, background .18s ease, box-shadow .18s ease;
+    position: absolute; top: var(--garland-y, 10%); left: var(--garland-x, 0%); width: var(--garland-bulb-width); height: var(--garland-bulb-height);
+    isolation: isolate; color: var(--garland-color, #ffd47b);
+    transform: translateX(-50%) rotate(8deg); transition: color .18s ease;
     animation: garland-twinkle var(--garland-period, 3.2s) ease-in-out var(--garland-delay, 0s) infinite;
 }
-.header-garland-light::before { content: ""; position: absolute; top: -3px; left: 1px; width: 4px; height: 3px; border-radius: 1px; background: #426149; }
+.header-garland-light::after { content: ""; position: absolute; z-index: -1; inset: -7px -8px; background: radial-gradient(ellipse, currentColor 0%, transparent 68%); opacity: .4; pointer-events: none; }
+.garland-bulb-cap { position: absolute; z-index: 2; top: calc(var(--garland-cap-height) * -.75); left: 12.5%; width: 75%; height: var(--garland-cap-height); background: repeating-linear-gradient(0deg, #23432d 0 1px, #637650 1px 2px); border: 1px solid rgba(7,25,15,.8); border-radius: 2px 2px 1px 1px; box-shadow: 1px 1px 1px rgba(0,0,0,.55), inset 1px 0 0 rgba(190,204,149,.3); }
+.garland-bulb-glass { position: absolute; inset: 0; overflow: hidden; border: 1px solid rgba(255,247,212,.6); border-radius: 46% 46% 48% 48% / 32% 32% 68% 68%; background: radial-gradient(ellipse at 52% 70%, rgba(255,244,175,.85), transparent 60%), linear-gradient(105deg, rgba(255,255,255,.7), transparent 35% 68%, rgba(57,30,14,.36)), currentColor; box-shadow: inset 1px 0 1px rgba(255,255,255,.55), inset -1px -1px 2px rgba(58,28,14,.3), 0 0 5px currentColor; }
+.garland-bulb-glass::before { content: ""; position: absolute; top: 9%; left: 12%; width: 24%; height: 49%; background: rgba(255,255,255,.8); border-radius: 55%; transform: rotate(16deg); }
+.garland-bulb-glass::after { content: ""; position: absolute; right: 13%; bottom: 12%; width: 40%; height: 12%; border-radius: 50%; background: rgba(255,255,255,.3); }
+.garland-bulb-filament { position: absolute; top: 43%; left: 25%; width: 50%; height: 27%; border: 1px solid #fff4b9; border-top: 0; border-radius: 0 0 45% 45%; box-shadow: 0 1px 2px #fff6bd; }
+.garland-bulb-filament::before, .garland-bulb-filament::after { content: ""; position: absolute; top: -90%; width: 1px; height: 90%; background: rgba(255,240,175,.75); }
+.garland-bulb-filament::before { left: -1px; }
+.garland-bulb-filament::after { right: -1px; }
 @keyframes garland-twinkle {
     0%, 100% { opacity: .4; }
     35%, 65% { opacity: 1; }
     82% { opacity: .65; }
 }
-.is-garland-off .header-garland-light { color: #293c35; background: #293c35; box-shadow: none; animation: none; opacity: 1; }
+.is-garland-off .header-garland-light { color: #536555; animation: none; opacity: 1; }
+.is-garland-off .header-garland-light::after { opacity: 0; }
+.is-garland-off .garland-bulb-glass { background: linear-gradient(110deg, rgba(206,220,205,.25), transparent 40% 70%, rgba(0,0,0,.35)), #34483b; border-color: rgba(167,188,162,.3); box-shadow: inset 1px 0 1px rgba(203,217,196,.25); }
+.is-garland-off .garland-bulb-glass::before { opacity: .25; }
+.is-garland-off .garland-bulb-glass::after { opacity: .3; }
+.is-garland-off .garland-bulb-filament { opacity: 0; box-shadow: none; }
 .header-garland-switch {
     position: absolute; z-index: 3; top: calc(100% + 3px); right: 16px; left: auto; width: 44px; height: 44px;
     display: block; padding: 0; background: transparent; border: 0; border-radius: 10px;
@@ -140,6 +155,7 @@ p { margin-bottom: 1rem; }
     body.menu-open .header-garland-switch { visibility: hidden; pointer-events: none; }
 }
 @media (max-width: 680px) {
+    .header-garland { --garland-bulb-width: 6px; --garland-bulb-height: 10px; --garland-cap-height: 3px; }
     .header-garland-strand--desktop { display: none; }
     .header-garland-strand--mobile { display: block; }
     .header-garland-switch { right: 8px; }
