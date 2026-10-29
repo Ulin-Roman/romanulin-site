@@ -122,9 +122,10 @@ p { margin-bottom: 1rem; }
 .header-garland-fastener rect { fill: #7b876c; stroke: #243d2b; stroke-width: .8; vector-effect: non-scaling-stroke; }
 .header-garland-fastener circle { fill: #d1d5ac; stroke: #394f34; stroke-width: .5; vector-effect: non-scaling-stroke; }
 .header-garland-light {
-    position: absolute; top: var(--garland-y, 10%); left: var(--garland-x, 0%); width: var(--garland-bulb-width); height: var(--garland-bulb-height);
+    position: absolute; top: calc(var(--garland-y, 10%) + var(--garland-cap-height) * .25); left: var(--garland-x, 0%); width: var(--garland-bulb-width); height: var(--garland-bulb-height);
     isolation: isolate; color: var(--garland-color, #ffd47b);
-    transform: translateX(-50%) rotate(8deg); transition: color .18s ease;
+    transform-origin: 50% calc(var(--garland-cap-height) * -.25);
+    transform: translateX(-50%) rotate(var(--garland-angle, 0deg)); transition: color .18s ease;
     animation: garland-twinkle var(--garland-period, 3.2s) ease-in-out var(--garland-delay, 0s) infinite;
 }
 .header-garland-light::after { content: ""; position: absolute; z-index: -1; inset: -7px -8px; background: radial-gradient(ellipse, currentColor 0%, transparent 68%); opacity: .4; pointer-events: none; }

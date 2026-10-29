@@ -223,6 +223,11 @@ function initializeSnow(snowLayer) {
     garland.className = 'header-garland';
     garland.setAttribute('aria-hidden', 'true');
     const colors = ['#ffd47b', '#ef7970', '#8ee0b4', '#8dcaff'];
+    const bulbDirections = [
+        [-65, 35, 145, -125, 65, -20],
+        [55, -135, -35, 110, -55, 30],
+        [-45, 125, 60, -145, 35, -65]
+    ];
     const createStrand = (cycles, count, size) => {
         const strand = document.createElement('div');
         strand.className = `header-garland-strand header-garland-strand--${size}`;
@@ -260,6 +265,12 @@ function initializeSnow(snowLayer) {
             light.style.setProperty('--garland-x', `${(t * 100).toFixed(2)}%`);
             light.style.setProperty('--garland-y', `${heightAt(t).toFixed(2)}%`);
             light.style.setProperty('--garland-color', colors[index % colors.length]);
+            const cycle = Math.floor(t * cycles);
+            const baseAngle = bulbDirections[cycle % bulbDirections.length][index % 6];
+            const naturalOffset = Math.sin((index + 1) * 2.399963) * 10;
+            const limit = heightAt(t) < 12 ? 80 : 150;
+            const angle = Math.max(-limit, Math.min(limit, baseAngle + naturalOffset));
+            light.style.setProperty('--garland-angle', `${angle.toFixed(2)}deg`);
             light.style.setProperty('--garland-period', `${[2.8, 3.2, 3.6][index % 3]}s`);
             light.style.setProperty('--garland-delay', `${(-index * .37).toFixed(2)}s`);
             const phase = t * cycles % 1;
