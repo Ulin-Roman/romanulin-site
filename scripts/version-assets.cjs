@@ -5,7 +5,7 @@ const { createHash } = require('node:crypto');
 
 const root = path.resolve(__dirname, '..');
 const checkOnly = process.argv.includes('--check');
-const assetNames = ['css/winter.css', 'js/site.js'];
+const assetNames = ['css/winter.css', 'js/site.js', 'js/season.js'];
 const versions = new Map(assetNames.map(name => {
     // Git may check out CRLF on Windows and LF on the deployment runner.
     const content = fs.readFileSync(path.join(root, name), 'utf8').replace(/\r\n/g, '\n');
@@ -40,7 +40,14 @@ const changed = [];
 const files = walk(root);
 for (const file of files) {
     const original = fs.readFileSync(file, 'utf8');
-    const updated = original.replace(/<(?:link|script)\b[^>]*>/gi, tag =>
+    let source = original;
+    if (!/<script\b[^>]*\bsrc=["'][^"']*\bseason\.js(?:[?#][^"']*)?["']/i.test(source)) {
+        const stylesheet = source.match(/<link\b[^>]*\bhref=["'][^"']*\bwinter\.css(?:[?#][^"']*)?["'][^>]*>/i);
+        if (!stylesheet) throw new Error('Missing shared stylesheet: ' + file);
+        const calendarPath = path.relative(path.dirname(file), path.join(root, 'js/season.js')).replace(/\\/g, '/');
+        source = source.replace(stylesheet[0], '<script src="' + calendarPath + '"></script>\n    ' + stylesheet[0]);
+    }
+    const updated = source.replace(/<(?:link|script)\b[^>]*>/gi, tag =>
         tag.replace(/(\s(?:href|src)\s*=\s*)(["'])([^"']*)\2/gi,
             (_, prefix, quote, value) => `${prefix}${quote}${versionUrl(value, file)}${quote}`));
     if (updated === original) continue;

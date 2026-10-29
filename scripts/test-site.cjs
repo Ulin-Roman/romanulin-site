@@ -34,6 +34,9 @@ const check = (condition, message) => { if (!condition) errors.push(message); };
 for (const file of htmlFiles) {
     const relative = path.relative(root, file).replace(/\\/g, '/');
     const html = fs.readFileSync(file, 'utf8');
+    const seasonScripts = [...html.matchAll(/<script\b[^>]*\bsrc=["'][^"']*\bseason\.js(?:[?#][^"']*)?["'][^>]*>/gi)];
+    check(seasonScripts.length === 1 && seasonScripts[0].index < html.indexOf('</head>'), relative + ': seasonal calendar must initialize once in the head');
+    check(seasonScripts.length === 1 && !/\b(?:async|defer)\b/.test(seasonScripts[0][0]), relative + ': seasonal calendar must run before first paint');
     check(/^<!doctype html>/i.test(html.trimStart()), `${relative}: нет doctype`);
     check(/<html\b[^>]*\blang=["']ru["']/i.test(html), `${relative}: нет lang="ru"`);
     check(count(html, /<title>[\s\S]*?<\/title>/gi) === 1, `${relative}: нужен один title`);
@@ -69,7 +72,7 @@ for (const file of htmlFiles) {
     }
     for (const match of html.matchAll(/<(?:img|script|link|source|a)\b[^>]*>/gi)) {
         const tag = match[0];
-        for (const name of ['src', 'href', 'data-full-src']) {
+        for (const name of ['src', 'href', 'data-full-src', 'data-regular-src', 'data-holiday-src']) {
             const value = attr(tag, name);
             const target = localTarget(file, value);
             if (!target) continue;

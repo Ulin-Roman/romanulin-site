@@ -213,6 +213,21 @@ function initializeSnow(snowLayer) {
     snowLayer.replaceChildren(fragment);
 }
 
+// Calendar is initialized in the head, independently of a visitor's time zone.
+const holidaySeasonActive = () => window.holidaySeason?.active === true;
+const syncSeasonalPortrait = () => {
+    const active = holidaySeasonActive();
+    document.querySelectorAll('.hero-seasonal-portrait').forEach(image => {
+        const source = active ? image.dataset.holidaySrc : image.dataset.regularSrc;
+        if (image.getAttribute('src') !== source) image.setAttribute('src', source);
+        image.classList.toggle('hero-holiday-portrait', active);
+        image.width = active ? 832 : 1024;
+        image.height = active ? 1248 : 1536;
+    });
+};
+syncSeasonalPortrait();
+window.addEventListener('holidayseasonchange', syncSeasonalPortrait);
+
 // Repeating holiday artwork: https://atuin.ru/blog/girlyanda-dlya-shapki-sajta/
 (() => {
     const headerRow = document.querySelector('.site-header .header-row');
@@ -320,6 +335,10 @@ function initializeSnow(snowLayer) {
         const canToggle = !menuIsOpen();
         cancelPull();
         if (canToggle) setEnabled(!enabled);
+    });
+    window.addEventListener('holidayseasonchange', () => {
+        cancelPull();
+        if (holidaySeasonActive()) setEnabled(true);
     });
     toggle.addEventListener('blur', cancelPull);
     window.addEventListener('blur', cancelPull);
@@ -713,7 +732,8 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const visibleAnimations = new Set();
 const syncAnimations = () => {
     visibleAnimations.forEach((element) => {
-        const running = !document.hidden && !reducedMotion.matches;
+        const running = !document.hidden && !reducedMotion.matches
+            && (!element.matches('.photo-snow') || holidaySeasonActive());
         if (running && element.matches('.photo-snow')) initializeSnow(element);
         element.classList.toggle('motion-paused', !running);
     });
@@ -738,5 +758,6 @@ if ('IntersectionObserver' in window) {
     animatedElements.forEach((element) => visibleAnimations.add(element));
     syncAnimations();
 }
+window.addEventListener('holidayseasonchange', syncAnimations);
 document.addEventListener('visibilitychange', syncAnimations);
 reducedMotion.addEventListener('change', syncAnimations);

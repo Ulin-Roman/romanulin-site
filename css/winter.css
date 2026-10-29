@@ -1,3 +1,9 @@
+/* The Moscow calendar also hides decorations before the shared UI initializes. */
+html:not(.is-holiday-season) .header-garland,
+html:not(.is-holiday-season) .header-garland-switch,
+html:not(.is-holiday-season) .photo-snow { display: none; }
+html:not(.is-holiday-season) .photo-snow i { animation-play-state: paused; }
+
 /* Keep the Santa hat and pompom within the mobile hero. */
 @media (max-width: 680px) {
     .hero-person img.hero-holiday-portrait { transform: translateX(7%); }
