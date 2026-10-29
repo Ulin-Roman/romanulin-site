@@ -1,12 +1,23 @@
-# Exact media-kit URL; existing page routes are left untouched.
+# Redirect public aliases directly to the canonical HTTPS address.
 RewriteEngine On
-RewriteRule ^reklama$ reklama/index.html [END]
 RewriteCond %{THE_REQUEST} "\s/+reklama/(?:index\.html)?(?:[?\s])" [NC]
-RewriteRule ^reklama/(?:index\.html)?$ /reklama [R=301,L]
+RewriteRule ^reklama/(?:index\.html)?$ https://romanulin.ru/reklama [R=301,L]
 
-# Send crawlers and visitors to the canonical directory URL, not an HTML alias.
-RewriteCond %{THE_REQUEST} "\s/+(.*/)?index\.html(?:[?\s])" [NC]
-RewriteRule ^(.*)index\.html$ /$1 [R=301,L]
+# THE_REQUEST preserves percent-encoded path characters in redirect targets.
+RewriteCond %{THE_REQUEST} "\s/+([^?\s]*/)?index\.html(?:[?\s])" [NC]
+RewriteRule ^(?:.*/)?index\.html$ https://romanulin.ru/%1 [R=301,L,NE]
+
+RewriteCond %{HTTP_HOST} ^www\.romanulin\.ru(?::[0-9]+)?$ [NC]
+RewriteCond %{THE_REQUEST} "\s(/[^?\s]*)(?:\?[^\s]*)?\s"
+RewriteRule ^ https://romanulin.ru%1 [R=301,L,NE]
+
+# This page intentionally uses the extensionless URL without a trailing slash.
+RewriteRule ^reklama$ reklama/index.html [END]
+
+# Avoid mod_dir producing an HTTP redirect behind the hosting HTTPS proxy.
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{THE_REQUEST} "\s(/[^?\s]*[^/?\s])(?:\?[^\s]*)?\s"
+RewriteRule ^ https://romanulin.ru%1/ [R=301,L,NE]
 
 # Revalidate HTML; cache versionless assets briefly so updates remain visible.
 <IfModule mod_expires.c>
