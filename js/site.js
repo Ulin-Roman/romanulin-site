@@ -213,7 +213,7 @@ function initializeSnow(snowLayer) {
     snowLayer.replaceChildren(fragment);
 }
 
-// Shared across all pages; no animation or additional asset requests are needed.
+// Shared holiday decoration: CSS-only twinkle, no frame loop or asset requests.
 (() => {
     const headerRow = document.querySelector('.site-header .header-row');
     if (!headerRow || headerRow.querySelector('.header-garland')) return;
@@ -222,25 +222,34 @@ function initializeSnow(snowLayer) {
     const garland = document.createElement('div');
     garland.className = 'header-garland';
     garland.setAttribute('aria-hidden', 'true');
-    garland.innerHTML = '<svg viewBox="0 0 1000 80" preserveAspectRatio="none" focusable="false"><rect class="header-garland-wire" x="1" y="1" width="998" height="78" rx="22" /></svg>';
     const colors = ['#ffd47b', '#ef7970', '#8ee0b4', '#8dcaff'];
-    const lights = document.createDocumentFragment();
-    for (let index = 0; index < 20; index += 1) {
-        for (const [edge, colorOffset] of [['top', 0], ['bottom', 2]]) {
+    const createStrand = (cycles, count, size) => {
+        const strand = document.createElement('div');
+        strand.className = `header-garland-strand header-garland-strand--${size}`;
+        const heightAt = t => 10 + 68 * (1 - Math.cos(2 * Math.PI * cycles * t)) / 2;
+        const samples = cycles * 32;
+        const points = [];
+        for (let step = 0; step <= samples; step += 1) {
+            const t = step / samples;
+            points.push(`${step ? 'L' : 'M'}${(t * 1000).toFixed(2)} ${heightAt(t).toFixed(2)}`);
+        }
+        strand.innerHTML = `<svg viewBox="0 0 1000 100" preserveAspectRatio="none" focusable="false"><path class="header-garland-wire" d="${points.join(' ')}"/></svg>`;
+        const lights = document.createDocumentFragment();
+        for (let index = 0; index < count; index += 1) {
+            const t = (index + .5) / count;
             const light = document.createElement('i');
-            light.className = `header-garland-light header-garland-light--${edge}${index % 2 ? ' header-garland-light--alternate' : ''}`;
-            light.style.setProperty('--garland-x', `${((index + 1) / 21 * 100).toFixed(2)}%`);
-            light.style.setProperty('--garland-color', colors[(index + colorOffset) % colors.length]);
+            light.className = 'header-garland-light';
+            light.style.setProperty('--garland-x', `${(t * 100).toFixed(2)}%`);
+            light.style.setProperty('--garland-y', `${heightAt(t).toFixed(2)}%`);
+            light.style.setProperty('--garland-color', colors[index % colors.length]);
+            light.style.setProperty('--garland-period', `${[2.8, 3.2, 3.6][index % 3]}s`);
+            light.style.setProperty('--garland-delay', `${(-index * .37).toFixed(2)}s`);
             lights.append(light);
         }
-    }
-    for (const edge of ['left', 'right']) {
-        const light = document.createElement('i');
-        light.className = `header-garland-light header-garland-light--${edge}`;
-        light.style.setProperty('--garland-color', colors[edge === 'left' ? 0 : 2]);
-        lights.append(light);
-    }
-    garland.append(lights);
+        strand.append(lights);
+        return strand;
+    };
+    garland.append(createStrand(6, 36, 'desktop'), createStrand(3, 18, 'mobile'));
 
     const toggle = document.createElement('button');
     toggle.type = 'button';
