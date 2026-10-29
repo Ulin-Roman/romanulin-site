@@ -43,6 +43,9 @@ for (const file of htmlFiles) {
     check(/<meta\s+name=["']viewport["']/i.test(html), `${relative}: нет viewport`);
     check(/<meta\s+property=["']og:title["']/i.test(html) && /<meta\s+property=["']og:description["']/i.test(html) && /<meta\s+property=["']og:image["']/i.test(html), `${relative}: неполный Open Graph`);
     check(/<meta\s+name=["']twitter:card["']/i.test(html) && /<meta\s+name=["']twitter:image["']/i.test(html), `${relative}: неполные Twitter Cards`);
+    const copyright = html.match(/<p class="footer-copyright">([\s\S]*?)<\/p>/)?.[1] || '';
+    check(/^<a href="https:\/\/romanulin\.ru\/">© \d{4} Роман Улин<\/a>$/.test(copyright),
+        `${relative}: копирайт должен вести на https://romanulin.ru/ без якоря`);
 
     const description = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i)?.[1] || '';
     check(description.length >= 45 && description.length <= 190, `${relative}: длина description ${description.length}`);
