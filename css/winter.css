@@ -111,16 +111,19 @@ p { margin-bottom: 1rem; }
 .header-garland-switch {
     position: absolute; z-index: 3; top: calc(100% + 44px); right: 16px; width: 44px; height: 44px;
     display: block; padding: 0; background: transparent; border: 0; border-radius: 10px;
-    cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent;
+    --garland-pull-distance: 0px;
+    cursor: grab; pointer-events: auto; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
 }
-.header-garland-switch::before { content: ""; position: absolute; top: -46px; left: calc(50% - 1px); width: 2px; height: 66px; border-radius: 2px; background: repeating-linear-gradient(145deg, transparent 0 2px, rgba(116,137,88,.55) 2px 3px, transparent 3px 5px), linear-gradient(90deg, #050907, #405033 45%, #101912 75%, #050907); box-shadow: 1px 0 1px rgba(0,0,0,.55); }
-.header-garland-switch > svg { position: absolute; top: 14px; left: 12px; width: 20px; height: 28px; overflow: visible; filter: drop-shadow(0 2px 3px rgba(0,0,0,.6)); transition: transform .16s ease; }
+.header-garland-switch::before { content: ""; position: absolute; top: -46px; left: calc(50% - 1px); width: 2px; height: calc(66px + var(--garland-pull-distance)); border-radius: 2px; background: repeating-linear-gradient(145deg, transparent 0 2px, rgba(116,137,88,.55) 2px 3px, transparent 3px 5px), linear-gradient(90deg, #050907, #405033 45%, #101912 75%, #050907); box-shadow: 1px 0 1px rgba(0,0,0,.55); }
+.header-garland-switch > svg { position: absolute; top: 14px; left: 12px; width: 20px; height: 28px; overflow: visible; filter: drop-shadow(0 2px 3px rgba(0,0,0,.6)); transform: translateY(var(--garland-pull-distance)); transition: transform .22s cubic-bezier(.2,.8,.25,1.15); }
 .header-garland-switch .garland-pull-body { fill: #18241a; stroke: #59694a; stroke-width: .85; }
 .header-garland-switch .garland-pull-led { fill: #9cdb74; filter: drop-shadow(0 0 2px rgba(142,218,104,.7)); }
 .header-garland-switch[aria-pressed="false"] .garland-pull-body { fill: #111a14; stroke: #3b4934; }
 .header-garland-switch[aria-pressed="false"] .garland-pull-led { fill: #475144; filter: none; }
 .header-garland-switch .garland-power-icon { fill: none; stroke: #e9efdf; stroke-width: 1.35; stroke-linecap: round; }
-.header-garland-switch:active > svg { transform: translateY(3px); }
+.header-garland-switch::before { transition: height .22s cubic-bezier(.2,.8,.25,1.15); }
+.header-garland-switch.is-pulling { cursor: grabbing; }
+.header-garland-switch.is-pulling::before, .header-garland-switch.is-pulling > svg { transition: none; }
 .header-garland-switch:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) {
     .header-garland-switch:hover > svg { filter: brightness(1.12) drop-shadow(0 2px 4px rgba(0,0,0,.4)); }
@@ -131,11 +134,11 @@ p { margin-bottom: 1rem; }
 @media (max-width: 680px) {
     .header-garland { --garland-frame-height: 46px; }
     .header-garland-switch { top: calc(100% + 30px); right: 8px; }
-    .header-garland-switch::before { top: -32px; height: 52px; }
+    .header-garland-switch::before { top: -32px; height: calc(52px + var(--garland-pull-distance)); }
 }
 @media (prefers-reduced-motion: reduce) {
     .header-garland { animation: none; background-position: 0 0; }
-    .header-garland-switch > svg { transition: none; }
+    .header-garland-switch::before, .header-garland-switch > svg { transition: none; }
 }
 
 /* Buttons */

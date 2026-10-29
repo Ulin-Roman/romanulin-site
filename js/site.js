@@ -233,10 +233,81 @@ function initializeSnow(snowLayer) {
         enabled = nextEnabled;
         headerRow.classList.toggle('is-garland-off', !enabled);
         toggle.setAttribute('aria-pressed', String(enabled));
-        toggle.title = enabled ? 'Выключить гирлянду' : 'Включить гирлянду';
+        toggle.title = enabled ? 'Потяните вниз, чтобы выключить гирлянду' : 'Потяните вниз, чтобы включить гирлянду';
     };
     setEnabled(true);
-    toggle.addEventListener('click', () => setEnabled(!enabled));
+    const pullThreshold = 22;
+    const maxPull = 38;
+    let pointerId = null;
+    let startX = 0;
+    let startY = 0;
+    let heldKey = null;
+    const menuIsOpen = () => document.body.classList.contains('menu-open');
+    const showPull = distance => toggle.style.setProperty('--garland-pull-distance', Math.min(maxPull, Math.max(0, distance)) + 'px');
+    const cancelPull = () => {
+        const capturedPointer = pointerId;
+        pointerId = null;
+        heldKey = null;
+        toggle.classList.remove('is-pulling');
+        toggle.style.removeProperty('--garland-pull-distance');
+        if (capturedPointer !== null && toggle.hasPointerCapture(capturedPointer)) {
+            toggle.releasePointerCapture(capturedPointer);
+        }
+    };
+    toggle.setAttribute('aria-description', 'Потяните шнурок вниз и отпустите. С клавиатуры: Enter или пробел.');
+    // Pointer clicks are inert; assistive activation without a pointer still works.
+    toggle.addEventListener('click', event => {
+        event.preventDefault();
+        if (event.isTrusted && event.detail === 0 && !event.pointerType && pointerId === null && heldKey === null) {
+            setEnabled(!enabled);
+        }
+    });
+    toggle.addEventListener('pointerdown', event => {
+        if (!event.isPrimary || event.button !== 0 || pointerId !== null || heldKey !== null || menuIsOpen()) return;
+        pointerId = event.pointerId;
+        startX = event.clientX;
+        startY = event.clientY;
+        toggle.classList.add('is-pulling');
+        toggle.setPointerCapture(pointerId);
+    });
+    toggle.addEventListener('pointermove', event => {
+        if (event.pointerId !== pointerId) return;
+        if (menuIsOpen()) return cancelPull();
+        showPull(event.clientY - startY);
+    });
+    toggle.addEventListener('pointerup', event => {
+        if (event.pointerId !== pointerId) return;
+        const down = event.clientY - startY;
+        const sideways = Math.abs(event.clientX - startX);
+        const pulled = down >= pullThreshold && down >= sideways && !menuIsOpen();
+        cancelPull();
+        if (pulled) setEnabled(!enabled);
+    });
+    for (const type of ['pointercancel', 'lostpointercapture']) {
+        toggle.addEventListener(type, event => {
+            if (event.pointerId === pointerId) cancelPull();
+        });
+    }
+    // Keep the same press/release interaction available without a pointer.
+    toggle.addEventListener('keydown', event => {
+        if (event.key === 'Escape') return cancelPull();
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        if (event.repeat || pointerId !== null || heldKey !== null || menuIsOpen()) return;
+        heldKey = event.key;
+        toggle.classList.add('is-pulling');
+        showPull(pullThreshold + 4);
+    });
+    toggle.addEventListener('keyup', event => {
+        if (event.key !== heldKey) return;
+        event.preventDefault();
+        const canToggle = !menuIsOpen();
+        cancelPull();
+        if (canToggle) setEnabled(!enabled);
+    });
+    toggle.addEventListener('blur', cancelPull);
+    window.addEventListener('blur', cancelPull);
+    headerRow.querySelector('.menu-toggle')?.addEventListener('click', cancelPull);
     headerRow.classList.add('has-holiday-garland');
     headerRow.append(garland, toggle);
 })();
