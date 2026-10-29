@@ -121,6 +121,8 @@ p { margin-bottom: 1rem; }
     --garland-cord-angle: 0rad; --garland-switch-angle: 0rad;
     --garland-cord-length: 66px; --garland-cord-top: -46px;
     --garland-return: .65s cubic-bezier(.18,1.65,.32,1);
+    /* The stationary header edge hides the cable above it while the braid moves. */
+    clip-path: inset(calc(var(--garland-cord-top) + 3px) -40px -120px);
     cursor: grab; pointer-events: auto; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
 }
 .header-garland-switch::before {
@@ -132,23 +134,6 @@ p { margin-bottom: 1rem; }
     box-shadow: 1px 0 1px rgba(0,0,0,.55); transform-origin: 50% 0;
     transform: rotate(var(--garland-cord-angle));
     transition: height var(--garland-return), transform var(--garland-return), background-position var(--garland-return);
-}
-/* A recessed opening sits behind the cable; only the raised rim overlaps it. */
-.header-garland-switch .garland-cord-hole,
-.header-garland-switch::after {
-    position: absolute; box-sizing: border-box;
-    top: calc(var(--garland-cord-top) - 6px); left: calc(50% - 9px);
-    width: 18px; height: 12px; border-radius: 50%; pointer-events: none;
-}
-.header-garland-switch .garland-cord-hole {
-    z-index: 0;
-    background: radial-gradient(ellipse at 50% 65%, #010403 0 40%, #0b140e 58%, #243222 80%, #43533b 100%);
-    box-shadow: inset 0 2px 3px #000, 0 2px 3px rgba(0,0,0,.65);
-}
-.header-garland-switch::after {
-    content: ""; z-index: 2; background: transparent;
-    border: 2px solid #617455; border-top-color: #9aa987; border-bottom-color: #34462e;
-    box-shadow: inset 0 1px 1px rgba(194,212,169,.3), 0 1px 2px rgba(0,0,0,.7), 0 -1px 0 rgba(177,197,153,.14);
 }
 .header-garland-switch > svg {
     position: absolute; z-index: 3; top: 14px; left: 12px; width: 20px; height: 28px; overflow: visible;
