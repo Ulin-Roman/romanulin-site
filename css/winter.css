@@ -1,3 +1,8 @@
+/* Keep the Santa hat and pompom within the mobile hero. */
+@media (max-width: 680px) {
+    .hero-person img.hero-holiday-portrait { transform: translateX(7%); }
+}
+
 :root {
     --night: #030a19;
     --deep: #06152d;
@@ -91,6 +96,45 @@ p { margin-bottom: 1rem; }
 .header-messengers { display: flex; align-items: center; gap: 8px; margin-left: 10px; }
 .menu-toggle { position: relative; display: none; width: 42px; height: 42px; padding: 0; background: rgba(255,255,255,.07); border: 1px solid var(--line); border-radius: 14px; }
 .menu-toggle span { position: relative; z-index: 1; display: block; width: 18px; height: 2px; margin: 4px auto; background: var(--ice); border-radius: 999px; }
+
+/* A quiet holiday frame; only the hanging switch accepts pointer input. */
+.header-row.has-holiday-garland { position: relative; }
+.header-garland { position: absolute; z-index: 2; inset: -2px -1px; border-radius: inherit; pointer-events: none; }
+.header-garland > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.header-garland-wire { fill: none; stroke: #315340; stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.header-garland-light {
+    position: absolute; top: 2px; left: var(--garland-x, 0%); width: 6px; height: 9px;
+    color: var(--garland-color, #ffd47b); border-radius: 42% 42% 50% 50%;
+    background: radial-gradient(ellipse at 35% 26%, rgba(255,255,255,.8), transparent 55%), currentColor;
+    box-shadow: 0 0 5px currentColor, 0 0 12px currentColor;
+    transform: translateX(-50%) rotate(8deg); transition: color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+.header-garland-light::before { content: ""; position: absolute; top: -3px; left: 1px; width: 4px; height: 3px; border-radius: 1px; background: #426149; }
+.header-garland-light--bottom { top: auto; bottom: -8px; transform: translateX(-50%) rotate(-8deg); }
+.header-garland-light--left { top: 50%; left: 0; transform: translate(-50%, -50%) rotate(90deg); }
+.header-garland-light--right { top: 50%; right: 0; left: auto; transform: translate(50%, -50%) rotate(-90deg); }
+.is-garland-off .header-garland-light { color: #293c35; background: #293c35; box-shadow: none; }
+.header-garland-switch {
+    position: absolute; z-index: 3; top: calc(100% + 3px); left: 16px; width: 44px; height: 44px;
+    display: block; padding: 0; background: transparent; border: 0; border-radius: 10px;
+    cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent;
+}
+.header-garland-switch::before { content: ""; position: absolute; top: -6px; left: calc(50% - .5px); width: 1px; height: 23px; background: #637b59; }
+.header-garland-switch > svg { position: absolute; top: 14px; left: 13px; width: 18px; height: 25px; overflow: visible; color: #bb4b43; filter: drop-shadow(0 2px 4px rgba(0,0,0,.4)); transition: transform .16s ease, color .16s ease; }
+.header-garland-switch[aria-pressed="false"] > svg { color: #415368; }
+.header-garland-switch .garland-power-icon { fill: none; stroke: #fff3db; stroke-width: 1.5; stroke-linecap: round; }
+.header-garland-switch:active > svg { transform: translateY(3px); }
+.header-garland-switch:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+    .header-garland-switch:hover > svg { filter: brightness(1.12) drop-shadow(0 2px 4px rgba(0,0,0,.4)); }
+}
+@media (max-width: 680px) {
+    .header-garland-light--alternate { display: none; }
+    .header-garland-switch { left: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .header-garland-light, .header-garland-switch > svg { transition: none; }
+}
 
 /* Buttons */
 .button {

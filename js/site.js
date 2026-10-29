@@ -213,6 +213,69 @@ function initializeSnow(snowLayer) {
     snowLayer.replaceChildren(fragment);
 }
 
+// Shared across all pages; no animation or additional asset requests are needed.
+(() => {
+    const headerRow = document.querySelector('.site-header .header-row');
+    if (!headerRow || headerRow.querySelector('.header-garland')) return;
+
+    const preferenceKey = 'romanulin-holiday-garland-v1';
+    const garland = document.createElement('div');
+    garland.className = 'header-garland';
+    garland.setAttribute('aria-hidden', 'true');
+    garland.innerHTML = '<svg viewBox="0 0 1000 80" preserveAspectRatio="none" focusable="false"><rect class="header-garland-wire" x="1" y="1" width="998" height="78" rx="22" /></svg>';
+    const colors = ['#ffd47b', '#ef7970', '#8ee0b4', '#8dcaff'];
+    const lights = document.createDocumentFragment();
+    for (let index = 0; index < 20; index += 1) {
+        for (const [edge, colorOffset] of [['top', 0], ['bottom', 2]]) {
+            const light = document.createElement('i');
+            light.className = `header-garland-light header-garland-light--${edge}${index % 2 ? ' header-garland-light--alternate' : ''}`;
+            light.style.setProperty('--garland-x', `${((index + 1) / 21 * 100).toFixed(2)}%`);
+            light.style.setProperty('--garland-color', colors[(index + colorOffset) % colors.length]);
+            lights.append(light);
+        }
+    }
+    for (const edge of ['left', 'right']) {
+        const light = document.createElement('i');
+        light.className = `header-garland-light header-garland-light--${edge}`;
+        light.style.setProperty('--garland-color', colors[edge === 'left' ? 0 : 2]);
+        lights.append(light);
+    }
+    garland.append(lights);
+
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'header-garland-switch';
+    toggle.setAttribute('aria-label', 'Новогодняя гирлянда');
+    toggle.innerHTML = '<svg viewBox="0 0 24 30" aria-hidden="true" focusable="false"><path d="M8 9V5a4 4 0 0 1 8 0v4" fill="none" stroke="#c5b77a" stroke-width="1.4"/><rect x="4" y="8" width="16" height="20" rx="7" fill="currentColor" stroke="#d3b977" stroke-width="1"/><path class="garland-power-icon" d="M12 12v6m-3.5-3a5 5 0 1 0 7 0"/></svg>';
+    toggle.draggable = false;
+    let enabled = true;
+    const setEnabled = (nextEnabled) => {
+        enabled = nextEnabled;
+        headerRow.classList.toggle('is-garland-off', !enabled);
+        toggle.setAttribute('aria-pressed', String(enabled));
+        toggle.title = enabled ? 'Выключить гирлянду' : 'Включить гирлянду';
+    };
+    try {
+        enabled = window.localStorage.getItem(preferenceKey) !== 'off';
+    } catch (error) {
+        // The switch still works when storage is blocked or unavailable.
+    }
+    setEnabled(enabled);
+    toggle.addEventListener('click', () => {
+        setEnabled(!enabled);
+        try {
+            window.localStorage.setItem(preferenceKey, enabled ? 'on' : 'off');
+        } catch (error) {
+            // Keep the current page usable without persistent storage.
+        }
+    });
+    window.addEventListener('storage', (event) => {
+        if (event.key === preferenceKey || event.key === null) setEnabled(event.newValue !== 'off');
+    });
+    headerRow.classList.add('has-holiday-garland');
+    headerRow.append(garland, toggle);
+})();
+
 const menuToggle = document.querySelector('.menu-toggle');
 const siteNav = document.querySelector('.site-nav');
 
