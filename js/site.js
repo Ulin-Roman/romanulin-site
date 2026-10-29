@@ -226,7 +226,7 @@ function initializeSnow(snowLayer) {
     toggle.type = 'button';
     toggle.className = 'header-garland-switch';
     toggle.setAttribute('aria-label', 'Новогодняя гирлянда');
-    toggle.innerHTML = '<svg viewBox="0 0 24 30" aria-hidden="true" focusable="false"><path d="M8 9V5a4 4 0 0 1 8 0v4" fill="none" stroke="#c5b77a" stroke-width="1.4"/><rect x="4" y="8" width="16" height="20" rx="7" fill="currentColor" stroke="#d3b977" stroke-width="1"/><path class="garland-power-icon" d="M12 12v6m-3.5-3a5 5 0 1 0 7 0"/></svg>';
+    toggle.innerHTML = "<svg viewBox=\"0 0 24 34\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 0v8\" fill=\"none\" stroke=\"#111b12\" stroke-width=\"2.4\"/><rect x=\"8\" y=\"5\" width=\"8\" height=\"8\" rx=\"1.4\" fill=\"#0b130e\" stroke=\"#526047\" stroke-width=\".7\"/><path d=\"M9 7h6m-6 2h6m-6 2h6\" fill=\"none\" stroke=\"#536448\" stroke-width=\".8\"/><rect class=\"garland-pull-body\" x=\"4.5\" y=\"11\" width=\"15\" height=\"20\" rx=\"5\"/><path d=\"M7 15v10q0 3 3 3\" fill=\"none\" stroke=\"#556345\" stroke-opacity=\".45\" stroke-width=\".8\"/><path class=\"garland-power-icon\" d=\"M12 15.5v5m-3.3-3a4.6 4.6 0 1 0 6.6 0\"/><circle class=\"garland-pull-led\" cx=\"12\" cy=\"27\" r=\"1.2\"/></svg>";
     toggle.draggable = false;
     let enabled = true;
     const setEnabled = (nextEnabled) => {
