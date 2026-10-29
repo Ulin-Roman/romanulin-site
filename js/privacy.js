@@ -70,8 +70,7 @@
     banner.className = 'cookie-notice container';
     banner.tabIndex = -1;
     banner.setAttribute('aria-label', 'Выбор использования аналитики');
-    banner.innerHTML = `<div class="cookie-copy"><p>Сайт использует файлы cookie для аналитики. Продолжая просмотр, вы принимаете <a href="${privacyUrl.href}">политику файлов cookie</a>.</p>
-        <details><summary>Согласие на аналитику</summary><p>Нажимая «Принять», я добровольно разрешаю Улину Роману Владимировичу (ИНН 402915050097, ulin.roman.work@gmail.com) обрабатывать с помощью Яндекс.Метрики на romanulin.ru мой IP-адрес, идентификаторы cookie, сведения о браузере, устройстве и ОС, источниках переходов, просмотренных страницах и действиях, включая записи Вебвизора. Цель — анализ посещаемости и улучшение сайта. Разрешаю автоматизированные сбор, запись, хранение, использование, передачу ООО «ЯНДЕКС» для аналитики, обезличивание и удаление этих данных. Согласие действует один год или до отзыва через «Настройки cookie» внизу сайта либо обращением по указанному e-mail. Отказ не ограничивает доступ к сайту. Это отдельное согласие на аналитику, а не принятие иных документов.</p></details></div>
+    banner.innerHTML = `<div class="cookie-copy"><p>Сайт использует файлы cookie для аналитики. Продолжая просмотр, вы принимаете <a href="${privacyUrl.href}">политику файлов cookie</a>.</p></div>
         <div class="cookie-actions"><button type="button" data-cookie-choice="accepted">Принять</button></div>`;
     const choice = readChoice();
     banner.hidden = !!choice;
