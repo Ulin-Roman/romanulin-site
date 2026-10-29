@@ -28,7 +28,7 @@
 .cookie-notice :focus-visible, .legal-footer :focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
 .privacy-content { max-width: 900px; margin-inline: auto; padding: clamp(20px, 4vw, 44px); background: linear-gradient(135deg, #0d3268, #071a3b); border: 1px solid var(--line); border-radius: 24px; overflow-wrap: anywhere; }
 .privacy-content h1 { font-size: clamp(26px, 4vw, 44px); line-height: 1.15; }
-.privacy-content h2 { font-size: 22px; line-height: 1.35; margin-top: 30px; }
+.privacy-content h2 { font-size: 22px; line-height: 1.35; margin-top: 30px; scroll-margin-top: 100px; }
 .privacy-content p { line-height: 1.7; }
 @media (max-width: 680px) {
     .cookie-notice:not([hidden]) ~ .scroll-top { opacity: 0; visibility: hidden; pointer-events: none; }
