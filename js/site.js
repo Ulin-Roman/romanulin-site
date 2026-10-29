@@ -237,19 +237,33 @@ function initializeSnow(snowLayer) {
     };
     setEnabled(true);
     const pullThreshold = 22;
-    const maxPull = 38;
+    const maxPull = 68;
     let pointerId = null;
     let startX = 0;
     let startY = 0;
     let heldKey = null;
+    let cordLength = 66;
     const menuIsOpen = () => document.body.classList.contains('menu-open');
-    const showPull = distance => toggle.style.setProperty('--garland-pull-distance', Math.min(maxPull, Math.max(0, distance)) + 'px');
+    const pullProperties = ['--garland-pull-distance', '--garland-pull-x', '--garland-cord-extra', '--garland-cord-angle', '--garland-switch-angle'];
+    const measureCord = () => { cordLength = parseFloat(getComputedStyle(toggle).getPropertyValue('--garland-cord-length')) || 66; };
+    const showPull = (distance, sideways = 0) => {
+        const down = Math.max(0, distance);
+        const pull = Math.min(maxPull, down <= 44 ? down : 44 + (down - 44) * .35);
+        const drift = Math.max(-14, Math.min(14, sideways));
+        const length = Math.hypot(cordLength + pull, drift);
+        const angle = -Math.atan2(drift, cordLength + pull);
+        toggle.style.setProperty('--garland-pull-distance', pull + 'px');
+        toggle.style.setProperty('--garland-pull-x', drift + 'px');
+        toggle.style.setProperty('--garland-cord-extra', (length - cordLength) + 'px');
+        toggle.style.setProperty('--garland-cord-angle', angle + 'rad');
+        toggle.style.setProperty('--garland-switch-angle', angle * .4 + 'rad');
+    };
     const cancelPull = () => {
         const capturedPointer = pointerId;
         pointerId = null;
         heldKey = null;
         toggle.classList.remove('is-pulling');
-        toggle.style.removeProperty('--garland-pull-distance');
+        pullProperties.forEach(property => toggle.style.removeProperty(property));
         if (capturedPointer !== null && toggle.hasPointerCapture(capturedPointer)) {
             toggle.releasePointerCapture(capturedPointer);
         }
@@ -264,6 +278,7 @@ function initializeSnow(snowLayer) {
     });
     toggle.addEventListener('pointerdown', event => {
         if (!event.isPrimary || event.button !== 0 || pointerId !== null || heldKey !== null || menuIsOpen()) return;
+        measureCord();
         pointerId = event.pointerId;
         startX = event.clientX;
         startY = event.clientY;
@@ -273,7 +288,7 @@ function initializeSnow(snowLayer) {
     toggle.addEventListener('pointermove', event => {
         if (event.pointerId !== pointerId) return;
         if (menuIsOpen()) return cancelPull();
-        showPull(event.clientY - startY);
+        showPull(event.clientY - startY, event.clientX - startX);
     });
     toggle.addEventListener('pointerup', event => {
         if (event.pointerId !== pointerId) return;
@@ -294,6 +309,7 @@ function initializeSnow(snowLayer) {
         if (event.key !== 'Enter' && event.key !== ' ') return;
         event.preventDefault();
         if (event.repeat || pointerId !== null || heldKey !== null || menuIsOpen()) return;
+        measureCord();
         heldKey = event.key;
         toggle.classList.add('is-pulling');
         showPull(pullThreshold + 4);
@@ -307,6 +323,7 @@ function initializeSnow(snowLayer) {
     });
     toggle.addEventListener('blur', cancelPull);
     window.addEventListener('blur', cancelPull);
+    window.addEventListener('resize', cancelPull);
     headerRow.querySelector('.menu-toggle')?.addEventListener('click', cancelPull);
     headerRow.classList.add('has-holiday-garland');
     headerRow.append(garland, toggle);

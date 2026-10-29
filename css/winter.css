@@ -111,17 +111,40 @@ p { margin-bottom: 1rem; }
 .header-garland-switch {
     position: absolute; z-index: 3; top: calc(100% + 44px); right: 16px; width: 44px; height: 44px;
     display: block; padding: 0; background: transparent; border: 0; border-radius: 10px;
-    --garland-pull-distance: 0px;
+    --garland-pull-distance: 0px; --garland-pull-x: 0px; --garland-cord-extra: 0px;
+    --garland-cord-angle: 0rad; --garland-switch-angle: 0rad;
+    --garland-cord-length: 66px; --garland-cord-top: -46px;
+    --garland-return: .65s cubic-bezier(.18,1.65,.32,1);
     cursor: grab; pointer-events: auto; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
 }
-.header-garland-switch::before { content: ""; position: absolute; top: -46px; left: calc(50% - 1px); width: 2px; height: calc(66px + var(--garland-pull-distance)); border-radius: 2px; background: repeating-linear-gradient(145deg, transparent 0 2px, rgba(116,137,88,.55) 2px 3px, transparent 3px 5px), linear-gradient(90deg, #050907, #405033 45%, #101912 75%, #050907); box-shadow: 1px 0 1px rgba(0,0,0,.55); }
-.header-garland-switch > svg { position: absolute; top: 14px; left: 12px; width: 20px; height: 28px; overflow: visible; filter: drop-shadow(0 2px 3px rgba(0,0,0,.6)); transform: translateY(var(--garland-pull-distance)); transition: transform .22s cubic-bezier(.2,.8,.25,1.15); }
+.header-garland-switch::before {
+    content: ""; position: absolute; top: var(--garland-cord-top); left: calc(50% - 1.25px); width: 2.5px;
+    height: calc(var(--garland-cord-length) + var(--garland-cord-extra)); border-radius: 2px;
+    background-image: repeating-linear-gradient(145deg, #0b160d 0 2px, #607348 2px 3px, #23351e 3px 5px), linear-gradient(90deg, #050907, #405033 45%, #101912 75%, #050907);
+    background-size: 100% 8px, 100% 100%; background-repeat: repeat-y, no-repeat;
+    background-position: 0 var(--garland-pull-distance), 0 0;
+    box-shadow: 1px 0 1px rgba(0,0,0,.55); transform-origin: 50% 0;
+    transform: rotate(var(--garland-cord-angle));
+    transition: height var(--garland-return), transform var(--garland-return), background-position var(--garland-return);
+}
+/* Fixed sleeve hides the moving braid as it feeds out of the header. */
+.header-garland-switch::after {
+    content: ""; position: absolute; z-index: 1; top: calc(var(--garland-cord-top) - 3px); left: calc(50% - 5px);
+    width: 10px; height: 7px; border: 1px solid #3c4c31; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(ellipse at 50% 70%, #020805 0 35%, #182519 48%, #34412b 68%, #101911 100%);
+    box-shadow: 0 1px 2px rgba(0,0,0,.55), inset 0 1px 1px rgba(149,172,117,.2);
+}
+.header-garland-switch > svg {
+    position: absolute; top: 14px; left: 12px; width: 20px; height: 28px; overflow: visible;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,.6)); transform-origin: 50% 0;
+    transform: translate(var(--garland-pull-x), var(--garland-pull-distance)) rotate(var(--garland-switch-angle));
+    transition: transform var(--garland-return);
+}
 .header-garland-switch .garland-pull-body { fill: #18241a; stroke: #59694a; stroke-width: .85; }
 .header-garland-switch .garland-pull-led { fill: #9cdb74; filter: drop-shadow(0 0 2px rgba(142,218,104,.7)); }
 .header-garland-switch[aria-pressed="false"] .garland-pull-body { fill: #111a14; stroke: #3b4934; }
 .header-garland-switch[aria-pressed="false"] .garland-pull-led { fill: #475144; filter: none; }
 .header-garland-switch .garland-power-icon { fill: none; stroke: #e9efdf; stroke-width: 1.35; stroke-linecap: round; }
-.header-garland-switch::before { transition: height .22s cubic-bezier(.2,.8,.25,1.15); }
 .header-garland-switch.is-pulling { cursor: grabbing; }
 .header-garland-switch.is-pulling::before, .header-garland-switch.is-pulling > svg { transition: none; }
 .header-garland-switch:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
@@ -133,8 +156,7 @@ p { margin-bottom: 1rem; }
 }
 @media (max-width: 680px) {
     .header-garland { --garland-frame-height: 46px; }
-    .header-garland-switch { top: calc(100% + 30px); right: 8px; }
-    .header-garland-switch::before { top: -32px; height: calc(52px + var(--garland-pull-distance)); }
+    .header-garland-switch { top: calc(100% + 30px); right: 8px; --garland-cord-top: -32px; --garland-cord-length: 52px; }
 }
 @media (prefers-reduced-motion: reduce) {
     .header-garland { animation: none; background-position: 0 0; }
