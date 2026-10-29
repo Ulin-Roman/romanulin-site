@@ -592,25 +592,35 @@ document.querySelectorAll('.case-footer').forEach((footer) => {
 });
 
 if (serviceItems.length) {
+    const serviceToggles = new Map();
+    serviceItems.forEach((item, index) => {
+        const toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'service-toggle';
+        toggle.setAttribute('aria-label', item.querySelector('strong')?.textContent.trim() || 'Описание услуги');
+        const description = item.querySelector('p');
+        if (description) {
+            if (!description.id) description.id = 'service-details-' + (index + 1);
+            toggle.setAttribute('aria-controls', description.id);
+        }
+        item.append(toggle);
+        serviceToggles.set(item, toggle);
+    });
+
     const closeServiceItems = () => {
         serviceItems.forEach((item) => {
             item.classList.remove('is-open');
-            item.setAttribute('aria-expanded', 'false');
+            serviceToggles.get(item).setAttribute('aria-expanded', 'false');
         });
     };
 
     const syncServiceItems = () => {
         serviceItems.forEach((item) => {
-            if (mobileServicesLayout.matches) {
-                item.tabIndex = 0;
-                item.setAttribute('role', 'button');
-                item.setAttribute('aria-expanded', String(item.classList.contains('is-open')));
-            } else {
-                item.classList.remove('is-open');
-                item.removeAttribute('tabindex');
-                item.removeAttribute('role');
-                item.removeAttribute('aria-expanded');
-            }
+            item.removeAttribute('tabindex');
+            item.removeAttribute('role');
+            item.removeAttribute('aria-expanded');
+            if (!mobileServicesLayout.matches) item.classList.remove('is-open');
+            serviceToggles.get(item).setAttribute('aria-expanded', String(item.classList.contains('is-open')));
         });
     };
 
@@ -621,17 +631,13 @@ if (serviceItems.length) {
         serviceItems.forEach((item) => {
             const isOpen = item === selectedItem && willOpen;
             item.classList.toggle('is-open', isOpen);
-            item.setAttribute('aria-expanded', String(isOpen));
+            serviceToggles.get(item).setAttribute('aria-expanded', String(isOpen));
         });
     };
 
+    // Native button Enter/Space activation bubbles one click to the item.
     serviceItems.forEach((item) => {
         item.addEventListener('click', () => toggleServiceItem(item));
-        item.addEventListener('keydown', (event) => {
-            if (event.key !== 'Enter' && event.key !== ' ') return;
-            event.preventDefault();
-            toggleServiceItem(item);
-        });
     });
 
     document.addEventListener('click', (event) => {

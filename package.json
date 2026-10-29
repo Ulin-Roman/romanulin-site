@@ -4,6 +4,6 @@
     "build": "node scripts/build-blog.cjs && node scripts/version-assets.cjs",
     "check": "node scripts/build-blog.cjs --check && node scripts/version-assets.cjs --check",
     "update:views": "node scripts/update-telegram-views.cjs",
-    "test": "node scripts/test-season.cjs && node scripts/test-site.cjs && node scripts/test-blog.cjs && node scripts/test-reklama.cjs && node scripts/test-telegram-views.cjs && node scripts/test-article.cjs && node scripts/test-assets.cjs"
+    "test": "node scripts/test-season.cjs && node scripts/test-site.cjs && node scripts/test-blog.cjs && node scripts/test-reklama.cjs && node scripts/test-telegram-views.cjs && node scripts/test-article.cjs && node scripts/test-assets.cjs && node scripts/test-services.cjs"
   }
 }

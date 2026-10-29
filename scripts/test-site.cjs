@@ -31,6 +31,32 @@ const canonicalOwners = new Map();
 const errors = [];
 const check = (condition, message) => { if (!condition) errors.push(message); };
 
+const checkSrcset = (htmlFile, relative, tag) => {
+    const value = attr(tag, 'srcset');
+    if (value === undefined) return;
+    const candidates = value.split(',').map(candidate => candidate.trim());
+    check(candidates.length >= 2, relative + ': srcset должен содержать минимум два кандидата');
+    const descriptors = new Set();
+    const units = new Set();
+    for (const candidate of candidates) {
+        const match = /^(\S+)\s+((?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?)(w|x)$/.exec(candidate);
+        if (!match) {
+            check(false, relative + ': некорректный srcset кандидат ' + candidate);
+            continue;
+        }
+        const [, url, amount, unit] = match;
+        const number = Number(amount);
+        check(Number.isFinite(number) && number > 0 && (unit !== 'w' || /^\d+$/.test(amount)), relative + ': неположительный или некорректный srcset дескриптор ' + amount + unit);
+        const descriptor = String(number) + unit;
+        check(!descriptors.has(descriptor), relative + ': повторяющийся srcset дескриптор ' + descriptor);
+        descriptors.add(descriptor);
+        units.add(unit);
+        const target = localTarget(htmlFile, url);
+        if (target) check(fs.existsSync(target), relative + ': отсутствует srcset изображение ' + url);
+    }
+    check(units.size <= 1, relative + ': srcset смешивает w и x дескрипторы');
+};
+
 for (const file of htmlFiles) {
     const relative = path.relative(root, file).replace(/\\/g, '/');
     const html = fs.readFileSync(file, 'utf8');
@@ -72,11 +98,22 @@ for (const file of htmlFiles) {
     }
     for (const match of html.matchAll(/<(?:img|script|link|source|a)\b[^>]*>/gi)) {
         const tag = match[0];
-        for (const name of ['src', 'href', 'data-full-src', 'data-regular-src', 'data-holiday-src']) {
+        checkSrcset(file, relative, tag);
+        for (const name of ['src', 'href', 'data-full-src', 'data-original-src', 'data-regular-src', 'data-holiday-src']) {
             const value = attr(tag, name);
             const target = localTarget(file, value);
             if (!target) continue;
             check(fs.existsSync(target), `${relative}: отсутствует ${value}`);
+        }
+    }
+    for (const container of html.matchAll(/<div\b[^>]*>/gi)) {
+        if (!(attr(container[0], 'class') || '').split(/\s+/).includes('case-media')) continue;
+        const end = html.indexOf('</div>', container.index + container[0].length);
+        const content = html.slice(container.index + container[0].length, end < 0 ? html.length : end);
+        for (const image of content.matchAll(/<img\b[^>]*>/gi)) {
+            const original = attr(image[0], 'data-original-src');
+            const target = localTarget(file, original);
+            check(Boolean(original && target && fs.existsSync(target)), relative + ': у case-media изображения отсутствует локальный оригинал data-original-src');
         }
     }
     for (const match of html.matchAll(/<meta\s+(?:property=["']og:image["']|name=["']twitter:image["'])\s+content=["']([^"']+)["']/gi)) {
