@@ -89,9 +89,9 @@ for (const file of htmlFiles) {
 const articleScript = fs.readFileSync(path.join(root, 'js/article.js'), 'utf8');
 const catalog = JSON.parse(articleScript.match(/const articleCatalog = (\[[\s\S]*?\]);/)[1]);
 for (const item of catalog) {
-    check(fs.existsSync(path.join(root, 'img/blog', item.image)), `article catalog: missing ${item.image}`);
+    check(fs.existsSync(path.join(root, 'img/blog', item.image.split(/[?#]/)[0])), `article catalog: missing ${item.image}`);
     const articleHtml = fs.readFileSync(path.join(root, 'blog', item.slug, 'index.html'), 'utf8');
-    const articleScriptPosition = articleHtml.indexOf('src="../../js/article.js"');
+    const articleScriptPosition = articleHtml.search(/\ssrc=["']\.\.\/\.\.\/js\/article\.js(?:[?#][^"']*)?["']/i);
     const commonScriptPosition = articleHtml.search(/\ssrc=["']\.\.\/\.\.\/js\/site\.js(?:[?#][^"']*)?["']/i);
     check(articleScriptPosition > 0 && commonScriptPosition > articleScriptPosition, `${item.slug}: article components must initialize before shared animations`);
 }

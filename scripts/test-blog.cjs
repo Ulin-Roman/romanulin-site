@@ -22,9 +22,30 @@ try {
         const preview = 'img/blog/previews/' + path.basename(a.image) + '.webp';
         if (fs.existsSync(path.join(root, preview))) write(preview, 'fixture');
         const thumbnail = 'img/blog/thumbnails/' + path.basename(a.image) + '.webp';
-        if (fs.existsSync(path.join(root, thumbnail))) write(thumbnail, 'fixture');
+        if (fs.existsSync(path.join(root, thumbnail))) write(thumbnail, fs.readFileSync(path.join(root, thumbnail)));
+        const card = 'img/blog/cards/' + path.basename(a.image) + '.webp';
+        if (fs.existsSync(path.join(root, card))) write(card, fs.readFileSync(path.join(root, card)));
     }
-    const run = (...args) => execFileSync(process.execPath, ['scripts/build-blog.cjs', ...args], { cwd: temp, encoding: 'utf8' });
+    const run = (...args) => execFileSync(process.execPath, ['scripts/build-blog.cjs', ...args], { cwd: temp, encoding: 'utf8', stdio: 'pipe' });
+    run('--check');
+    // Line endings alone must not make a generated catalog stale or rewrite it.
+    const catalogPath = path.join(temp, 'data/articles.json');
+    const originalCatalog = fs.readFileSync(catalogPath);
+    const lfCatalog = originalCatalog.toString('utf8').replace(/\r\n/g, '\n');
+    for (const lineEnding of ['\n', '\r\n']) {
+        const fixture = Buffer.from(lfCatalog.replace(/\n/g, lineEnding));
+        write('data/articles.json', fixture);
+        run('--check');
+        assert.deepEqual(fs.readFileSync(catalogPath), fixture, '--check must not rewrite line endings');
+        run();
+        assert.deepEqual(fs.readFileSync(catalogPath), fixture, 'build must not rewrite an EOL-only difference');
+    }
+    write('data/articles.json', originalCatalog);
+    // Normalizing EOL must still reject an actual stale generated URL.
+    const sitemapBefore = fs.readFileSync(path.join(temp, 'sitemap.xml'));
+    write('sitemap.xml', sitemapBefore.toString('utf8').replace('<loc>https://romanulin.ru/</loc>', '<loc>https://example.invalid/</loc>'));
+    assert.throws(() => run('--check'), /outdated: sitemap\.xml/);
+    write('sitemap.xml', sitemapBefore);
     run('--check');
     // Add only a page, with no edits to any list or catalog.
     const first = articles[0];
@@ -57,7 +78,7 @@ try {
     run();
     run('--check');
     assert.doesNotMatch(fs.readFileSync(path.join(temp, 'sitemap.xml'), 'utf8'), /discovery-test/);
-    console.log('PASS: discovery, ordering, lists, sitemap additions/removals, idempotence, existing data and article HTML unchanged.');
+    console.log('PASS: LF/CRLF checks without rewrites, stale content rejection, discovery, ordering, lists, sitemap additions/removals, idempotence, existing data and article HTML unchanged.');
 } finally {
     fs.rmSync(temp, { recursive: true, force: true });
 }

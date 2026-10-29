@@ -1,11 +1,13 @@
-// Version only the shared stylesheet and script; all page-relative URLs stay intact.
+// Version all public stylesheets and scripts; preserve page-relative URLs.
 const fs = require('node:fs');
 const path = require('node:path');
 const { createHash } = require('node:crypto');
 
 const root = path.resolve(__dirname, '..');
 const checkOnly = process.argv.includes('--check');
-const assetNames = ['css/winter.css', 'js/site.js', 'js/season.js'];
+const assetNames = ['css', 'js'].flatMap(directory => fs.readdirSync(path.join(root, directory), { withFileTypes: true })
+    .filter(entry => entry.isFile() && /\.(?:css|js)$/i.test(entry.name))
+    .map(entry => directory + '/' + entry.name)).sort();
 const versions = new Map(assetNames.map(name => {
     // Git may check out CRLF on Windows and LF on the deployment runner.
     const content = fs.readFileSync(path.join(root, name), 'utf8').replace(/\r\n/g, '\n');

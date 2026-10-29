@@ -1,6 +1,7 @@
 // Article data is shared by the home page, blog index and article sidebar.
 const fs = require('node:fs');
 const path = require('node:path');
+const { createHash } = require('node:crypto');
 const root = path.resolve(__dirname, '..');
 const read = name => fs.readFileSync(path.join(root, name), 'utf8');
 const outputs = new Map();
@@ -26,6 +27,17 @@ const previewData = article => {
     if (!fs.existsSync(path.join(root, file))) return null;
     const width = Math.min(1200, article.width);
     return { file, width, height: Math.round(article.height * width / article.width) };
+};
+const imageVersions = new Map();
+const versionImage = file => {
+    if (!imageVersions.has(file)) imageVersions.set(file, createHash('sha256').update(fs.readFileSync(path.join(root, file))).digest('hex').slice(0, 12));
+    return file + '?v=' + imageVersions.get(file);
+};
+const cardData = article => {
+    const file = 'img/blog/cards/' + path.posix.basename(article.image) + '.webp';
+    if (!fs.existsSync(path.join(root, file))) return previewData(article);
+    const width = Math.min(640, article.width);
+    return { file: versionImage(file), width, height: Math.round(article.height * width / article.width) };
 };
 const upsertMeta = (html, attribute, name, content) => {
     const markup = `<meta ${attribute}="${name}" content="${escape(content)}">`;
@@ -129,7 +141,7 @@ function replaceCards(html, className, items, isHome) {
     return html.replace(pattern, (_, open) => open + '\n' + items.map((a, position) => {
         let markup = card(a, isHome);
         if (!isHome && position < 3) markup = markup.replace('loading="lazy"', 'loading="eager"');
-        const preview = previewData(a);
+        const preview = cardData(a);
         if (preview) {
             const prefix = isHome ? '' : '../';
             markup = markup.replace(`src="${prefix}${escape(a.image)}" width="${a.width}" height="${a.height}"`, `src="${prefix}${escape(preview.file)}" width="${preview.width}" height="${preview.height}"`);
@@ -217,11 +229,13 @@ for (const a of articles) {
 }
 const related = articles.map(a => {
     const thumbnail = `img/blog/thumbnails/${path.posix.basename(a.image)}.webp`;
-    const image = fs.existsSync(path.join(root, thumbnail)) ? thumbnail : (previewData(a)?.file || a.image);
+    const image = fs.existsSync(path.join(root, thumbnail)) ? versionImage(thumbnail) : (previewData(a)?.file || a.image);
     return { slug: a.slug, title: escape(a.title), date: escape(a.date), image: path.posix.relative('img/blog', image), views: a.views };
 });
 outputs.set('js/article.js', site.replace(catalogPattern, () => 'const articleCatalog = ' + JSON.stringify(related).replace(/</g, '\\u003c') + ';'));
-const stale = [...outputs].filter(([file, value]) => !fs.existsSync(path.join(root, file)) || read(file) !== value);
+// A Windows checkout may use CRLF while generated JSON and XML use LF.
+const normalizeLineEndings = value => value.replace(/\r\n/g, '\n');
+const stale = [...outputs].filter(([file, value]) => !fs.existsSync(path.join(root, file)) || normalizeLineEndings(read(file)) !== normalizeLineEndings(value));
 if (process.argv.includes('--check')) {
     if (stale.length) throw new Error('Run npm run build; outdated: ' + stale.map(([f]) => f).join(', '));
 } else {

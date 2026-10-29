@@ -33,6 +33,7 @@ jobs:
           node-version: '22'
 
       - name: Refresh Telegram counters
+        timeout-minutes: 5
         continue-on-error: true
         run: npm run update:views
 
@@ -45,7 +46,7 @@ jobs:
       - name: Save updated counters
         id: counters
         run: |
-          git add data/articles.json js/article.js
+          git add -- data/articles.json js/article.js ':(glob)**/*.html'
           if ! git diff --cached --quiet; then
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'

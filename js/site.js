@@ -565,7 +565,6 @@ const caseLeadsByReport = new Map([
     ['img/14.png', 125],
     ['img/15.png', 1253],
     ['img/16.png', 50],
-    ['img/17.png', 67808],
     ['img/18.png', 3796],
     ['img/19.png', 241],
 ]);

@@ -752,85 +752,85 @@ p { margin-bottom: 1rem; }
 .blog-index-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); align-items: stretch; gap: 22px; }
 .blog-index-grid .blog-card { width: 100%; }
 /* Photo crops chosen individually; screenshots retain the complete image. */
-:is(.blog-card-image, .related-article) img:is([src$="/agentstvo-ili-frilans-v-2026.jpg"], [src$="/agentstvo-ili-frilans-v-2026.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 35%; }
-:is(.blog-card-image, .related-article) img:is([src$="/pamyatka-direktologa-2026.jpg"], [src$="/pamyatka-direktologa-2026.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 35%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-280.jpg"], [src$="/telegram-280.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 50%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-271.jpg"], [src$="/telegram-271.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 55%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-265.jpg"], [src$="/telegram-265.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 48%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-263.jpg"], [src$="/telegram-263.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 35%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-262.jpg"], [src$="/telegram-262.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-259.jpg"], [src$="/telegram-259.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-258.jpg"], [src$="/telegram-258.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 65%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-251.jpg"], [src$="/telegram-251.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 38%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-250.jpg"], [src$="/telegram-250.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 25%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-248.jpg"], [src$="/telegram-248.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 5%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-244.jpg"], [src$="/telegram-244.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 10%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-243.jpg"], [src$="/telegram-243.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 50%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-241.jpg"], [src$="/telegram-241.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 30%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-240.jpg"], [src$="/telegram-240.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-236.jpg"], [src$="/telegram-236.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-231.jpg"], [src$="/telegram-2025-231.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 28%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-227.jpg"], [src$="/telegram-2025-227.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 65%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-225.jpg"], [src$="/telegram-2025-225.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 20%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-224.jpg"], [src$="/telegram-2025-224.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 30%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-222.jpg"], [src$="/telegram-2025-222.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 35%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-215.jpg"], [src$="/telegram-2025-215.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 55%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-211.jpg"], [src$="/telegram-2025-211.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 30%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-205.jpg"], [src$="/telegram-2025-205.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 60%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-194.jpg"], [src$="/telegram-2025-194.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 60%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-191.jpg"], [src$="/telegram-2025-191.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-190.jpg"], [src$="/telegram-2025-190.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 35%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-187.jpg"], [src$="/telegram-2025-187.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-179.jpg"], [src$="/telegram-2025-179.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 48%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-177.jpg"], [src$="/telegram-2025-177.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 50%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-174.jpg"], [src$="/telegram-2025-174.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-171.jpg"], [src$="/telegram-2025-171.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 35%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-168.jpg"], [src$="/telegram-2025-168.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-167.jpg"], [src$="/telegram-2025-167.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 62%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-163.jpg"], [src$="/telegram-2025-163.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 55%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-160.jpg"], [src$="/telegram-2025-160.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 25%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-159.jpg"], [src$="/telegram-2025-159.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 50%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-155.png"], [src$="/telegram-2025-155.png.webp"]) { --preview-fit: cover; --preview-position: 50% 60%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-154.jpg"], [src$="/telegram-2025-154.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-153.jpg"], [src$="/telegram-2025-153.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 48%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-150.jpg"], [src$="/telegram-2025-150.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 52%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-149.jpg"], [src$="/telegram-2025-149.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 48%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-145.jpg"], [src$="/telegram-2025-145.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 55%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-143.jpg"], [src$="/telegram-2025-143.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 80%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-141.jpg"], [src$="/telegram-2025-141.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 65%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-136.jpg"], [src$="/telegram-2025-136.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 30%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-135.jpg"], [src$="/telegram-2025-135.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 10%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-134.jpg"], [src$="/telegram-2025-134.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 48%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-133.jpg"], [src$="/telegram-2025-133.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 60%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-132.jpg"], [src$="/telegram-2025-132.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 50%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-128.jpg"], [src$="/telegram-2025-128.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-126.jpg"], [src$="/telegram-2025-126.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-124.jpg"], [src$="/telegram-2025-124.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 38%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-122.jpg"], [src$="/telegram-2025-122.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-115.jpg"], [src$="/telegram-2025-115.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 38%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-112.jpg"], [src$="/telegram-2025-112.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 43%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-110.jpg"], [src$="/telegram-2025-110.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 10%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-108.jpg"], [src$="/telegram-2025-108.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 25%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-107.jpg"], [src$="/telegram-2025-107.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-105.jpg"], [src$="/telegram-2025-105.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 50%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-103.jpg"], [src$="/telegram-2025-103.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 10%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-102.jpg"], [src$="/telegram-2025-102.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 32%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-101.jpg"], [src$="/telegram-2025-101.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 38%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-100.jpg"], [src$="/telegram-2025-100.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-98.jpg"], [src$="/telegram-2025-98.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 15%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-96.jpg"], [src$="/telegram-2025-96.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-94.jpg"], [src$="/telegram-2025-94.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 25%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-89.jpg"], [src$="/telegram-2025-89.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 43%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-88.jpg"], [src$="/telegram-2025-88.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-87.jpg"], [src$="/telegram-2025-87.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-86.jpg"], [src$="/telegram-2025-86.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 30%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-85.jpg"], [src$="/telegram-2025-85.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 35%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-83.jpg"], [src$="/telegram-2025-83.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 55%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-82.jpg"], [src$="/telegram-2025-82.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-75.jpg"], [src$="/telegram-2025-75.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 58%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-74.jpg"], [src$="/telegram-2025-74.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 20%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-72.jpg"], [src$="/telegram-2025-72.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 53%; }
-:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-66.jpg"], [src$="/telegram-2025-66.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 25%; }
+:is(.blog-card-image, .related-article) img:is([src$="/agentstvo-ili-frilans-v-2026.jpg"], [src*="/agentstvo-ili-frilans-v-2026.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 35%; }
+:is(.blog-card-image, .related-article) img:is([src$="/pamyatka-direktologa-2026.jpg"], [src*="/pamyatka-direktologa-2026.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 35%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-280.jpg"], [src*="/telegram-280.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 50%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-271.jpg"], [src*="/telegram-271.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 55%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-265.jpg"], [src*="/telegram-265.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 48%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-263.jpg"], [src*="/telegram-263.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 35%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-262.jpg"], [src*="/telegram-262.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-259.jpg"], [src*="/telegram-259.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-258.jpg"], [src*="/telegram-258.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 65%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-251.jpg"], [src*="/telegram-251.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 38%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-250.jpg"], [src*="/telegram-250.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 25%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-248.jpg"], [src*="/telegram-248.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 5%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-244.jpg"], [src*="/telegram-244.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 10%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-243.jpg"], [src*="/telegram-243.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 50%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-241.jpg"], [src*="/telegram-241.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 30%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-240.jpg"], [src*="/telegram-240.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-236.jpg"], [src*="/telegram-236.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-231.jpg"], [src*="/telegram-2025-231.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 28%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-227.jpg"], [src*="/telegram-2025-227.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 65%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-225.jpg"], [src*="/telegram-2025-225.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 20%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-224.jpg"], [src*="/telegram-2025-224.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 30%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-222.jpg"], [src*="/telegram-2025-222.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 35%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-215.jpg"], [src*="/telegram-2025-215.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 55%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-211.jpg"], [src*="/telegram-2025-211.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 30%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-205.jpg"], [src*="/telegram-2025-205.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 60%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-194.jpg"], [src*="/telegram-2025-194.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 60%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-191.jpg"], [src*="/telegram-2025-191.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-190.jpg"], [src*="/telegram-2025-190.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 35%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-187.jpg"], [src*="/telegram-2025-187.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-179.jpg"], [src*="/telegram-2025-179.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 48%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-177.jpg"], [src*="/telegram-2025-177.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 50%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-174.jpg"], [src*="/telegram-2025-174.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-171.jpg"], [src*="/telegram-2025-171.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 35%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-168.jpg"], [src*="/telegram-2025-168.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-167.jpg"], [src*="/telegram-2025-167.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 62%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-163.jpg"], [src*="/telegram-2025-163.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 55%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-160.jpg"], [src*="/telegram-2025-160.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 25%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-159.jpg"], [src*="/telegram-2025-159.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 50%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-155.png"], [src*="/telegram-2025-155.png.webp"]) { --preview-fit: cover; --preview-position: 50% 60%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-154.jpg"], [src*="/telegram-2025-154.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-153.jpg"], [src*="/telegram-2025-153.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 48%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-150.jpg"], [src*="/telegram-2025-150.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 52%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-149.jpg"], [src*="/telegram-2025-149.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 48%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-145.jpg"], [src*="/telegram-2025-145.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 55%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-143.jpg"], [src*="/telegram-2025-143.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 80%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-141.jpg"], [src*="/telegram-2025-141.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 65%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-136.jpg"], [src*="/telegram-2025-136.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 30%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-135.jpg"], [src*="/telegram-2025-135.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 10%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-134.jpg"], [src*="/telegram-2025-134.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 48%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-133.jpg"], [src*="/telegram-2025-133.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 60%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-132.jpg"], [src*="/telegram-2025-132.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 50%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-128.jpg"], [src*="/telegram-2025-128.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-126.jpg"], [src*="/telegram-2025-126.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-124.jpg"], [src*="/telegram-2025-124.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 38%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-122.jpg"], [src*="/telegram-2025-122.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-115.jpg"], [src*="/telegram-2025-115.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 38%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-112.jpg"], [src*="/telegram-2025-112.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 43%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-110.jpg"], [src*="/telegram-2025-110.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 10%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-108.jpg"], [src*="/telegram-2025-108.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 25%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-107.jpg"], [src*="/telegram-2025-107.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 40%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-105.jpg"], [src*="/telegram-2025-105.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 50%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-103.jpg"], [src*="/telegram-2025-103.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 10%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-102.jpg"], [src*="/telegram-2025-102.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 32%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-101.jpg"], [src*="/telegram-2025-101.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 38%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-100.jpg"], [src*="/telegram-2025-100.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-98.jpg"], [src*="/telegram-2025-98.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 15%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-96.jpg"], [src*="/telegram-2025-96.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-94.jpg"], [src*="/telegram-2025-94.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 25%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-89.jpg"], [src*="/telegram-2025-89.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 43%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-88.jpg"], [src*="/telegram-2025-88.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-87.jpg"], [src*="/telegram-2025-87.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-86.jpg"], [src*="/telegram-2025-86.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 30%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-85.jpg"], [src*="/telegram-2025-85.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 35%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-83.jpg"], [src*="/telegram-2025-83.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 55%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-82.jpg"], [src*="/telegram-2025-82.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 45%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-75.jpg"], [src*="/telegram-2025-75.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 58%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-74.jpg"], [src*="/telegram-2025-74.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 20%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-72.jpg"], [src*="/telegram-2025-72.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 53%; }
+:is(.blog-card-image, .related-article) img:is([src$="/telegram-2025-66.jpg"], [src*="/telegram-2025-66.jpg.webp"]) { --preview-fit: cover; --preview-position: 50% 25%; }
 
 /* Close portraits need a taller frame to keep the face within the crop. */
 .blog-card-image:has(img[src$="/telegram-2025-126.jpg"]),
@@ -850,7 +850,6 @@ p { margin-bottom: 1rem; }
 .article-layout--paper { grid-template-rows: auto auto; }
 .article-layout--paper > .article-reading-paper { grid-column: 1; grid-row: 1; }
 .article-layout--paper > .article-sidebar { grid-column: 2; grid-row: 1 / 3; }
-.article-layout--paper > .article-body--paper-tail { grid-column: 1; grid-row: 2; }
 .article-reading-paper { padding: clamp(24px, 3.4vw, 48px); background: radial-gradient(circle at 14% 0%, rgba(61, 151, 238, .2), transparent 34%), linear-gradient(135deg, #0d3268 0%, #09234d 54%, #071a3b 100%); color: #eef7fc; border: 1px solid rgba(111, 201, 255, .3); border-radius: 30px; box-shadow: 0 24px 60px rgba(0, 7, 28, .34), inset 0 1px 0 rgba(255,255,255,.08); }
 .article-content--paper .article-hero h1 { color: #fff; font-size: clamp(2rem, 3.3vw, 3.25rem); line-height: 1.12; letter-spacing: -.04em; }
 .article-content--paper .article-meta { color: #99afbe; }
@@ -862,7 +861,6 @@ p { margin-bottom: 1rem; }
 .article-content--paper .article-body--paper-copy h2, .article-content--paper .article-body--paper-copy h3 { color: #fff; }
 .article-content--paper .article-body--paper-copy > p > a { color: #65ddff; }
 .article-content--paper .article-body--paper-copy li::marker { color: inherit; }
-.article-content--paper .article-body--paper-tail { margin-top: 0; color: #9ab2c7; }
 .article-content--paper .article-footer-actions { margin-top: 28px; color: #9ab2c7; border-color: rgba(151, 211, 248, .14); gap: 20px 12px; }
 @media (max-width: 680px) {
     .article-reading-paper { padding: 24px 18px; border-radius: 20px; }
@@ -952,10 +950,6 @@ p { margin-bottom: 1rem; }
 .article-body .color-insight--red { --insight-color: #ff6470; }
 .article-note { position: relative; margin: 36px 0; padding: 26px 28px 26px 34px; color: #d7eafa; background: linear-gradient(120deg, rgba(13, 55, 111, .92), rgba(6, 27, 66, .96)); border: 1px solid rgba(108, 205, 255, .28); border-radius: 20px; box-shadow: inset 0 1px 0 rgba(255,255,255,.07); }
 .article-note::before { content: ""; position: absolute; top: 20px; bottom: 20px; left: 14px; width: 3px; background: linear-gradient(var(--cyan), #5b73ff); border-radius: 999px; box-shadow: 0 0 14px rgba(101, 221, 255, .4); }
-.article-contact { margin-top: 58px; padding: 44px 0 4px; text-align: center; background: transparent; border: 0; border-top: 1px solid rgba(151, 211, 248, .18); border-radius: 0; }
-.article-contact h2 { margin: 0; }
-.article-contact .hero-consult-button { width: min(100%, 390px); margin-top: 26px; }
-.blog-article .article-contact { display: none; }
 .article-sidebar { position: relative; align-self: stretch; contain: size; display: grid; gap: 34px; min-width: 0; min-height: 0; height: auto; max-height: none; overflow: visible; }
 .article-author-actions { display: grid; gap: 12px; }
 .article-channel-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 32px; padding-bottom: 8px; }
@@ -1142,7 +1136,6 @@ p { margin-bottom: 1rem; }
     .article-body { grid-column: 1; grid-row: auto; }
     .article-sidebar { position: static; contain: none; grid-template-columns: minmax(0, 1fr); height: auto; margin-top: 52px; max-height: none; overflow: visible; padding-right: 0; }
     .article-layout--paper > .article-reading-paper { grid-column: 1; grid-row: 1; }
-    .article-layout--paper > .article-body--paper-tail { grid-column: 1; grid-row: 2; }
     .article-layout--paper > .article-sidebar { grid-column: 1; grid-row: 3; }
     .related-articles { position: static; height: auto; max-height: none; }
     .related-articles-list { overflow: visible; padding-right: 0; }
@@ -1379,8 +1372,6 @@ p { margin-bottom: 1rem; }
     .autotarget-examples { grid-template-columns: minmax(0, 1fr); }
     .article-note { padding: 20px 18px 20px 27px; border-radius: 17px; }
     .article-note::before { top: 16px; bottom: 16px; left: 11px; }
-    .article-contact { margin-top: 44px; padding: 34px 0 2px; border-radius: 0; }
-    .article-contact .hero-consult-button { margin-top: 22px; }
     .article-sidebar { grid-template-columns: minmax(0, 1fr); gap: 32px; margin-top: 44px; }
     .related-articles h2 { font-size: 22px; }
     .related-article { grid-template-columns: 96px minmax(0, 1fr); }
