@@ -20,6 +20,7 @@ jobs:
     permissions:
       contents: write
       pages: write
+      actions: read
 
     steps:
       - name: Checkout latest main
@@ -85,8 +86,18 @@ jobs:
             **/tgstat-config.local.php
             **/api/cache/**
 
-      - name: Request GitHub Pages build for updated counters
+      - name: Ensure GitHub Pages build for updated counters
         if: steps.counters.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds"
+        run: |
+          current_sha=$(git rev-parse HEAD)
+          # A Pages run may already exist after the counter commit; avoid cancelling it.
+          existing=$(gh api \
+            "repos/$GITHUB_REPOSITORY/actions/runs?head_sha=$current_sha&per_page=100" \
+            --jq '[.workflow_runs[] | select(.path == "dynamic/pages/pages-build-deployment") | select(.status != "completed" or .conclusion == "success")] | length')
+          if [ "$existing" -gt 0 ]; then
+            echo "Pages build already exists for $current_sha; skipping duplicate request."
+          else
+            gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds"
+          fi
