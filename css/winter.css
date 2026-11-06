@@ -925,6 +925,7 @@ p { margin-bottom: 1rem; }
 .article-body p { margin: 0 0 22px; }
 .article-body ul, .article-body ol { display: grid; gap: 11px; margin: 20px 0 28px; padding-left: 24px; }
 .article-body li::marker { color: inherit; }
+.article-body .article-list-parentheses > li::marker { content: counter(list-item) ") "; }
 .article-body .autotarget-steps { counter-reset: autotarget-step; list-style: none; padding: 0; margin: 24px 0 32px; gap: 18px; }
 .article-body .autotarget-steps > li { counter-increment: autotarget-step; padding: clamp(18px, 3vw, 28px); border: 1px solid rgba(101, 221, 255, .18); border-radius: 20px; background: rgba(3, 10, 25, .25); }
 .article-body .autotarget-steps h3 { display: flex; align-items: center; gap: 14px; margin: 0 0 16px; font-size: 20px; line-height: 1.4; }
