@@ -650,6 +650,15 @@ p { margin-bottom: 1rem; }
 @media(max-width:680px) {
     .case-modal-viewport img[src$="keys-seks-shop-1-god.jpg"], .case-modal-viewport img[src*="keys-ukladka-plitki-yandex-direct-"] { max-height: max(1px, calc(100svh - 250px)); }
 }
+/* Keep the paving report dialog close to the fitted image width. */
+.case-modal-dialog:has(img[src*="keys-ukladka-plitki-yandex-direct-"]) { width: min(1180px, 100%, max(320px, calc((100svh - 320px) * 1192 / 887 + 30px))); }
+.case-modal-dialog:has(img[src*="keys-ukladka-plitki-yandex-direct-"]) .case-modal-viewport { padding: 14px; }
+@media(max-width:680px) {
+    .case-modal-dialog:has(img[src*="keys-ukladka-plitki-yandex-direct-"]) { width: min(100%, max(320px, calc((100svh - 250px) * 1192 / 887 + 22px))); }
+}
+@media(max-height:540px) {
+    .case-modal-dialog:has(img[src*="keys-ukladka-plitki-yandex-direct-"]) .case-modal-header h2 { font-size: 1.35rem; }
+}
 .case-modal-footer { min-height: 74px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 18px; padding: 12px 24px; border-top: 1px solid rgba(204,235,255,.13); }
 .case-modal-nav { min-height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 16px; color: #dff7ff; background: rgba(188, 228, 255, .075); border: 1px solid rgba(210,239,255,.17); border-radius: 13px; cursor: pointer; font-size: 11px; font-weight: 800; transition: background .2s ease, border-color .2s ease; }
 .case-modal-nav svg { width: 19px; height: 19px; display: block; flex: 0 0 19px; }
