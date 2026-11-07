@@ -165,6 +165,11 @@ for (const a of articles) {
     const file = `blog/${a.slug}/index.html`;
     const canonical = `https://romanulin.ru/blog/${a.slug}/`;
     let html = read(file);
+    html = html.replace(/<html\b[^>]*>/i, tag => {
+        const prefix = attr(tag, 'prefix') || 'og: https://ogp.me/ns#';
+        const namespaces = prefix.replace(/(?:^|\s)article:\s+\S+/g, '').trim();
+        return setTagAttribute(tag, 'prefix', [namespaces, 'article: https://ogp.me/ns/article#'].filter(Boolean).join(' '));
+    });
     html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escape(seoTitle(a.title))}</title>`);
     html = upsertMeta(html, 'name', 'description', a.description);
     html = upsertMeta(html, 'property', 'og:title', a.title);

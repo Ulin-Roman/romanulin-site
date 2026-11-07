@@ -12,19 +12,14 @@ html:not(.is-holiday-season) .photo-snow i { animation-play-state: paused; }
 :root {
     --night: #030a19;
     --deep: #06152d;
-    --deep-2: #0a2044;
     --ice: #eaf8ff;
     --cyan: #65ddff;
-    --blue: #2a9df4;
     --violet: #7667ff;
     --text: #f5fbff;
     --muted: #9fb4ca;
     --glass: rgba(185, 224, 255, .075);
-    --glass-strong: rgba(178, 219, 255, .13);
     --line: rgba(198, 232, 255, .16);
     --radius-xl: 38px;
-    --radius-lg: 28px;
-    --radius-md: 20px;
     --shadow: 0 28px 80px rgba(0, 8, 28, .38);
 }
 
@@ -855,7 +850,6 @@ p { margin-bottom: 1rem; }
 .blog-article { padding: 36px 0 82px; }
 .blog-article > .container { display: block; }
 .article-layout { display: grid; grid-template-columns: minmax(0, 1fr) 310px; column-gap: clamp(30px, 4vw, 52px); align-items: stretch; }
-.article-content { min-width: 0; }
 /* Trial reading surface: agency vs freelance article only. */
 .article-layout--paper { grid-template-rows: auto auto; }
 .article-layout--paper > .article-reading-paper { grid-column: 1; grid-row: 1; }
