@@ -86,7 +86,7 @@ p { margin-bottom: 1rem; }
     .brand-header .brand-copy { font-size: 12px; }
 }
 .brand-copy { display: flex; flex-direction: column; color: var(--text); font-size: 15px; font-weight: 800; line-height: 1.22; letter-spacing: -.02em; }
-.brand-copy small { color: #8eaac4; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.brand-copy small { color: #a6bed4; font-size: 12px; font-weight: 700; letter-spacing: 0; }
 .brand-pro-copy > span { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
 .brand-pro-copy b { padding: 2px 5px; color: #06152d; background: linear-gradient(135deg, #dff8ff, #73ddff); border-radius: 6px; font-size: 8px; font-weight: 800; letter-spacing: .08em; }
 .site-nav { display: flex; align-items: center; justify-content: center; gap: 31px; margin-left: auto; }
@@ -1156,8 +1156,9 @@ p { margin-bottom: 1rem; }
     .menu-toggle { grid-column: 3; grid-row: 1; justify-self: end; width: 42px; height: 42px; margin: 0; background: transparent; border: 0; }
     .menu-toggle::before { content: ""; position: absolute; inset: 3px; background: rgba(255,255,255,.07); border: 1px solid var(--line); border-radius: 12px; }
     .menu-toggle span { width: 16px; height: 2px; margin: 4px auto; }
-    .brand-header { grid-column: 1; grid-row: 1; justify-self: start; min-width: 0; }
+    .brand-header { grid-column: 1; grid-row: 1; justify-self: start; min-width: 0; max-width: 100%; }
     .brand-header .brand-copy { align-items: flex-start; white-space: nowrap; text-align: left; }
+    .brand-header .brand-copy small { font-size: 11px; white-space: normal; }
     .brand-copy { font-size: 14px; }
     .brand-pro-copy b { padding: 1px 4px; font-size: 7px; }
     .header-messengers { grid-column: 2; grid-row: 1; justify-self: end; gap: 6px; margin-left: 0; }
