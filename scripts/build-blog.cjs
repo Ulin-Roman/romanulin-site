@@ -117,7 +117,9 @@ const staticSitemapUrls = [
     { url: 'https://romanulin.ru/', lastmod: latest },
     { url: 'https://romanulin.ru/blog/', lastmod: latest },
     { url: 'https://romanulin.ru/privacy/', lastmod: '2026-09-07' },
-    { url: 'https://romanulin.ru/reklama', lastmod: '2026-09-14' }
+    { url: 'https://romanulin.ru/reklama', lastmod: '2026-09-14' },
+    { url: 'https://romanulin.ru/sozdanie-saitov/', lastmod: '2026-11-08' },
+    { url: 'https://romanulin.ru/sozdanie-saitov/avtokai/', lastmod: '2026-11-08' }
 ];
 const sitemapEntry = ({ url, lastmod, image }) => `  <url><loc>${escape(url)}</loc><lastmod>${lastmod}</lastmod>${image ? `<image:image><image:loc>${escape(image)}</image:loc></image:image>` : ''}</url>`;
 const sitemapEntries = [
