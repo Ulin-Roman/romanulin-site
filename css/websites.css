@@ -12,6 +12,8 @@
 .website-case-mark b { font-size: clamp(22px, 3vw, 42px); font-weight: 900; letter-spacing: -.04em; }
 
 .websites-services { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.websites-process { padding-top: 0; }
+.websites-steps { margin: 0; padding: 0; list-style: none; }
 .websites-service { padding: clamp(20px, 3vw, 32px); background: linear-gradient(145deg, #0d2b57, #07162e); border: 1px solid var(--line); border-radius: 24px; }
 .websites-service > span { display: inline-grid; place-items: center; width: 42px; height: 42px; margin-bottom: 16px; color: var(--cyan); background: #0c3264; border: 1px solid var(--line); border-radius: 12px; font-weight: 850; }
 .websites-service h3 { margin: 0 0 10px; color: var(--ice); font-size: clamp(19px, 2vw, 23px); }
@@ -31,5 +33,6 @@
     .website-cases { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 680px) {
+    .websites-page .hero-title { font-size: clamp(1.8rem, 8.75vw, 2.75rem); }
     .websites-services { grid-template-columns: 1fr; }
 }
