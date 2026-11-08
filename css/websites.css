@@ -2,6 +2,7 @@
 .websites-subtitle { margin: 14px 0 0; color: var(--cyan); font-size: var(--subtitle-size); font-weight: 750; line-height: 1.5; }
 
 .websites-page .channel-copy p { font-size: 15px; }
+.websites-page .faq-answer a { color: var(--cyan); }
 
 .website-case-link { display: flex; flex-direction: column; height: 100%; }
 .website-case-link:focus-visible { outline: 2px solid var(--cyan); outline-offset: -3px; border-radius: inherit; }
@@ -31,7 +32,7 @@
 .website-project-summary ul { margin: 16px 0 24px; padding-left: 22px; color: var(--muted); line-height: 1.65; }
 .website-project-summary li + li { margin-top: 8px; }
 
-@media (min-width: 901px) {
+@media (width > 900px) {
     .website-cases { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 680px) {

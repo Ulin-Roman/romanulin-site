@@ -113,8 +113,9 @@ articles.sort((a, b) => b.published.localeCompare(a.published) || a.slug.localeC
 outputs.set(dataFile, JSON.stringify(articles, null, 2) + '\n');
 // Keep search-engine URLs in sync with additions and removals in the catalog.
 const latest = articles[0].published;
+const homepageUpdated = '2026-11-08';
 const staticSitemapUrls = [
-    { url: 'https://romanulin.ru/', lastmod: latest },
+    { url: 'https://romanulin.ru/', lastmod: latest > homepageUpdated ? latest : homepageUpdated },
     { url: 'https://romanulin.ru/blog/', lastmod: latest },
     { url: 'https://romanulin.ru/privacy/', lastmod: '2026-09-07' },
     { url: 'https://romanulin.ru/reklama', lastmod: '2026-09-14' },

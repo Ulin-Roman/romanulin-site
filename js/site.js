@@ -451,7 +451,6 @@ const caseModal = document.querySelector('#case-modal');
 
 if (caseModal && caseCards.length) {
     const modalTitle = caseModal.querySelector('#case-modal-title');
-    const modalCategory = caseModal.querySelector('#case-modal-category');
     const modalImage = caseModal.querySelector('#case-modal-image');
     const modalCount = caseModal.querySelector('.case-modal-count');
     const closeButton = caseModal.querySelector('.case-modal-close');
@@ -472,11 +471,9 @@ if (caseModal && caseCards.length) {
         const currentIndex = cases.indexOf(card);
         const caseLink = card.querySelector('.case-media-link');
         const title = card.querySelector('h3')?.textContent.trim() || 'Результаты рекламной кампании';
-        const category = card.querySelector('.case-body > span')?.textContent.trim() || 'Кейс';
 
         activeCase = card;
         modalTitle.textContent = title;
-        modalCategory.textContent = category;
         modalImage.src = caseLink?.getAttribute('href') || '';
         modalImage.alt = `Статистика рекламной кампании: ${title}`;
         modalCount.textContent = `${currentIndex + 1} / ${cases.length}`;

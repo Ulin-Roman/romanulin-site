@@ -734,7 +734,7 @@ p { margin-bottom: 1rem; }
 .blog-all-link:hover { transform: translateY(-2px); filter: brightness(1.12); }
 .blog-all-link .blog-link-arrow { color: #fff; }
 
-@media (min-width: 901px) {
+@media (width > 900px) {
     .blog-controls { display: none; }
     .blog-carousel { overflow: visible; }
     .blog-track { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); align-items: stretch; gap: 22px; overflow: visible; scroll-snap-type: none; }
@@ -1597,7 +1597,7 @@ p { margin-bottom: 1rem; }
 .article-body iframe, .article-body video { max-width: 100%; }
 .blog-index-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); }
 
-@media (min-width: 681px) and (max-width: 1100px) {
+@media (width > 680px) and (max-width: 1100px) {
     .hero-main { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); }
     .hero-benefit { gap: 8px; padding-inline: 10px; }
     .hero-benefit strong { white-space: normal; font-size: clamp(16px, 2vw, 22px); }
@@ -1610,7 +1610,10 @@ p { margin-bottom: 1rem; }
     .channel-panel .channel-copy h2 { overflow-wrap: anywhere; }
     .channel-telegram-button { padding-inline: 12px; }
 }
-@media (min-width: 901px) and (max-width: 1100px) {
+@media (width > 900px) and (max-width: 1100px) {
+    .channel-card { grid-template-columns: 84px minmax(0, 1fr); gap: 12px; padding: 20px 16px; }
+    .channel-icon, .channel-icon img { width: 84px; height: 84px; }
+    .channel-copy h3 { font-size: 22px; }
     .story-layout { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 32px; padding-inline: 24px; }
 }
 @media (max-width: 1100px) {
@@ -1653,7 +1656,7 @@ p { margin-bottom: 1rem; }
     /* Exclude the background remnant outside the cuff, preserving the hand. */
     clip-path: polygon(0 0, 100% 0, 100% 86%, 87% 88.5%, 81% 89%, 83% 100%, 0 100%);
 }
-@media (min-width: 681px) and (max-width: 900px) {
+@media (width > 680px) and (max-width: 900px) {
     .transformation-board { --portrait-height: 500px; }
 }
 @media (max-width: 680px) {
@@ -1704,12 +1707,12 @@ main > .section { padding-block: var(--section-space); }
     :root { --section-space: 52px; }
     .story-heading { top: 0; }
 }
-@media (min-width: 681px) {
+@media (width > 680px) {
     .story-layout { min-height: 0; padding-block: 0; }
     .story-photo { min-height: 0; }
 }
 /* Scale the desktop comparison composition as a whole. */
-@media (min-width: 681px) {
+@media (width > 680px) {
     .transformation-board {
         --comparison-unit: min(1px, calc(.0806451613vw - .0322580645px));
         --portrait-height: calc(650 * var(--comparison-unit));
