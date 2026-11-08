@@ -734,8 +734,7 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const visibleAnimations = new Set();
 const syncAnimations = () => {
     visibleAnimations.forEach((element) => {
-        const running = !document.hidden && !reducedMotion.matches
-            && (!element.matches('.photo-snow') || holidaySeasonActive());
+        const running = !document.hidden && !reducedMotion.matches;
         if (running && element.matches('.photo-snow')) initializeSnow(element);
         element.classList.toggle('motion-paused', !running);
     });
@@ -760,6 +759,5 @@ if ('IntersectionObserver' in window) {
     animatedElements.forEach((element) => visibleAnimations.add(element));
     syncAnimations();
 }
-window.addEventListener('holidayseasonchange', syncAnimations);
 document.addEventListener('visibilitychange', syncAnimations);
 reducedMotion.addEventListener('change', syncAnimations);
