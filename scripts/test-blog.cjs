@@ -12,7 +12,7 @@ const write = (name, value) => {
     fs.writeFileSync(target, value);
 };
 try {
-    for (const name of ['index.html', 'blog/index.html', 'js/article.js', 'data/articles.json', 'sitemap.xml', 'scripts/build-blog.cjs']) {
+    for (const name of ['index.html', 'sozdanie-saitov/index.html', 'blog/index.html', 'js/article.js', 'data/articles.json', 'sitemap.xml', 'scripts/build-blog.cjs']) {
         write(name, fs.readFileSync(path.join(root, name)));
     }
     for (const a of articles) {
@@ -60,11 +60,16 @@ try {
     assert.match(sitemap, /https:\/\/romanulin.ru\/blog\/discovery-test\//);
     assert.match(sitemap, /<lastmod>2099-01-01<\/lastmod>/);
     assert.match(sitemap, /<image:image><image:loc>/);
-    for (const name of ['index.html', 'blog/index.html']) {
+    for (const name of ['index.html', 'sozdanie-saitov/index.html', 'blog/index.html']) {
         const html = fs.readFileSync(path.join(temp, name), 'utf8');
         assert.match(html.match(/<article class="blog-card">[\s\S]*?<\/article>/)[0], /discovery-test/);
-        assert.equal((html.match(/<article class="blog-card">/g) || []).length, name === 'index.html' ? 3 : updated.length);
+        assert.equal((html.match(/<article class="blog-card">/g) || []).length, name === 'blog/index.html' ? updated.length : 3);
     }
+    const website = fs.readFileSync(path.join(temp, 'sozdanie-saitov/index.html'), 'utf8');
+    const firstWebsiteCard = website.match(/<article class="blog-card">[\s\S]*?<\/article>/)[0];
+    assert.match(firstWebsiteCard, /href="\.\.\/blog\/discovery-test\//);
+    assert.match(firstWebsiteCard, /src="\.\.\/img\//);
+    assert.match(firstWebsiteCard, /loading="lazy"/);
     const js = fs.readFileSync(path.join(temp, 'js/article.js'), 'utf8');
     const catalog = JSON.parse(js.match(/const articleCatalog = (\[[\s\S]*?\]);/)[1]);
     assert.equal(catalog[0].slug, 'discovery-test');

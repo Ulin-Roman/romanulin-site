@@ -1,4 +1,4 @@
-// Article data is shared by the home page, blog index and article sidebar.
+// Article data is shared by the landing pages, blog index and article sidebar.
 const fs = require('node:fs');
 const path = require('node:path');
 const { createHash } = require('node:crypto');
@@ -56,6 +56,7 @@ const requireMatch = (html, regex, label) => {
     return match;
 };
 const home = read('index.html');
+const websitePage = 'sozdanie-saitov/index.html';
 const index = read('blog/index.html');
 const site = read('js/article.js');
 const catalogPattern = /const articleCatalog = (\[[\s\S]*?\]);/;
@@ -114,12 +115,13 @@ outputs.set(dataFile, JSON.stringify(articles, null, 2) + '\n');
 // Keep search-engine URLs in sync with additions and removals in the catalog.
 const latest = articles[0].published;
 const homepageUpdated = '2026-11-08';
+const websitePageUpdated = '2026-11-08';
 const staticSitemapUrls = [
     { url: 'https://romanulin.ru/', lastmod: latest > homepageUpdated ? latest : homepageUpdated },
     { url: 'https://romanulin.ru/blog/', lastmod: latest },
     { url: 'https://romanulin.ru/privacy/', lastmod: '2026-09-07' },
     { url: 'https://romanulin.ru/reklama', lastmod: '2026-09-14' },
-    { url: 'https://romanulin.ru/sozdanie-saitov/', lastmod: '2026-11-08' },
+    { url: 'https://romanulin.ru/sozdanie-saitov/', lastmod: latest > websitePageUpdated ? latest : websitePageUpdated },
     { url: 'https://romanulin.ru/sozdanie-saitov/avtokai/', lastmod: '2026-11-08' }
 ];
 const sitemapEntry = ({ url, lastmod, image }) => `  <url><loc>${escape(url)}</loc><lastmod>${lastmod}</lastmod>${image ? `<image:image><image:loc>${escape(image)}</image:loc></image:image>` : ''}</url>`;
@@ -133,27 +135,24 @@ const sitemapEntries = [
 ];
 outputs.set('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' + sitemapEntries.join('\n') + '\n</urlset>\n');
 const arrow = '<span class="blog-link-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
-function card(a, isHome) {
-    const href = `${isHome ? 'blog/' : ''}${a.slug}/`;
-    const heading = isHome ? 'h3' : 'h2';
-    return `<article class="blog-card"><a class="blog-card-image blog-card-image--document" href="${href}"><img src="${isHome ? '' : '../'}${escape(a.image)}" width="${a.width}" height="${a.height}" alt="${escape(a.alt)}" loading="lazy" decoding="async"></a><div class="blog-card-copy"><div class="blog-card-meta"><span class="blog-card-category blog-card-category--${a.category}">${escape(a.categoryLabel)}</span><time datetime="${a.published}">${escape(a.date)}</time></div><${heading}><a href="${href}">${escape(a.title)}</a></${heading}><p>${escape(a.description)}</p><a class="blog-card-link" href="${href}">Читать статью ${arrow}</a></div></article>`;
+function card(a, isPreview, rootPrefix) {
+    const href = `${isPreview ? `${rootPrefix}blog/` : ''}${a.slug}/`;
+    const heading = isPreview ? 'h3' : 'h2';
+    const image = cardData(a) || { file: a.image, width: a.width, height: a.height };
+    return `<article class="blog-card"><a class="blog-card-image blog-card-image--document" href="${href}"><img src="${rootPrefix}${escape(image.file)}" width="${image.width}" height="${image.height}" alt="${escape(a.alt)}" loading="lazy" decoding="async"></a><div class="blog-card-copy"><div class="blog-card-meta"><span class="blog-card-category blog-card-category--${a.category}">${escape(a.categoryLabel)}</span><time datetime="${a.published}">${escape(a.date)}</time></div><${heading}><a href="${href}">${escape(a.title)}</a></${heading}><p>${escape(a.description)}</p><a class="blog-card-link" href="${href}">Читать статью ${arrow}</a></div></article>`;
 }
-function replaceCards(html, className, items, isHome) {
+function replaceCards(html, className, items, isPreview, rootPrefix) {
     const pattern = new RegExp('(<div class="' + className + '">)\\s*(?:<article class="blog-card">[\\s\\S]*?<\\/article>\\s*)+');
     requireMatch(html, pattern, className);
     return html.replace(pattern, (_, open) => open + '\n' + items.map((a, position) => {
-        let markup = card(a, isHome);
-        if (!isHome && position < 3) markup = markup.replace('loading="lazy"', 'loading="eager"');
-        const preview = cardData(a);
-        if (preview) {
-            const prefix = isHome ? '' : '../';
-            markup = markup.replace(`src="${prefix}${escape(a.image)}" width="${a.width}" height="${a.height}"`, `src="${prefix}${escape(preview.file)}" width="${preview.width}" height="${preview.height}"`);
-        }
-        return markup;
+        const markup = card(a, isPreview, rootPrefix);
+        return !isPreview && position < 3 ? markup.replace('loading="lazy"', 'loading="eager"') : markup;
     }).join('\n') + '\n');
 }
-outputs.set('index.html', replaceCards(home, 'blog-track', articles.slice(0, 3), true));
-let newIndex = replaceCards(index, 'blog-index-grid', articles, false);
+const recent = articles.slice(0, 3);
+outputs.set('index.html', replaceCards(home, 'blog-track', recent, true, ''));
+outputs.set(websitePage, replaceCards(read(websitePage), 'blog-track', recent, true, '../'));
+let newIndex = replaceCards(index, 'blog-index-grid', articles, false, '../');
 newIndex = newIndex.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g, (all, json) => {
     const schema = JSON.parse(json);
     if (schema['@type'] !== 'CollectionPage') return all;

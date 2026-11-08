@@ -3,6 +3,8 @@
 
 .websites-page .channel-copy p { font-size: 15px; }
 .websites-page .faq-answer a { color: var(--cyan); }
+.websites-page .about-stats > div { min-width: 0; padding-inline: clamp(12px, 2vw, 25px); overflow-wrap: anywhere; }
+.websites-page .about-stats strong { font-size: clamp(1.125rem, 2.6vw, 1.8125rem); }
 
 .website-case-link { display: flex; flex-direction: column; height: 100%; }
 .website-case-link:focus-visible { outline: 2px solid var(--cyan); outline-offset: -3px; border-radius: inherit; }
