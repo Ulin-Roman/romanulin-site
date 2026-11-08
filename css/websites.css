@@ -1,6 +1,10 @@
 .websites-page .hero-title strong { white-space: normal; }
 .websites-subtitle { margin: 14px 0 0; color: var(--cyan); font-size: var(--subtitle-size); font-weight: 750; line-height: 1.5; }
 
+.websites-page .channel-icon { width: 68px; height: 68px; border: 1px solid rgba(101,221,255,.28); border-radius: 20px; background: linear-gradient(145deg, #164578, #0b2346); box-shadow: 0 12px 24px rgba(0,7,28,.32); }
+.websites-page .channel-icon svg { width: 58%; height: auto; }
+.websites-page .channel-copy p { font-size: 15px; }
+
 .website-case-link { display: flex; flex-direction: column; height: 100%; }
 .website-case-link:focus-visible { outline: 2px solid var(--cyan); outline-offset: -3px; border-radius: inherit; }
 .website-case-link .case-media img { object-position: center top; }
