@@ -134,7 +134,7 @@ const sitemapEntries = [
     }))
 ];
 outputs.set('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' + sitemapEntries.join('\n') + '\n</urlset>\n');
-const arrow = '<span class="blog-link-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+const arrow = '<span class="blog-link-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14m-4-3 4 3-4 3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
 function card(a, isPreview, rootPrefix) {
     const href = `${isPreview ? `${rootPrefix}blog/` : ''}${a.slug}/`;
     const heading = isPreview ? 'h3' : 'h2';
