@@ -172,7 +172,7 @@ for (const a of articles) {
         const namespaces = prefix.replace(/(?:^|\s)article:\s+\S+/g, '').trim();
         return setTagAttribute(tag, 'prefix', [namespaces, 'article: https://ogp.me/ns/article#'].filter(Boolean).join(' '));
     });
-    html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escape(seoTitle(a.title))}</title>`);
+    html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escape(seoTitle(a.seoTitle || a.title))}</title>`);
     html = upsertMeta(html, 'name', 'description', a.description);
     html = upsertMeta(html, 'property', 'og:title', a.title);
     html = upsertMeta(html, 'property', 'og:description', a.description);

@@ -25,7 +25,8 @@
     "alt": "Роман Улин с картой Яндекс Пэй; внизу фотографии сохранена рекламная маркировка",
     "category": "practice",
     "categoryLabel": "Практика",
-    "views": "898"
+    "views": "898",
+    "seoTitle": "Яндекс Пэй и Сейв: мой опыт"
   },
   {
     "slug": "rasshirenie-dlya-direktologa",
@@ -389,7 +390,8 @@
     "alt": "Иллюстрация к статье «15 мая во всех рк автоматически включится \"Персонализация\"»",
     "category": "practice",
     "categoryLabel": "Новости",
-    "views": "2.28K"
+    "views": "2.28K",
+    "seoTitle": "Персонализация объявлений в Директе с 15 мая"
   },
   {
     "slug": "avtotargeting-yandex-direct",
@@ -809,7 +811,8 @@
     "alt": "Иллюстрация к статье «В Тильде есть одна цель для отслеживания всех форм на сайте!»",
     "category": "analytics",
     "categoryLabel": "Аналитика",
-    "views": "2.1K"
+    "views": "2.1K",
+    "seoTitle": "Одна цель для всех форм Тильды в Яндекс Метрике"
   },
   {
     "slug": "a-zachem-po-brendu-to-pokazyvatsya",
@@ -851,7 +854,8 @@
     "alt": "Иллюстрация к статье «Хотел увидеть как твоё объявление показывается на различных сайтах?»",
     "category": "practice",
     "categoryLabel": "Практика",
-    "views": "1.82K"
+    "views": "1.82K",
+    "seoTitle": "Как выглядит объявление Директа на сайтах"
   },
   {
     "slug": "a-tmk-na-klikah-ili-na-konversiyah-zapuskat",
@@ -907,7 +911,8 @@
     "alt": "Иллюстрация к статье «Яндекс раскатал более детальное дробление по гео в Директе»",
     "category": "practice",
     "categoryLabel": "Практика",
-    "views": "1.77K"
+    "views": "1.77K",
+    "seoTitle": "Детальный геотаргетинг в Яндекс Директе"
   },
   {
     "slug": "kak-vam-otelnaya",
@@ -1019,7 +1024,8 @@
     "alt": "Иллюстрация к статье «Комбинаторные объявления – новый тип объявлений в Яндекс Директ!»",
     "category": "strategy",
     "categoryLabel": "Стратегия",
-    "views": "1.93K"
+    "views": "1.93K",
+    "seoTitle": "Комбинаторные объявления в Яндекс Директе"
   },
   {
     "slug": "tam-dengi-esche-est-na-nedele-popolnyu",
@@ -1775,7 +1781,8 @@
     "alt": "Иллюстрация к статье «Сначала создаётся сайт, потом запускается реклама — не наоборот!»",
     "category": "practice",
     "categoryLabel": "Практика",
-    "views": "760"
+    "views": "760",
+    "seoTitle": "Почему сайт готовят до запуска рекламы"
   },
   {
     "slug": "nado-li-ogranichivat-stoimost-klika-v-setyah-i-na-poiske",
@@ -1915,7 +1922,8 @@
     "alt": "Иллюстрация к статье «Копировать запущенную рк лучше через веб-интерфейс, а редактировать уже в Коммандере.»",
     "category": "practice",
     "categoryLabel": "Практика",
-    "views": "540"
+    "views": "540",
+    "seoTitle": "Как копировать и редактировать кампании Директа"
   },
   {
     "slug": "zachem-chistit-ploschadki-v-rk-za-ozk",
@@ -1999,7 +2007,8 @@
     "alt": "Иллюстрация к статье «Успешность рекламы в Яндекс Директ в 2025 году на 90% зависит от сайта и продукта.»",
     "category": "practice",
     "categoryLabel": "Практика",
-    "views": "466"
+    "views": "466",
+    "seoTitle": "Каким должен быть сайт для контекстной рекламы"
   },
   {
     "slug": "chem-prosche-tem-luchshe",
@@ -2069,7 +2078,8 @@
     "alt": "Иллюстрация к статье «Если у вас нет богатых родителей, связей, вы родились в за жо мухо и тд, то единственный выход в 2025…»",
     "category": "practice",
     "categoryLabel": "Практика",
-    "views": "514"
+    "views": "514",
+    "seoTitle": "Как блог сближает автора и подписчиков"
   },
   {
     "slug": "ocherednoy-raz-ubezhdayus-v-zolotom-pravile-direkta-rabotaet-ne-lez",
@@ -2111,7 +2121,8 @@
     "alt": "Иллюстрация к статье «В этом году в Директе появился новый вид рекламного размещения: \"Динамические места на Поиске\"»",
     "category": "strategy",
     "categoryLabel": "Стратегия",
-    "views": "588"
+    "views": "588",
+    "seoTitle": "Динамические места на Поиске в Яндекс Директе"
   },
   {
     "slug": "https-www-fotor-com",
@@ -2153,7 +2164,8 @@
     "alt": "Иллюстрация к статье «Стоит ли обучать рк в Яндекс Директе на целях коллтрекинга.»",
     "category": "analytics",
     "categoryLabel": "Аналитика",
-    "views": "481"
+    "views": "481",
+    "seoTitle": "Когда обучать кампании на целях коллтрекинга"
   },
   {
     "slug": "keys-prokat-gornolyzhnogo-snaryazheniya-v-yandeks-direkt",
