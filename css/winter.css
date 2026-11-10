@@ -320,7 +320,7 @@ p { margin-bottom: 1rem; }
 .story-copy { grid-column: 2; align-self: center; width: 100%; max-width: 700px; }
 .story-heading { text-align: left; }
 .story-heading h2 { margin: 0; }
-.story-heading p { margin: 10px 0 0; color: var(--cyan); font-size: 18px; font-weight: 750; letter-spacing: .04em; }
+.story-heading p { margin: 10px 0 0; color: var(--cyan); font-size: var(--subtitle-size); font-weight: 750; letter-spacing: .04em; }
 .story-content { max-width: none; margin-top: 44px; color: var(--muted); font-size: 16px; line-height: 1.65; }
 .story-content p { margin-bottom: 22px; }
 .story-content strong { color: var(--ice); }
@@ -578,7 +578,7 @@ p { margin-bottom: 1rem; }
 .case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 .cases-followup { display: flex; flex-direction: column; align-items: center; margin-top: 50px; text-align: center; }
 .cases-followup h3 { margin: 0; color: var(--ice); font-size: clamp(1.75rem, 3vw, 2.65rem); font-weight: 750; line-height: 1.1; letter-spacing: -.035em; }
-.cases-followup p { margin: 10px 0 25px; color: var(--cyan); font-size: 17px; font-weight: 700; }
+.cases-followup p { margin: 10px 0 25px; color: var(--cyan); font-size: var(--subtitle-size); font-weight: 700; }
 .cases-followup .hero-consult-button { width: min(100%, 390px); }
 .case-card { min-width: 0; overflow: hidden; display: flex; flex-direction: column; color: var(--text); background: linear-gradient(145deg, #0d3268 0%, #092550 52%, #071a3b 100%); border: 1px solid rgba(103,195,255,.3); border-radius: 25px; box-shadow: 0 14px 34px rgba(0,7,28,.32), inset 0 1px 0 rgba(255,255,255,.09), inset 0 0 28px rgba(42,135,238,.06); transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
 .case-card:hover { transform: translateY(-7px); border-color: rgba(126,211,255,.52); box-shadow: 0 21px 46px rgba(0,8,32,.44), 0 0 30px rgba(47,143,238,.1), inset 0 1px 0 rgba(255,255,255,.11); }
@@ -1022,9 +1022,9 @@ p { margin-bottom: 1rem; }
 .site-footer { padding: 24px 0 18px; background: #020713; border-top: 1px solid rgba(197,229,247,.1); }
 
 /* Section subtitles */
-:root { --subtitle-size: 18px; }
+:root { --subtitle-size: clamp(20px, 1.8vw, 22px); }
 @media (max-width: 680px) {
-    :root { --subtitle-size: 16px; }
+    :root { --subtitle-size: 18px; }
 }
 .hero-description,
 .channels-heading > p,
@@ -1221,7 +1221,7 @@ p { margin-bottom: 1rem; }
     .channels-action .hero-consult-button { width: 100%; }
     .cases-followup { margin-top: 34px; }
     .cases-followup h3 { font-size: clamp(1.65rem, 8vw, 2.2rem); }
-    .cases-followup p { margin: 8px 0 22px; font-size: 16px; }
+    .cases-followup p { margin: 8px 0 22px; }
     .cases-followup .hero-consult-button { width: 100%; }
     .transformation-heading { margin-bottom: 32px; text-align: center; }
     .transformation-heading h2 { font-size: clamp(2.2rem, 10.5vw, 3.25rem); }
