@@ -146,7 +146,8 @@ function replaceCards(html, className, items, isPreview, rootPrefix) {
     requireMatch(html, pattern, className);
     return html.replace(pattern, (_, open) => open + '\n' + items.map((a, position) => {
         const markup = card(a, isPreview, rootPrefix);
-        return !isPreview && position < 3 ? markup.replace('loading="lazy"', 'loading="eager"') : markup;
+        if (isPreview || position >= 3) return markup;
+        return markup.replace('loading="lazy"', position === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="eager"');
     }).join('\n') + '\n');
 }
 const recent = articles.slice(0, 3);
