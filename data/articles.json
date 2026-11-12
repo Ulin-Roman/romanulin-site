@@ -11,7 +11,7 @@
     "alt": "Статистика рекламы укладки плитки в Яндекс Директе по месяцам: расход, клики, 265 заявок и звонков и 62 перехода в мессенджеры",
     "category": "case",
     "categoryLabel": "Кейсы",
-    "views": "617"
+    "views": "633"
   },
   {
     "slug": "yandex-pay-lichnyy-opyt",
@@ -40,7 +40,7 @@
     "alt": "Расширение для Яндекс Директа: список кампаний со статусами обучения стратегий, массовыми действиями и кнопками клонирования",
     "category": "practice",
     "categoryLabel": "Практика",
-    "views": "1.14K"
+    "views": "1.16K"
   },
   {
     "slug": "klonirovanie-tmk-yandex-direct",
@@ -54,7 +54,7 @@
     "alt": "Форма клонирования товарной кампании в Яндекс Директе с настройками ссылки, фида, регионов, стратегии, бюджета и объявлений",
     "category": "practice",
     "categoryLabel": "Практика",
-    "views": "1.39K"
+    "views": "1.4K"
   },
   {
     "slug": "yandex-direct-osnovnye-funktsii-vosstanovleny",
@@ -68,7 +68,7 @@
     "alt": "Сообщение Яндекс Директа о восстановлении основных функций: регистрации аккаунтов, управления счётом, создания и редактирования кампаний",
     "category": "news",
     "categoryLabel": "Новости",
-    "views": "1.44K"
+    "views": "1.45K"
   },
   {
     "slug": "yandex-metrika-zarabotala",
@@ -96,7 +96,7 @@
     "alt": "Рекламный кабинет Яндекс Директа с уведомлениями об ограничениях работы и неполной статистике конверсий",
     "category": "news",
     "categoryLabel": "Новости",
-    "views": "1.68K"
+    "views": "1.69K"
   },
   {
     "slug": "yandex-reklama-max-analog-tg-ads",
@@ -166,7 +166,7 @@
     "alt": "Иллюстрация к статье «Расширенный геотаргетинг теперь не отключить!»",
     "category": "strategy",
     "categoryLabel": "Стратегия",
-    "views": "1.75K"
+    "views": "1.76K"
   },
   {
     "slug": "agentstvo-ili-frilans-v-2026",
@@ -180,7 +180,7 @@
     "alt": "Иллюстрация к статье «Агентство или фриланс в 2026?!»",
     "category": "practice",
     "categoryLabel": "Практика",
-    "views": "1.79K"
+    "views": "1.8K"
   },
   {
     "slug": "kak-otlichit-reklamu-ot-organiki",
@@ -1445,7 +1445,7 @@
     "alt": "Иллюстрация к статье «Сколько времени надо на тест в Яндекс Директ?»",
     "category": "strategy",
     "categoryLabel": "Стратегия",
-    "views": "917"
+    "views": "918"
   },
   {
     "slug": "mk-za-ozk-ne-rabotaet-govorili-oni",
@@ -1473,7 +1473,7 @@
     "alt": "Иллюстрация к статье «Как стать крутым директологом»",
     "category": "case",
     "categoryLabel": "Кейсы",
-    "views": "993"
+    "views": "994"
   },
   {
     "slug": "reklamu-na-poiske-vidish-a-ona-est",
@@ -1529,7 +1529,7 @@
     "alt": "Иллюстрация к статье «Зачем тенчат директологу фрилансеру?»",
     "category": "case",
     "categoryLabel": "Кейсы",
-    "views": "926"
+    "views": "927"
   },
   {
     "slug": "start-za-ozk-oplata-za-konversii",
@@ -1810,7 +1810,7 @@
     "alt": "Иллюстрация к статье «Какой бюджет выделить на Яндекс Директ в 2025 году?»",
     "category": "strategy",
     "categoryLabel": "Стратегия",
-    "views": "692"
+    "views": "693"
   },
   {
     "slug": "keys-dostavka-sushi-i-rollov-v-yandeks-direkt-106",
@@ -1824,7 +1824,7 @@
     "alt": "Результаты рекламы доставки суши и роллов за март 2025 года",
     "category": "case",
     "categoryLabel": "Кейсы",
-    "views": "854"
+    "views": "855"
   },
   {
     "slug": "ne-opuskay-balans-do-0",
@@ -1937,7 +1937,7 @@
     "alt": "Иллюстрация к статье «Зачем чистить площадки в рк за ОЗК»",
     "category": "strategy",
     "categoryLabel": "Стратегия",
-    "views": "530"
+    "views": "531"
   },
   {
     "slug": "zachem-vesti-istoriyu-otchety-po-proektam-dlya-sebya",
@@ -1951,7 +1951,7 @@
     "alt": "Иллюстрация к статье «Зачем вести историю/отчёты по проектам для себя»",
     "category": "analytics",
     "categoryLabel": "Аналитика",
-    "views": "501"
+    "views": "502"
   },
   {
     "slug": "kak-iskat-klientov-direktologu-v-2025-godu",
@@ -1965,7 +1965,7 @@
     "alt": "Иллюстрация к статье «Как искать клиентов директологу в 2025 году.»",
     "category": "case",
     "categoryLabel": "Кейсы",
-    "views": "473"
+    "views": "474"
   },
   {
     "slug": "nikogda-ne-zapuskay-rsya-srazu-na-bolshom-byudzhete",
@@ -2136,7 +2136,7 @@
     "alt": "Иллюстрация к заметке о создании баннеров для РСЯ в Fotor",
     "category": "strategy",
     "categoryLabel": "Стратегия",
-    "views": "732"
+    "views": "733"
   },
   {
     "slug": "keys-mobilnyy-vyezdnoy-shinomontazh",
@@ -2150,7 +2150,7 @@
     "alt": "Иллюстрация к статье «Кейс \"Мобильный/Выездной шиномонтаж\".»",
     "category": "case",
     "categoryLabel": "Кейсы",
-    "views": "592"
+    "views": "593"
   },
   {
     "slug": "stoit-li-obuchat-rk-v-yandeks-direkte-na-tselyah-kolltrekinga",
