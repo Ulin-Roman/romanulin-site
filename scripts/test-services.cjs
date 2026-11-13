@@ -30,10 +30,12 @@ class Element {
     addEventListener(type, callback) { this.events.set(type, (this.events.get(type) || []).concat(callback)); }
     dispatch(type, event = {}) { event.target ||= this; event.preventDefault ||= () => { event.defaultPrevented = true; }; for (const callback of this.events.get(type) || []) callback(event); this.parent?.dispatch(type, event); return event; }
     click() { this.dispatch('click'); }
+    focus(options) { let root = this; while (root.parent) root = root.parent; root.activeElement = this; this.focusOptions = options; }
     nativeActivate(key) { const down = this.dispatch('keydown', { key }); if (key === 'Enter' && !down.defaultPrevented) this.click(); const up = this.dispatch('keyup', { key }); if (key === ' ' && !down.defaultPrevented && !up.defaultPrevented) this.click(); }
 }
 function fixture(mobile = true, empty = false) {
     const document = new Element('document');
+    document.activeElement = null;
     document.createElement = tag => new Element(tag);
     const list = new Element('ol'); document.append(list);
     const items = empty ? [] : markupItems.map(match => {
@@ -66,11 +68,28 @@ f.buttons[0].click(); f.buttons[1].click(); assert.equal(state(f, 0), 'false'); 
 f.document.dispatch('keydown', { key: 'Escape' }); assert.ok(f.buttons.every(button => button.getAttribute('aria-expanded') === 'false'));
 f.buttons[2].click(); f.document.dispatch('click', { target: new Element('aside') }); assert.equal(state(f, 2), 'false');
 f.buttons[3].click(); f.resize(false); assert.ok(f.items.every(item => !item.classList.contains('is-open'))); assert.ok(f.buttons.every(button => button.getAttribute('aria-expanded') === 'false'));
+assert.ok(f.items.every(item => item.getAttribute('tabindex') === '0'), 'desktop service cards must be keyboard focus targets');
 f.buttons[0].click(); assert.equal(state(f, 0), 'false', 'desktop service cards must not toggle');
-f.resize(true); f.buttons[0].nativeActivate('Enter'); assert.equal(state(f, 0), 'true');
-fixture(false); fixture(true, true);
+f.resize(true); assert.ok(f.items.every(item => item.getAttribute('tabindex') === null)); f.buttons[0].nativeActivate('Enter'); assert.equal(state(f, 0), 'true');
+const keyboard = fixture(false);
+assert.ok(keyboard.items.every(item => item.getAttribute('tabindex') === '0'));
+assert.ok(keyboard.items.every(item => item.getAttribute('role') === null));
+keyboard.items[2].focus(); keyboard.resize(true);
+assert.equal(keyboard.document.activeElement, keyboard.buttons[2], 'mobile resize must move focused card to its native button');
+assert.equal(keyboard.buttons[2].focusOptions.preventScroll, true);
+assert.ok(keyboard.items.every(item => item.getAttribute('tabindex') === null));
+keyboard.buttons[2].nativeActivate('Enter'); assert.equal(state(keyboard, 2), 'true'); keyboard.resize(false);
+assert.equal(keyboard.document.activeElement, keyboard.items[2], 'desktop resize must move focus off the hidden mobile button');
+assert.equal(keyboard.items[2].focusOptions.preventScroll, true);
+assert.equal(state(keyboard, 2), 'false');
+const outside = new Element('aside'); keyboard.document.activeElement = outside; keyboard.resize(true);
+assert.equal(keyboard.document.activeElement, outside, 'resizing must not steal focus from outside the service list');
+fixture(true, true);
 assert.match(css, /\.services-list \.service-toggle \{ display: none; \}/);
 assert.match(css, /\.services-list \.service-toggle \{ position: absolute; z-index: 2; inset: 0; display: block;/);
 assert.match(css, /\.services-list \.service-toggle:focus-visible \{ outline:/);
-assert.ok(!css.includes('.services-list li:focus-visible'));
-console.log('PASS: nine native service buttons preserve list semantics, direct-child layout, names/controls, single native Enter/Space clicks, exclusive opening, outside/Escape close, mobile/desktop state and focus styles.');
+assert.match(css, /\.services-list li:hover, \.services-list li:focus-visible \{/);
+assert.match(css, /\.services-list li:hover > span, \.services-list li:focus-visible > span \{/);
+assert.match(css, /\.services-list li:hover p, \.services-list li:focus-visible p \{ max-height: 100px;/);
+assert.match(css, /\.services-list li:focus-visible \{ outline: 2px solid var\(--cyan\);/);
+console.log('PASS: nine native service buttons, desktop keyboard focus, responsive focus handoff, list semantics, names/controls, single Enter/Space clicks, exclusive opening, outside/Escape close and focus styles.');

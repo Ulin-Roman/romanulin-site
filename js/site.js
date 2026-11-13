@@ -438,7 +438,11 @@ filterButtons.forEach((button) => {
     button.addEventListener('click', () => {
         const selectedFilter = button.dataset.filter;
 
-        filterButtons.forEach((item) => item.classList.toggle('active', item === button));
+        filterButtons.forEach((item) => {
+            const active = item === button;
+            item.classList.toggle('active', active);
+            item.setAttribute('aria-pressed', String(active));
+        });
         caseCards.forEach((card) => {
             const categories = card.dataset.category.split(' ');
             const shouldShow = selectedFilter === 'all' || categories.includes(selectedFilter);
@@ -613,11 +617,18 @@ if (serviceItems.length) {
 
     const syncServiceItems = () => {
         serviceItems.forEach((item) => {
-            item.removeAttribute('tabindex');
+            const toggle = serviceToggles.get(item);
+            const itemWasFocused = document.activeElement === item;
+            const toggleWasFocused = document.activeElement === toggle;
+            if (mobileServicesLayout.matches) item.removeAttribute('tabindex');
+            else item.setAttribute('tabindex', '0');
             item.removeAttribute('role');
             item.removeAttribute('aria-expanded');
             if (!mobileServicesLayout.matches) item.classList.remove('is-open');
-            serviceToggles.get(item).setAttribute('aria-expanded', String(item.classList.contains('is-open')));
+            toggle.setAttribute('aria-expanded', String(item.classList.contains('is-open')));
+            // Keep keyboard focus on the control used by the new layout.
+            if (mobileServicesLayout.matches && itemWasFocused) toggle.focus({ preventScroll: true });
+            else if (!mobileServicesLayout.matches && toggleWasFocused) item.focus({ preventScroll: true });
         });
     };
 

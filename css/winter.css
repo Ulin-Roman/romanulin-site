@@ -579,12 +579,13 @@ p { margin-bottom: 1rem; }
 .services-list li { width: 100%; min-height: 62px; display: grid; grid-template-columns: 62px minmax(0, 1fr); align-items: center; gap: 18px; box-sizing: border-box; padding: 10px 20px 10px 10px; background: linear-gradient(120deg, rgba(8,34,79,.9), rgba(4,18,52,.94)); border: 1px solid rgba(141,208,255,.17); border-radius: 18px; box-shadow: 0 12px 28px rgba(0,7,28,.18), inset 0 1px 0 rgba(255,255,255,.055); cursor: default; text-align: left; transition: transform .28s ease, background .28s ease, border-color .28s ease, box-shadow .28s ease; }
 .services-list .service-toggle { display: none; }
 .services-list li > div { min-width: 0; min-height: 46px; display: flex; flex-direction: column; justify-content: center; }
-.services-list li:hover { transform: translateY(-2px); background: linear-gradient(135deg, rgba(22,102,185,.92), rgba(15,55,119,.96)); border-color: rgba(104,220,255,.88); box-shadow: 0 0 0 1px rgba(86,204,255,.18), 0 0 24px rgba(42,164,239,.38), inset 0 1px 0 rgba(255,255,255,.12); }
-.services-list li:hover > span { color: #dff7ff; background: rgba(14,72,145,.84); border-color: rgba(104,220,255,.76); box-shadow: inset 0 0 22px rgba(28,135,255,.22), 0 0 20px rgba(42,164,239,.28); }
+.services-list li:hover, .services-list li:focus-visible { transform: translateY(-2px); background: linear-gradient(135deg, rgba(22,102,185,.92), rgba(15,55,119,.96)); border-color: rgba(104,220,255,.88); box-shadow: 0 0 0 1px rgba(86,204,255,.18), 0 0 24px rgba(42,164,239,.38), inset 0 1px 0 rgba(255,255,255,.12); }
+.services-list li:hover > span, .services-list li:focus-visible > span { color: #dff7ff; background: rgba(14,72,145,.84); border-color: rgba(104,220,255,.76); box-shadow: inset 0 0 22px rgba(28,135,255,.22), 0 0 20px rgba(42,164,239,.28); }
 .services-list span { display: grid; width: 46px; height: 46px; place-items: center; color: #5bd7ff; background: rgba(7,35,78,.74); border: 1px solid rgba(76,194,255,.42); border-radius: 14px; box-shadow: inset 0 0 22px rgba(28,135,255,.2), 0 0 22px rgba(30,143,255,.12); font-size: 16px; font-weight: 900; }
 .services-list strong { display: block; color: var(--ice); font-size: clamp(1rem, 1.6vw, 1.25rem); line-height: 1.2; }
 .services-list p { max-height: 0; margin: 0; overflow: hidden; color: #a8c3d8; font-size: 14px; line-height: 1.45; opacity: 0; transform: translateY(-5px); transition: max-height .28s ease, opacity .2s ease, transform .28s ease, margin-top .28s ease; }
-.services-list li:hover p { max-height: 100px; margin-top: 8px; opacity: 1; transform: translateY(0); }
+.services-list li:hover p, .services-list li:focus-visible p { max-height: 100px; margin-top: 8px; opacity: 1; transform: translateY(0); }
+.services-list li:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
 
 /* About and niches */
 .story-section { padding: 72px 0; background: linear-gradient(180deg, transparent, rgba(24, 79, 127, .075), transparent); }
