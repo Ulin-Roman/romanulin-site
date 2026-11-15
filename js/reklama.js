@@ -64,7 +64,8 @@ if (typeof document !== 'undefined') {
             if (!timestamp) throw new Error('Unavailable');
             stats.querySelectorAll('[data-metric]').forEach(el => { el.textContent = formatMetric(el.dataset.metric, data.metrics[el.dataset.metric]); });
             drawCharts(data.metrics);
-            status.textContent = data.stale ? 'Показаны последние полученные данные канала @direct_ulin' : 'Данные канала @direct_ulin';
+            const stale = data.stale || Date.now() - Date.parse(data.updatedAt) > 24 * 60 * 60 * 1000;
+            status.textContent = stale ? 'Показаны сохранённые данные канала @direct_ulin. Они могут отличаться от текущих показателей; проверьте свежую статистику в TGStat.' : 'Последние полученные данные канала @direct_ulin по данным TGStat.';
             updated.textContent = timestamp;
             updated.hidden = false;
         } catch {
