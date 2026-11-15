@@ -235,6 +235,7 @@ if (blogArticle) {
             ...articleCatalog.slice(0, currentArticleIndex)
         ];
         const relatedItems = orderedArticles
+            .slice(0, 12)
             .map((article) => {
                 const isCurrent = article.slug === currentArticle.slug;
                 return `
@@ -248,7 +249,7 @@ if (blogArticle) {
 
         const sidebar = document.createElement('aside');
         sidebar.className = 'article-sidebar';
-        sidebar.setAttribute('aria-label', 'Все статьи');
+        sidebar.setAttribute('aria-label', 'Статьи блога');
         sidebar.innerHTML = `
                 <div class="article-author-actions">
                     <a class="button button-telegram" href="${telegramChannelUrl}" target="_blank" rel="noopener noreferrer" aria-label="Открыть канал Романа Улина в Telegram">
@@ -261,8 +262,9 @@ if (blogArticle) {
                     </a>
                 </div>
             <section class="related-articles">
-                <h2>Все статьи</h2>
+                <h2>Статьи блога</h2>
                 <div class="related-articles-list">${relatedItems}</div>
+                <a class="blog-all-link" href="../">Все статьи <span aria-hidden="true">→</span></a>
             </section>
         `;
         const channelActions = sidebar.querySelector('.article-author-actions');
