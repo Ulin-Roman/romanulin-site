@@ -38,20 +38,51 @@ jobs:
         continue-on-error: true
         run: npm run update:views
 
+      - name: Build responsive portfolio preview
+        run: |
+          npm install --no-save --package-lock=false sharp@0.34.5
+          node <<'NODE'
+          const fs = require('node:fs');
+          const sharp = require('sharp');
+          (async () => {
+            const source = 'img/cases/websites/klimat5ervis-card.jpg';
+            const page = 'sozdanie-saitov/index.html';
+            const metadata = await sharp(source).metadata();
+            const widths = [480, 768, 1280].filter(width => width <= metadata.width);
+            const variants = [];
+            for (const width of widths) {
+              const output = 'img/cases/websites/klimat5ervis-card-' + width + '.webp';
+              await sharp(source).resize({ width, withoutEnlargement: true }).webp({ quality: 82 }).toFile(output);
+              variants.push('../' + output + ' ' + width + 'w');
+              console.log(output + ': ' + fs.statSync(output).size + ' bytes');
+            }
+            const html = fs.readFileSync(page, 'utf8');
+            const pattern = /<img\b[^>]*data-original-src="\.\.\/img\/cases\/websites\/klimat5ervis-card\.jpg"[^>]*>/;
+            if (!pattern.test(html)) throw new Error('Klimat-Service portfolio image not found');
+            const updated = html.replace(pattern, tag => tag
+              .replace(/\ssrc="[^"]*"/, ' src="../img/cases/websites/klimat5ervis-card-768.webp"')
+              .replace(/\swidth="[^"]*"/, ' width="' + metadata.width + '"')
+              .replace(/\sheight="[^"]*"/, ' height="' + metadata.height + '"')
+              .replace(/\s(?:srcset|sizes)="[^"]*"/g, '')
+              .replace(/>$/, ' srcset="' + variants.join(', ') + '" sizes="(max-width: 680px) calc(100vw - 28px), (max-width: 900px) calc((100vw - 58px) / 2), (max-width: 1280px) calc((100vw - 76px) / 3), 401px">'));
+            fs.writeFileSync(page, updated);
+          })().catch(error => { console.error(error); process.exit(1); });
+          NODE
+
       - name: Build and validate pages
         run: |
           npm run build
           npm run check
           npm test
 
-      - name: Save updated counters
+      - name: Save generated pages and counters
         id: counters
         run: |
-          git add -- data/articles.json js/article.js ':(glob)**/*.html'
+          git add -- data/articles.json js/article.js sitemap.xml img/cases/websites/klimat5ervis-card-*.webp ':(glob)**/*.html'
           if ! git diff --cached --quiet; then
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git commit -m 'Refresh Telegram post views'
+            git commit -m 'Refresh generated pages and counters'
             git push origin HEAD:main
             echo 'changed=true' >> "$GITHUB_OUTPUT"
           fi
