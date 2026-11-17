@@ -7,3 +7,4 @@
 api/cache/
 tgstat-config.php
 **/tgstat-config.local.php
+node_modules/
