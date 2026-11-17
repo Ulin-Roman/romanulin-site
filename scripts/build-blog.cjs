@@ -116,7 +116,7 @@ outputs.set(dataFile, JSON.stringify(articles, null, 2) + '\n');
 const latest = articles[0].published;
 // Dates of substantive page updates, not the daily view-counter refresh.
 const homepageUpdated = '2026-11-15';
-const websitePageUpdated = '2026-11-15';
+const websitePageUpdated = '2026-11-16';
 const staticSitemapUrls = [
     { url: 'https://romanulin.ru/', lastmod: latest > homepageUpdated ? latest : homepageUpdated },
     { url: 'https://romanulin.ru/blog/', lastmod: latest },
