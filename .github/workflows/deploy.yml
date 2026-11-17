@@ -40,7 +40,7 @@ jobs:
 
       - name: Build responsive portfolio preview
         run: |
-          npm install --no-save --package-lock=false sharp@0.34.5
+          npm install --no-save --package-lock=false sharp@0.35.5
           node <<'NODE'
           const fs = require('node:fs');
           const sharp = require('sharp');
