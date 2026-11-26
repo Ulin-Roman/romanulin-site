@@ -514,6 +514,7 @@ if (caseModal && caseCards.length) {
         const caseLink = card.querySelector('.case-media-link');
         if (!caseLink) return;
         caseLink.addEventListener('click', (event) => {
+            if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
             event.preventDefault();
             openCase(card);
         });
